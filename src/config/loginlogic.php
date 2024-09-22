@@ -1,5 +1,5 @@
 <?php
-include('connection.php');
+include('db_conn.php');
 
 
 if (isset($_POST['submit'])) {
