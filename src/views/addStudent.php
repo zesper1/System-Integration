@@ -9,7 +9,7 @@
 <style>
     @font-face{
     font-family: 'pop';
-    src: url(Poppins/Poppins-Bold.ttf);
+    src: url(../../public/assets/Fonts/Poppins-Bold.ttf);
     }
 
     *
@@ -500,7 +500,7 @@ margin-top: 30px;
         <!-- --------------<p>sidebar</p>-------------------- -->
         <div class="sidebar">
             <div class="logo">
-                <img src="../PHPLOGIN/images/NU_shield.svg.png" class="pic">   
+                <img src="../../public/assets/images/NU_shield.svg.png" class="pic">   
                 <text class="NU">NATIONAL<br>UNIVERSITY</text>
             </div>
 
@@ -508,30 +508,30 @@ margin-top: 30px;
 
             <div class="dashboard">
                 <div class="dashB">
-                <a href="dashboardAdmin.php"><img src="../PHPLOGIN/images/dashboard.png" class="dashPIC"></a>
+                <a href="dashboardAdmin.php"><img src="../../public/assets/images/dashboard.png" class="dashPIC"></a>
                 <text class="txtR"> DASHBOARD</text>
 
                 </div>
 
                 <div class="dashB">
-                <a href="reportsAdmin.php"><img src="../PHPLOGIN/images/report.png" class="dashPIC"></a>
+                <a href="reportsAdmin.php"><img src="../../public/assets/images/report.png" class="dashPIC"></a>
                 <text class="txtR"> REPORTS</text>
                 </div>
 
                 <div class="dashB">
-                <a href="appealAdmin.php"><img src="../PHPLOGIN/images/paper.png" class="dashPIC"></a>
+                <a href="appealAdmin.php"><img src="../../public/assets/images/paper.png" class="dashPIC"></a>
                 <text class="txtR"> WRITE TO APPEAL</text>
 
                 </div>
                 
                 <div class="dashB">
-                <a href="usersAdmin.php"><img src="../PHPLOGIN/images/users.png" class="dashPIC"></a>
+                <a href="usersAdmin.php"><img src="../../public/assets/images/users.png" class="dashPIC"></a>
                 <text class="txtA"> ADD USERS</text>
 
                 </div>
             </div>
             <div class="LogOut">
-                <img src="../PHPLOGIN/images/logout.png" class="LOut"/>
+                <img src="../../public/assets/images/logout.png" class="LOut"/>
                 <text class="txtR">LOGOUT</text>
             </div>
         </div>
@@ -540,10 +540,10 @@ margin-top: 30px;
         <div class="content">
             <!-- --------------<p>student</p>-------------------- -->
             <div class="student">
-                <img src="../PHPLOGIN/images/first.jpg" class="profPic">
+                <img src="../../public/assets/images/first.jpg" class="profPic">
                 <p class="profT">NAME</p>
-                <img src="../PHPLOGIN/images/bell.png" class="pic1">
-                <img src="../PHPLOGIN/images/settings-8-xl.png" class="pic2">
+                <img src="../../public/assets/images/bell.png" class="pic1">
+                <img src="../../public/assets/images/settings-8-xl.png" class="pic2">
             </div>
             <!-- Adding the title -->
             
