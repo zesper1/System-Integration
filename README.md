@@ -1,4 +1,16 @@
 LOGIN FUNCTION - DONE
 LOGOUT FUNCTION - DONE
 
-<!-- TO -->
+<!-- TO DO LIST-->
+Admin Page
+>> SubCategories
+Student Page
+Faculty Page
+
+This is **bold** text.
+This is *italic* text.
+This is `code` text.
+This is ~~strikethrough~~ text.
+This is <u>underlined</u> text.
+This is <sup>superscript</sup> text.
+This is <sub>subscript</sub> text.
