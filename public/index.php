@@ -9,7 +9,7 @@
     <style>
         @font-face {
             font-family: 'pop';
-            src: url(../../public/assets/Fonts/Poppins-Bold.ttf);
+            src: url(assets/Fonts/Poppins-Bold.ttf);
         }
 
         * {
