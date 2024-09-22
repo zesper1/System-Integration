@@ -7,6 +7,7 @@ LOGOUT FUNCTION - DONE
 >>**Student Page** <br>
     Tasks:
 >>**Faculty Page** <br>
+    Tasks
 
 This is **bold** text.
 This is *italic* text.
