@@ -1,7 +1,7 @@
 LOGIN FUNCTION - DONE <br>
 LOGOUT FUNCTION - DONE
 
->>**<!-- TO DO LIST-->**<<
+>>**<!-- TO DO LIST-->**
 **Admin Page** <br>
     Tasks: <br>
 **Student Page** <br>
