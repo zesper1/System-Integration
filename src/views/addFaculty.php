@@ -72,7 +72,7 @@ margin-top: 30px;
     display: flex;
     align-items: start;
     justify-content:left;
-    color: #AFB1C2;
+    color: pink;
     margin-top: 50px;
     margin-left: 40px;
 }
