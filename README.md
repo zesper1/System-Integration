@@ -1,11 +1,12 @@
 LOGIN FUNCTION - DONE <br>
 LOGOUT FUNCTION - DONE
 
-<!-- TO DO LIST-->
-Admin Page
->> SubCategories
-Student Page
-Faculty Page
+**<!-- TO DO LIST-->**
+>>**Admin Page** <br>
+    Tasks: 
+>>**Student Page** <br>
+    Tasks:
+>>**Faculty Page** <br>
 
 This is **bold** text.
 This is *italic* text.
