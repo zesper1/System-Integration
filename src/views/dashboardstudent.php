@@ -11,7 +11,7 @@
     <div class="container">
         <div class="sidebar">
             <div class="logo">
-                <img src="NU_shield.svg.png" class="pic"/>
+                <img src="../../public/assets/images/NU_shield.svg.png" class="pic"/>
                 <p class="NU">NATIONAL <br> UNIVERSITY</p>
             </div>
 
@@ -19,17 +19,17 @@
 
             <div class="container2">
                 <div class="warn">
-                    <img src="warning.png" class="warnPIC"/>
+                    <img src="../../public/assets/images/warning.png" class="warnPIC"/>
                     <label class="txtW">Your Violantion</label>
                 </div>
                 <div class="write">
-                    <img src="write.png" class="writePIC"/>
+                    <img src="../../public/assets/images/write.png" class="writePIC"/>
                     <label class="txtR">Write An Appeal</label>
                 </div>
             </div>
             
             <div class="logout">
-                <img src="logout.png" class="LOut">
+                <img src="../../public/assets/images/logout.png" class="LOut">
                 <p class="txtR">LOGOUT</p>
             </div>
                 
@@ -37,10 +37,10 @@
 
            <div class="content">
                 <div class="student">
-                    <img src="settings.png" class="pic1">
-                    <img src="bell.png" class="pic2">
-                    <p class="profT">JOHN LUIS MAGO</p>
-                    <img src="first.jpg" class="profPic">
+                    <img src="../../public/assets/images/settings.png" class="pic1">
+                    <img src="../../public/assets/images/bell.png" class="pic2">
+                    <p class="../../public/assets/images/profT">JOHN LUIS MAGO</p>
+                    <img src="../../public/assets/images/first.jpg" class="profPic">
                 </div>
             <div class="Hello">
                 <text class="txt1">Hello,</text>

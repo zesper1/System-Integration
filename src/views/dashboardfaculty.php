@@ -537,7 +537,7 @@
         <!-- --------------<p>sidebar</p>-------------------- -->
         <div class="sidebar">
             <div class="logo">
-                <img src="../PHPLOGIN/images/NU_shield.svg.png" class="pic">   
+                <img src="../../public/assets/images/NU_shield.svg.png" class="pic">   
                 <text class="NU">NATIONAL<br>UNIVERSITY</text>
             </div>
 
@@ -545,13 +545,13 @@
 
             <div class="dashboard">
                 <div class="dashB">
-                    <img src="../PHPLOGIN/images/paper.png" class="dashPIC"/>
+                    <img src="../../public/assets/images/paper.png" class="dashPIC"/>
                     <text class="txtR"> WRITE A REPORT</text>
                 </div>
                 
             </div>
             <div class="LogOut">
-                <img src="../PHPLOGIN/images/logout.png" class="LOut"/>
+                <img src="../../public/assets/images/logout.png" class="LOut"/>
                 <text class="txtR">LOGOUT</text>
             </div>
         </div>
@@ -559,10 +559,10 @@
         <div class="content">
             <!-- --------------<p>student</p>-------------------- -->
             <div class="student">
-                <img src="../PHPLOGIN/images/first.jpg" class="profPic">
+                <img src="../../public/assets/images/first.jpg" class="profPic">
                 <p class="profT">JOHN LUIS MAGO</p>
-                <img src="../PHPLOGIN/images/bell.png" class="pic1">
-                <img src="../PHPLOGIN/images/settings-8-xl.png" class="pic2">
+                <img src="../../public/assets/images/bell.png" class="pic1">
+                <img src="../../public/assets/images/settings-8-xl.png" class="pic2">
             </div>
 
             <div class="search">

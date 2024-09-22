@@ -453,7 +453,7 @@ labeli{
         <!-- --------------<p>sidebar</p>-------------------- -->
         <div class="sidebar">
             <div class="logo">
-                <img src="../PHPLOGIN/images/NU_shield.svg.png" class="pic">   
+                <img src="../../public/assets/images/NU_shield.svg.png" class="pic">   
                 <text class="NU">NATIONAL<br>UNIVERSITY</text>
             </div>
 
@@ -461,28 +461,28 @@ labeli{
 
             <div class="dashboard">
                 <div class="dashB">
-                    <img src="../PHPLOGIN/images/dashboard.png" class="dashPIC"/>
+                    <img src="../../public/assets/images/dashboard.png" class="dashPIC"/>
                     <text class="txtR"> DASHBOARD</text>
                 </div>
 
 
                 <div class="dashB">
-                    <img src="../PHPLOGIN/images/report.png" class="dashPIC"/>
+                    <img src="../../public/assets/images/report.png" class="dashPIC"/>
                     <text class="txtA"> REPORTS</text>
                 </div>
 
                 <div class="dashB">
-                    <img src="../PHPLOGIN/images/write.png" class="dashPIC"/>
+                    <img src="../../public/assets/images/write.png" class="dashPIC"/>
                     <text class="txtR"> WRITE TO APPEAL</text>
                 </div>
                 
                 <div class="dashB">
-                    <img src="../PHPLOGIN/images/users.png" class="dashPIC"/>
+                    <img src="../../public/assets/images/users.png" class="dashPIC"/>
                     <text class="txtR"> ADD USERS</text>
                 </div>
             </div>
             <div class="LogOut">
-                <img src="../PHPLOGIN/images/logout.png" class="LOut"/>
+                <img src="../../public/assets/images/logout.png" class="LOut"/>
                 <text class="txtR">LOGOUT</text>
             </div>
         </div>
@@ -493,10 +493,10 @@ labeli{
         <div class="content">
             <!-- --------------<p>student</p>-------------------- -->
             <div class="student">
-                <img src="../PHPLOGIN/images/first.jpg" class="profPic">
+                <img src="../../public/assets/images/first.jpg" class="profPic">
                 <p class="profT">JOHN LUIS MAGO</p>
-                <img src="../PHPLOGIN/images/bell.png" class="pic1">
-                <img src="../PHPLOGIN/images/settings-8-xl.png" class="pic2">
+                <img src="../../public/assets/images/bell.png" class="pic1">
+                <img src="../../public/assets/images/settings-8-xl.png" class="pic2">
             </div>
             <!-- --------------<p>student</p>-------------------- -->
 
@@ -537,7 +537,7 @@ labeli{
     
                 <div class="up">
                     <div class="report">
-                        <img src="../PHPLOGIN/images/NU_shield.svg.png" class="pic3" >
+                        <img src="../../public/assets/images/NU_shield.svg.png" class="pic3" >
                     </div>
                     <div class="baba">
                     <p> Student Name: Rovic Batacandolo <br>

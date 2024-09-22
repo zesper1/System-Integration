@@ -355,7 +355,7 @@ labeli{
 <div class="sidebar">
 
     <div class="header">
-        <img src="../PHPLOGIN/images/NU_shield.svg.png" class="logo">
+        <img src="../../public/assets/images/NU_shield.svg.png" class="logo">
         <h3 class="txt1">NATIONAL <BR> UNIVERSITY</h3> 
     </div> 
     
@@ -365,22 +365,22 @@ labeli{
     
     <div class="items">
         <line>
-            <a href="dashboardAdmin.php"><img src="../PHPLOGIN/images/dashboard.png" class="logos"></a>
+            <a href="dashboardAdmin.php"><img src="../../public/assets/images/dashboard.png" class="logos"></a>
             <label> DASHBOARD</label>
         </line>
         
         <line>
-            <a href="reportsAdmin.php"><img src="../PHPLOGIN/images/report.png" class="logos"></a>
+            <a href="reportsAdmin.php"><img src="../../public/assets/images/report.png" class="logos"></a>
             <label> REPORTS</label>
         </line>
         
         <line>
-            <a href="appealAdmin.php"><img src="../PHPLOGIN/images/paper.png" class="logos"></a>
+            <a href="appealAdmin.php"><img src="../../public/assets/images/paper.png" class="logos"></a>
             <label> REPLY TO APPEAL</label>
         </line>
         
         <line>
-            <a href="usersAdmin.php"><img src="../PHPLOGIN/images/users.png" class="logos"></a>
+            <a href="usersAdmin.php"><img src="../../public/assets/images/users.png" class="logos"></a>
             <label> VIEW USER</label>
         </line>
     </div>
@@ -388,12 +388,12 @@ labeli{
         <div class="wrapper">
             <div class="box2">
                 <div class="info">
-                    <img src="../PHPLOGIN/images/logout.png" class="toplogo">
+                    <img src="../../public/assets/images/logout.png" class="toplogo">
                     <label class="name ">NAME</label>
                 </div>                
                 <div class="info2">
-                    <img src="../PHPLOGIN/images/bell.png" class="toplogo">
-                    <img src="../PHPLOGIN/images/settings.png" class="toplogo">
+                    <img src="../../public/assets/images/bell.png" class="toplogo">
+                    <img src="../../public/assets/images/settings.png" class="toplogo">
                 </div>
             </div>
 
