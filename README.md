@@ -1,5 +1,4 @@
-LOGIN FUNCTION - DONE <br>
-LOGOUT FUNCTION - DONE
+
 
 # TO-DO
 ### Admin Page <br>
@@ -8,3 +7,7 @@ LOGOUT FUNCTION - DONE
     Tasks: 
 ### Faculty Page <br>
     Tasks:
+<br>
+
+##### LOGIN FUNCTION - DONE <br>
+##### LOGOUT FUNCTION - DONE
