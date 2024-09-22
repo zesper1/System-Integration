@@ -9,7 +9,7 @@
 <style>
     @font-face{
     font-family: 'pop';
-    src: url(Poppins/Poppins-Bold.ttf);
+    src: url(../../public/assets/Fonts/Poppins-Bold.ttf);
     }
 
     *
@@ -311,7 +311,8 @@
                         
                         
                         if (confirmation) {
-                            window.location.href = this.href;
+                            window.location.href = "../../public/index.php";
+                            <?php require_once "../config/signout.php"?>
                         }
                     });
                 </script>
