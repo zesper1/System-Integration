@@ -1,13 +1,13 @@
 LOGIN FUNCTION - DONE <br>
 LOGOUT FUNCTION - DONE
 
-**<!-- TO DO LIST-->**
->>**Admin Page** <br>
-    Tasks: 
->>**Student Page** <br>
-    Tasks:
->>**Faculty Page** <br>
-    Tasks
+>>**<!-- TO DO LIST-->**<<
+**Admin Page** <br>
+    Tasks: <br>
+**Student Page** <br>
+    Tasks: <br>
+**Faculty Page** <br>
+    Tasks <br>
 
 This is **bold** text.
 This is *italic* text.
