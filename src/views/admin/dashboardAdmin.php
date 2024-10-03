@@ -1,4 +1,8 @@
 <!DOCTYPE html>
+<?php
+    include "../../connection/db_conn.php";
+    session_start();
+?>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -9,7 +13,7 @@
 <style>
     @font-face{
     font-family: 'pop';
-    src: url(../../public/assets/Fonts/Poppins-Bold.ttf);
+    src: url(../../../public/assets/Fonts/Poppins-Bold.ttf);
     }
 
     *
@@ -255,7 +259,7 @@
         <div class="sidebar">
 
             <div class="header">
-                <img src="../../public/assets/images/NU_shield.svg.png" class="logo">
+                <img src="../../../public/assets/images/NU_shield.svg.png" class="logo">
             <h3 class="txt1">NATIONAL <BR> UNIVERSITY</h3> 
             </div> 
             
@@ -264,23 +268,23 @@
             </div>
             
             <div class="items">
-        <line>
-            <a href="dashboardAdmin.php"><img src="../../public/assets/images/dashboard.png" class="logos"></a>
+        <line onclick="navigateTo('dashboardAdmin.php')">
+            <img src="../../../public/assets/images/dashboard.png" class="logos">
             <label> DASHBOARD</label>
         </line>
         
-        <line>
-            <a href="reportsAdmin.php"><img src="../../public/assets/images/report.png" class="logos"></a>
+        <line onclick="navigateTo('reportsAdmin.php')">
+            <img src="../../../public/assets/images/report.png" class="logos">
             <label> REPORTS</label>
         </line>
         
-        <line>
-            <a href="appealAdmin.php"><img src="../../public/assets/images/paper.png" class="logos"></a>
+        <line onclick="navigateTo('appealAdmin.php')">
+            <a href="appealAdmin.php"><img src="../../../public/assets/images/paper.png" class="logos"></a>
             <label> REPLY TO APPEAL</label>
         </line>
         
-        <line>
-            <a href="usersAdmin.php"><img src="../../public/assets/images/users.png" class="logos"></a>
+        <line onclick="navigateTo('usersAdmin.php')">
+            <a href="usersAdmin.php"><img src="../../../public/assets/images/users.png" class="logos"></a>
             <label> VIEW USER</label>
         </line>
     </div>
@@ -294,10 +298,12 @@
         <div class="wrapper">
             <div class="box2">
             <div class="info">
-        <a href="login.php" id="logout-link">
-            <img src="../../public/assets/images/logout.png" class="toplogo" alt="Logout">
+        <a id="logout-link">
+            <img src="../../../public/assets/images/logout.png" class="toplogo" alt="Logout">
         </a>
-        <label class="name">NAME</label>
+        <label class="name"><?php
+            echo $_SESSION["name"];
+        ?></label>
     </div>
     
     <script>
@@ -311,15 +317,14 @@
                         
                         
                         if (confirmation) {
-                            window.location.href = "../../public/index.php";
-                            <?php require_once "../config/signout.php"?>
+                            window.location.href = "../../config/logout.php";
                         }
                     });
                 </script>
                 
                 <div class="info2">
-                    <img src="../../public/assets/images/bell.png" class="toplogo">
-                    <img src="../../public/assets/images/settings.png" class="toplogo">
+                    <img src="../../../public/assets/images/bell.png" class="toplogo">
+                    <img src="../../../public/assets/images/settings.png" class="toplogo">
                 </div>
 
             </div>
@@ -327,7 +332,12 @@
             <div class="mainbar">
 
                 <div class="text">
-                    <label class="hello"> HELLO, JOHN LUIS!</label>
+                    <label class="hello"> HELLO, 
+                        <?php
+                        // Check if the session variable 'id' is set
+                        echo $_SESSION["name"];
+                        ?>
+                    </label>
                 </div>
     
             </div>
@@ -345,15 +355,34 @@
             
             <div class="appeals">
                 <label>
-                    <div class="t"><img src="../../public/assets/images/envelope.png" class="logo3"></div>
-                    <div class="t1">10 UNOPENED APPEALS</div>
+                    <div class="t"><img src="../../../public/assets/images/envelope.png" class="logo3"></div>
+                    <div class="t1">
+                        <!-- 10 UNOPENED APPEALS -->
+                         <?php
+                            $stmt = $conn->prepare("SELECT * FROM report");
+                            $stmt->execute();
+                            $result = $stmt->get_result();
+                            $unread = 0;
+                            if($result->num_rows >0){
+                                while($row = $result->fetch_assoc()){
+                                    if($row['report_view'] = "unread"){
+                                        $unread+=1;
+                                    }
+                                    else{}
+                                }
+                            } else {
+                                $unread = 0;
+                            }
+                            echo $unread . " UNOPENED APPEALS";
+                         ?>
+                    </div>
                      
                 </label>
             </div>
 
             <div class="violations">
                 <label>
-                    <div class="q"><img src="../../public/assets/images/warning.png" class="logo3"></div>
+                    <div class="q"><img src="../../../public/assets/images/warning.png" class="logo3"></div>
                     <div class="q1">10 PENDING VIOLATIONS</div> 
                 </label>
             </div>
@@ -364,17 +393,12 @@
 
 
           
-        </div>
-
-      
-
-       
-       
-
-
-       
-        
-
+        </div>   
     </div>
 </body>
+<script>
+    function navigateTo(pagename){
+        window.location.href = pagename;
+    }
+</script>
 </html>

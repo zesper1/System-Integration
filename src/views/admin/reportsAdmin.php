@@ -9,7 +9,7 @@
 <style>
     @font-face{
     font-family: 'pop';
-    src: url(Poppins/Poppins-Bold.ttf);
+    src: url(../../../public/assets/Fonts/Poppins-Bold.ttf);
     }
 
     *
@@ -325,7 +325,7 @@
 <div class="sidebar">
 
     <div class="header">
-        <img src="../../public/assets/images/NU_shield.svg.png" class="logo">
+        <img src="../../../public/assets/images/NU_shield.svg.png" class="logo">
         <h3 class="txt1">NATIONAL <BR> UNIVERSITY</h3> 
     </div> 
     
@@ -334,23 +334,23 @@
     </div>
     
     <div class="items">
-        <line>
-            <a href="dashboardAdmin.php"><img src="../../public/assets/images/dashboard.png" class="logos"></a>
+        <line onclick="navigateTo('dashboardAdmin.php')">
+            <img src="../../../public/assets/images/dashboard.png" class="logos">
             <label> DASHBOARD</label>
         </line>
         
-        <line>
-            <a href="reportsAdmin.php"><img src="../../public/assets/images/report.png" class="logos"></a>
+        <line onclick="navigateTo('reportsAdmin.php')">
+            <img src="../../../public/assets/images/report.png" class="logos">
             <label> REPORTS</label>
         </line>
         
-        <line>
-            <a href="appealAdmin.php"><img src="../../public/assets/images/paper.png" class="logos"></a>
+        <line onclick="navigateTo('appealAdmin.php')">
+            <a href="appealAdmin.php"><img src="../../../public/assets/images/paper.png" class="logos"></a>
             <label> REPLY TO APPEAL</label>
         </line>
         
-        <line>
-            <a href="usersAdmin.php"><img src="../../public/assets/images/users.png" class="logos"></a>
+        <line onclick="navigateTo('usersAdmin.php')">
+            <a href="usersAdmin.php"><img src="../../../public/assets/images/users.png" class="logos"></a>
             <label> VIEW USER</label>
         </line>
     </div>
@@ -360,7 +360,7 @@
             <div class="box2">
             <div class="info">
         <a href="login.php" id="logout-link">
-            <img src="../../public/assets/images/logout.png" class="toplogo" alt="Logout">
+            <img src="../../../public/assets/images/logout.png" class="toplogo" alt="Logout">
         </a>
         <label class="name">NAME</label>
     </div>
@@ -376,14 +376,14 @@
                         
                         
                         if (confirmation) {
-                            window.location.href = this.href;
+                            window.location.href = "logout.php";
                         }
                     });
                 </script>
 
                 <div class="info2">
-                    <img src="../../public/assets/images/bell.png" class="toplogo">
-                    <img src="../../public/assets/images/settings.png" class="toplogo">
+                    <img src="../../../public/assets/images/bell.png" class="toplogo">
+                    <img src="../../../public/assets/images/settings.png" class="toplogo">
                 </div>
             </div>
 
@@ -412,25 +412,7 @@
         </div>
 
         <div class="students">
-            <img src="../../public/assets/images/NU_shield.svg.png" class="pic" >
-
-            <div class="baba">
-            <label>ROVIC BATACANDOLO</label>
-            <label> PDA</label>
-        </div>
-        </div>
-
-        <div class="students">
-            <img src="../../public/assets/images/NU_shield.svg.png" class="pic" >
-
-            <div class="baba">
-            <label>ROVIC BATACANDOLO</label>
-            <label> PDA</label>
-        </div>
-        </div>
-
-        <div class="students">
-            <img src="../../public/assets/images/NU_shield.svg.png" class="pic" >
+            <img src="../../../public/assets/images/NU_shield.svg.png" class="pic" >
 
             <div class="baba">
             <label>ROVIC BATACANDOLO</label>
@@ -439,5 +421,10 @@
         </div>
         </div>
     </div>
+    <script>
+    function navigateTo(pagename){
+        window.location.href = pagename;
+    }
+    </script>
 </body>
 </html>
