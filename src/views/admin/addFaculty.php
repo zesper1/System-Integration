@@ -1,3 +1,7 @@
+<?php
+    include "../../connection/db_conn.php";
+    session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,7 +13,7 @@
 <style>
     @font-face{
     font-family: 'pop';
-    src: url(../../public/assets/Fonts/Poppins-Bold.ttf);
+    src: url(../../../public/assets/Fonts/Poppins-Bold.ttf);
     }
 
     *
@@ -500,38 +504,38 @@ margin-top: 30px;
         <!-- --------------<p>sidebar</p>-------------------- -->
         <div class="sidebar">
             <div class="logo">
-                <img src="../../public/assets/images/NU_shield.svg.png" class="pic">   
+                <img src="../../../public/assets/images/NU_shield.svg.png" class="pic">   
                 <text class="NU">NATIONAL<br>UNIVERSITY</text>
             </div>
 
             <div class="overview"> OVERVIEW</div>
 
             <div class="dashboard">
-                <div class="dashB">
-                <a href="dashboardAdmin.php"><img src="../../public/assets/images/dashboard.png" class="dashPIC"></a>
+                <div class="dashB" onclick="navigateTo('dashboardAdmin.php')" style = "cursor:pointer;">
+                <img src="../../../public/assets/images/dashboard.png" class="dashPIC">
                 <text class="txtR"> DASHBOARD</text>
 
                 </div>
 
-                <div class="dashB">
-                <a href="reportsAdmin.php"><img src="../../public/assets/images/report.png" class="dashPIC"></a>
+                <div class="dashB" onclick="navigateTo('dashboardAdmin.php')" style = "cursor:pointer;">
+                <img src="../../../public/assets/images/report.png" class="dashPIC">
                 <text class="txtR"> REPORTS</text>
                 </div>
 
-                <div class="dashB">
-                <a href="appealAdmin.php"><img src="../../public/assets/images/paper.png" class="dashPIC"></a>
+                <div class="dashB" onclick="navigateTo('dashboardAdmin.php')" style = "cursor:pointer;">
+                <img src="../../../public/assets/images/paper.png" class="dashPIC">
                 <text class="txtR"> WRITE TO APPEAL</text>
 
                 </div>
                 
-                <div class="dashB">
-                <a href="usersAdmin.php"><img src="../../public/assets/images/users.png" class="dashPIC"></a>
+                <div class="dashB" onclick="navigateTo('dashboardAdmin.php')" style = "cursor:pointer;">
+                <img src="../../../public/assets/images/users.png" class="dashPIC">
                 <text class="txtA"> ADD USERS</text>
 
                 </div>
             </div>
             <div class="LogOut">
-                <img src="../../public/assets/images/logout.png" class="LOut"/>
+                <img src="../../../public/assets/images/logout.png" class="LOut"/>
                 <text class="txtR">LOGOUT</text>
             </div>
         </div>
@@ -540,10 +544,10 @@ margin-top: 30px;
         <div class="content">
             <!-- --------------<p>student</p>-------------------- -->
             <div class="student">
-                <img src="../../public/assets/images/first.jpg" class="profPic">
+                <img src="../../../public/assets/images/first.jpg" class="profPic">
                 <p class="profT">NAME</p>
-                <img src="../../public/assets/images/bell.png" class="pic1">
-                <img src="../../public/assets/images/settings-8-xl.png" class="pic2">
+                <img src="../../../public/assets/images/bell.png" class="pic1">
+                <img src="../../../public/assets/images/settings-8-xl.png" class="pic2">
             </div>
             <!-- Adding the title -->
             
@@ -570,29 +574,56 @@ margin-top: 30px;
                 <h2 style="color:#35408E; margin-bottom: 2%;  font-family: 'pop'; font-size: 2rem;">ADD USER</h2>
 
                 <div class="form">
-                    <div class="input-group">
-                        <input type="text" placeholder="LAST NAME">
-                        <input type="text" placeholder="FIRST NAME">
-                        <input type="text" placeholder="MIDDLE NAME" class="Mname">
-                    </div>
-                    <div class="input-group">
-                        <input type="email" placeholder="NU EMAIL">
-                        <input type="password" placeholder="PASSWORD">
-                    </div>
-                    <div class="input-group">
-                        <input type="program" placeholder="DEPARTMENT">
-                    </div>
-                    <div class="input-group">
-                        <input type="text" placeholder="EMPLOYEE">
-                    </div>
-                    
-                    <div class="btn">
-                        <button class="add-btn">ADD</button>
-                    </div>
-                    
+                    <form method = "POST" action = "../../config/add.php">
+                        <div class="input-group">
+                            <input type="text" placeholder="LAST NAME" name="lname">
+                            <input type="text" placeholder="FIRST NAME" name="fname">
+                            <input type="text" placeholder="MIDDLE NAME" class="Mname" name="mname">
+                        </div>
+                        <div class="input-group">
+                            <input type="email" placeholder="NU EMAIL" name="email">
+                            <input type="password" placeholder="PASSWORD" name="pass">
+                        </div>
+                        <div class="input-group">
+                            <input type="program" placeholder="DEPARTMENT" name="department">
+                        </div>
+                        <div class="input-group">
+                            <input type="text" placeholder="EMPLOYEE ID" name="employee_ID">
+                        </div>
+                        <div class="btn">
+                            <button class="add-btn" name="add_faculty">ADD</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+    <?php
+        if(isset($_SESSION['exists']) && $_SESSION['exists'] == true){
+            echo "
+                <script>
+                    alert('User already exists!');
+                </script>
+            ";
+            $_SESSION['exists'] = false;
+        } else {
+             if(isset($_SESSION["success"])){
+                if ($_SESSION["success"] == true){
+                    echo "
+                    <script>
+                        alert('User registered successfully!');
+                    </script>
+                ";
+                $_SESSION["success"] = false;
+                } else {
+                }
+             }
+        }
+    ?>
+    <script>
+    function navigateTo(pagename){
+        window.location.href = pagename;
+    }
+</script>
 </body>
 </html>

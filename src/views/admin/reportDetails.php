@@ -10,7 +10,7 @@
     
 @font-face{
     font-family: 'pop';
-    src: url(Poppins/Poppins-Bold.ttf);
+    src: url(../../../public/assets/Fonts/Poppins-Bold.ttf);
     }
 
 *{
@@ -460,30 +460,28 @@ labeli{
             <div class="overview"> OVERVIEW</div>
 
             <div class="dashboard">
-                <div class="dashB">
-                    <img src="../../public/assets/images/dashboard.png" class="dashPIC"/>
-                    <text class="txtR"> DASHBOARD</text>
+                <div class="dashB" onclick="navigateTo('dashboardAdmin.php')" style = "cursor:pointer;">
+                <img src="../../../public/assets/images/dashboard.png" class="dashPIC">
+                <text class="txtR"> DASHBOARD</text>
+
                 </div>
 
-
-                <div class="dashB">
-                    <img src="../../public/assets/images/report.png" class="dashPIC"/>
-                    <text class="txtA"> REPORTS</text>
+                <div class="dashB" onclick="navigateTo('dashboardAdmin.php')" style = "cursor:pointer;">
+                <img src="../../../public/assets/images/report.png" class="dashPIC">
+                <text class="txtR"> REPORTS</text>
                 </div>
 
-                <div class="dashB">
-                    <img src="../../public/assets/images/write.png" class="dashPIC"/>
-                    <text class="txtR"> WRITE TO APPEAL</text>
+                <div class="dashB" onclick="navigateTo('dashboardAdmin.php')" style = "cursor:pointer;">
+                <img src="../../../public/assets/images/paper.png" class="dashPIC">
+                <text class="txtR"> WRITE TO APPEAL</text>
+
                 </div>
                 
-                <div class="dashB">
-                    <img src="../../public/assets/images/users.png" class="dashPIC"/>
-                    <text class="txtR"> ADD USERS</text>
+                <div class="dashB" onclick="navigateTo('dashboardAdmin.php')" style = "cursor:pointer;">
+                <img src="../../../public/assets/images/users.png" class="dashPIC">
+                <text class="txtA"> ADD USERS</text>
+
                 </div>
-            </div>
-            <div class="LogOut">
-                <img src="../../public/assets/images/logout.png" class="LOut"/>
-                <text class="txtR">LOGOUT</text>
             </div>
         </div>
         <!-- --------------<p>sidebar</p>-------------------- -->
@@ -567,5 +565,11 @@ labeli{
             
         </div>
     </div>
+
 </body>
+<script>
+    function navigateTo(pagename){
+        window.location.href = pagename;
+    }
+</script>
 </html>

@@ -72,6 +72,81 @@ if (isset($_POST["add_student"])) {
         // Close checker statement
         $checker->close();
     }
-} else {
+}
+if (isset($_POST["add_faculty"])) {
+    // User details
+    $lname = $_POST["lname"];
+    $mname = $_POST["mname"];
+    $fname = $_POST["fname"];
+    
+    // Credentials
+    $email = $_POST["email"];
+    $password = $_POST["pass"]; // Hashing the password
+    
+    // Faculty details
+    $dept = $_POST["department"];
+    $emp_id = $_POST["employee_ID"];
+    $role = 2; // Role for faculty
+
+    // Start transaction
+    $conn->begin_transaction();
+    try {
+        // Duplicate checker
+        if ($checker = $conn->prepare("SELECT * FROM user WHERE user_ID = ?")) {
+            $checker->bind_param("s", $emp_id);
+            $checker->execute();
+            $checkres = $checker->get_result();
+            
+            if ($checkres->num_rows > 0) {
+                $_SESSION["exists"] = true; // Faculty ID already exists
+                throw new Exception("Faculty ID already exists.");
+            } else {
+                $_SESSION["flag"] = true; // No duplicate found
+                
+                // User detail query
+                if ($stmt1 = $conn->prepare("INSERT INTO user (user_ID, role_ID, email, password) VALUES (?, ?, ?, ?)")) {
+                    $stmt1->bind_param("iiss", $emp_id, $role, $email, $password);
+                    
+                    // Execute and check success
+                    if ($stmt1->execute()) {
+                        // User details query
+                        if ($stmt2 = $conn->prepare("INSERT INTO userdetails (userID, first_name, middle_name, last_name) VALUES (?, ?, ?, ?)")) {
+                            $stmt2->bind_param("ssss", $emp_id, $fname, $mname, $lname);
+                            
+                            if ($stmt2->execute()) {
+                                // Faculty details query
+                                if ($stmt3 = $conn->prepare("INSERT INTO faculty (fac_id, dept) VALUES (?, ?)")) {
+                                    $stmt3->bind_param("is", $emp_id, $dept);
+                                    
+                                    if ($stmt3->execute()) {
+                                        $_SESSION["success"] = true; // Faculty added successfully
+                                        $conn->commit(); // Commit transaction
+                                        header("Location: ../views/admin/addFaculty.php");
+                                        exit();
+                                    } else {
+                                        throw new Exception("Error inserting faculty details: " . $stmt3->error);
+                                    }
+                                } else {
+                                    throw new Exception("Error preparing faculty insert statement: " . $conn->error);
+                                }
+                            } else {
+                                throw new Exception("Error inserting user details: " . $stmt2->error);
+                            }
+                        } else {
+                            throw new Exception("Error preparing user details insert statement: " . $conn->error);
+                        }
+                    } else {
+                        throw new Exception("Error inserting user: " . $stmt1->error);
+                    }
+                }
+            }
+            // Close checker statement
+            $checker->close();
+        }
+    } catch (Exception $e) {
+        // Rollback transaction if something went wrong
+        $conn->rollback();
+        echo "Transaction failed: " . $e->getMessage();
+    }
 }
 ?>
