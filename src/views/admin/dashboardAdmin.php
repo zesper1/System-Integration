@@ -224,11 +224,6 @@ margin-top: 30px;
     padding: 3%;
     }
     
-
-    
-
-
-
 </style>
 
 <body>
