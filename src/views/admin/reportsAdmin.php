@@ -458,10 +458,6 @@ margin-right: 5px;
                 </div>
             </div>
             </div>
-            
-        
-
-
         <div class="content2">
             <div class="pupil">
 
