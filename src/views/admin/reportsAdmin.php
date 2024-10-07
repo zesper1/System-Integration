@@ -320,7 +320,7 @@ margin-right: 5px;
     width: 50px;
     height: 50px;
 }
-.reportcontainer{
+/*.reportcontainer{
     width: 100%;
     height: 100%;
     background-color: white;
@@ -331,36 +331,36 @@ margin-right: 5px;
     display: flex;
 
 }
-.rc-left{
-    width: 25%;
-    height: 100%;
-    border-right: 1px solid black;
-}
-.rc-header{
-    padding: 20px;
-    font-size: x-large;
-    border-bottom: 1px solid gray;
-    text-align: center;
-}
-.rc-card{
-    padding: 20px;
-    border: 1px solid red;
-    width: 80%;
-    margin: 0 auto;
-    margin-block: 10px;
-    
-}
-.rcdesc-cont{
-    padding: 20px;
-}
-.rcdc-header{
-    font-size: x-large;
-    color: #E6C213;
-    margin-bottom: 50px;
-}
-.rcdc-details-container{
-    display: flex;
-}
+    .rc-left{
+        width: 25%;
+        height: 100%;
+        border-right: 1px solid black;
+    }
+    .rc-header{
+        padding: 20px;
+        font-size: x-large;
+        border-bottom: 1px solid gray;
+        text-align: center;
+    }
+    .rc-card{
+        padding: 20px;
+        border: 1px solid red;
+        width: 80%;
+        margin: 0 auto;
+        margin-block: 10px;
+        
+    }
+    .rcdesc-cont{
+        padding: 20px;
+    }
+    .rcdc-header{
+        font-size: x-large;
+        color: #E6C213;
+        margin-bottom: 50px;
+    }
+    .rcdc-details-container{
+        display: flex;
+}*/
 </style>
 
 <body>
@@ -463,7 +463,7 @@ margin-right: 5px;
 
 
         <div class="content2">
-            <!-- <div class="pupil">
+            <div class="pupil">
 
                 <div class="baba">
                     <img src="../../../public/assets/images/NU_shield.svg.png" class="tblpic" >
@@ -474,8 +474,8 @@ margin-right: 5px;
                
                 </div>
             
-            </div> -->
-            <div class="reportcontainer">
+            </div>
+            <!-- <div class="reportcontainer">
                 <div class="rc-left">
                     <div class="rc-header">
                         Open a report.
@@ -513,7 +513,7 @@ margin-right: 5px;
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
 
     </div>
