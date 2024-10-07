@@ -56,6 +56,21 @@ height: 92vh;
     margin-left: 10px;
 }
 
+<<<<<<< HEAD
+=======
+.pic{
+width: 40px;
+height: 45px;
+margin-right: 5px;
+}
+
+.NU{
+    line-height: 1;
+    display: flex;
+    align-items: center;
+}
+
+>>>>>>> 9570c81fdb87c2a8b504ede6dfa507f61f2d8589
 .overview{
     width: 100%;
     height: 10%;
@@ -192,6 +207,7 @@ height: 92vh;
         font-family: 'pop';
     }
 
+<<<<<<< HEAD
     .pic{
 width: 40px;
 height: 45px;
@@ -204,6 +220,8 @@ margin-right: 5px;
     align-items: center;
 }
 
+=======
+>>>>>>> 9570c81fdb87c2a8b504ede6dfa507f61f2d8589
     .text{
         color: #35408E;
         display: flex;

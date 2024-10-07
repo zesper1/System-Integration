@@ -325,6 +325,7 @@ margin-right: 5px;
 
 .baba{
     display: flex;
+    margin-left: 10px ;
 }
 
 .det{
