@@ -41,6 +41,12 @@
         display: flex;
     }
 
+    .con1{
+        display: flex;
+        height: 100%;
+        width: 100%;
+    }
+
      /* sidebar */
 
 .sidebar{
@@ -236,11 +242,12 @@ margin-right: 5px;
     }
 
     .content2{
-        width: 80%;
+        width: 60%;
         height: 80%;
         display: flex;
-        justify-content: start;
-        margin-left: 5%;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
     }
     
 .input-box1{
@@ -302,18 +309,61 @@ margin-right: 5px;
 }
 
 .pupil{
-    width: 100%;
+    width: 60%;
     height: 20%;
     background-color: white;
     border-radius: 10px;
     align-items: center;
     display: flex;
+    flex-direction: column;
     color: #34408D;
     font-family: 'pop';
+    outline: 1px solid black;
+    justify-content: center;
+    margin-bottom: 2%;
 }
 
 .baba{
     display: flex;
+}
+
+.det{
+    width: 100%;
+        height: 70%;
+        display: flex;
+        justify-content: start;
+        align-items: center;
+}
+
+.details{
+    width: 80%;
+    height: 100%;
+    background-color: white;
+    margin-top: 6%;
+    font-family: 'pop';
+    outline: 1px solid black;
+    color: #34408D;
+    padding: 3%;
+}
+
+.studpic{
+    width: 40px;
+    height: 40px;
+}
+
+.reportPIC .studpic{
+    width: 100px;
+    height: 100px;
+    margin-bottom: 5%;
+}
+
+.reportDetails{
+    text-align: justify;
+    margin-bottom: 5%;
+}
+.case{
+    text-align: justify;
+    margin-top: 1%;
 }
 </style>
 
@@ -414,23 +464,71 @@ margin-right: 5px;
             </div>
             
         
-
-
+            <div class="con1">
         <div class="content2">
+
             <div class="pupil">
-
                 <div class="baba">
-                    <img src="../../public/assets/images/NU_shield.svg.png" class="tblpic" >
-
+                    <img src="../../public/assets/images/NU_shield.svg.png" class="studpic" >
                     <div class="label">
                         <label>ROVIC BATACANDOLO <br> Public Display of Affection</label> 
                     </div>
-               
                 </div>
-            
             </div>
+
+            <div class="pupil">
+                <div class="baba">
+                    <img src="../../public/assets/images/NU_shield.svg.png" class="studpic" >
+                    <div class="label">
+                        <label>ROVIC BATACANDOLO <br> Public Display of Affection</label> 
+                    </div>
+                </div>
+            </div>
+
+            <div class="pupil">
+                <div class="baba">
+                    <img src="../../public/assets/images/NU_shield.svg.png" class="studpic" >
+                    <div class="label">
+                        <label>ROVIC BATACANDOLO <br> Public Display of Affection</label> 
+                    </div>
+                </div>
+            </div>
+
+            <div class="pupil">
+                <div class="baba">
+                    <img src="../../public/assets/images/NU_shield.svg.png" class="studpic" >
+                    <div class="label">
+                        <label>ROVIC BATACANDOLO <br> Public Display of Affection</label> 
+                    </div>
+                </div>
+            </div>
+            
+
         </div>
 
+        <div class="det">
+        <div class="details">
+            <div class="reportPIC">
+                <img src="../../public/assets/images/NU_shield.svg.png" class="studpic" >
+            </div>
+            <div class="reportDetails">
+                <p> Student Name: Rovic Batacandolo <br>
+                    Student ID:  2022-171700 <br>
+                    Violation:    Public Display of Affection 
+                </p>
+            </div>
+            <div class="case">                   
+                VIOLATION DETAILS AND OTHER ATTACHMENT:                
+                <p> Rovic Batacandolo was caught with his significant 
+                kissing near the fire exit around 3:09 pm, dated 
+                August 30, 2024. The report was submitted  
+                by an admin and the ID of the reported student 
+                was confiscated.
+            </p>
+        </div>
+        </div>
+    </div>
+    </div>
     </div>
            
         </div>   
