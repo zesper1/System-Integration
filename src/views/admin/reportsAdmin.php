@@ -314,6 +314,52 @@ margin-right: 5px;
 
 .baba{
     display: flex;
+    margin-left: 10px ;
+}
+.tblpic{
+    width: 50px;
+    height: 50px;
+}
+.reportcontainer{
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    border-radius: 10px;
+    color: #34408D;
+    font-family: 'pop';
+    border: 1px solid black;
+    display: flex;
+
+}
+.rc-left{
+    width: 25%;
+    height: 100%;
+    border-right: 1px solid black;
+}
+.rc-header{
+    padding: 20px;
+    font-size: x-large;
+    border-bottom: 1px solid gray;
+    text-align: center;
+}
+.rc-card{
+    padding: 20px;
+    border: 1px solid red;
+    width: 80%;
+    margin: 0 auto;
+    margin-block: 10px;
+    
+}
+.rcdesc-cont{
+    padding: 20px;
+}
+.rcdc-header{
+    font-size: x-large;
+    color: #E6C213;
+    margin-bottom: 50px;
+}
+.rcdc-details-container{
+    display: flex;
 }
 </style>
 
@@ -417,10 +463,10 @@ margin-right: 5px;
 
 
         <div class="content2">
-            <div class="pupil">
+            <!-- <div class="pupil">
 
                 <div class="baba">
-                    <img src="../../public/assets/images/NU_shield.svg.png" class="tblpic" >
+                    <img src="../../../public/assets/images/NU_shield.svg.png" class="tblpic" >
 
                     <div class="label">
                         <label>ROVIC BATACANDOLO <br> Public Display of Affection</label> 
@@ -428,6 +474,45 @@ margin-right: 5px;
                
                 </div>
             
+            </div> -->
+            <div class="reportcontainer">
+                <div class="rc-left">
+                    <div class="rc-header">
+                        Open a report.
+                    </div>
+                    <div class="rc-card">
+                        <div class="rcc-name">
+                            Rovic Batacandolo
+                        </div>
+                        <div class="rcc-type">
+                            Public Exhibition
+                        </div>
+                    </div>
+                </div>
+                <div class="rc-right">
+                    <div class="rcdesc-cont">
+                        <div class="rcdc-header">Report Details.</div>
+                        <div class="rcdc-details-container">
+                            <div class="rcdc-dc-left">
+                                <img src="" alt="">
+                            </div>
+                            <div class="rcdc-dc-right">
+                                <div class="rcdc-name">Name: Rovic Batacandulo</div>
+                                <div class="rcdc-id">ID: 171292</div>
+                                <div class="rcdc-vio">Violation: Public Indecency</div>
+                            </div>
+                        </div>
+                        <div class="rcdc-od">
+                            <div class="rcdc-od-header">
+                                Violation Details and other attachments.
+                            </div>
+                            <div class="rcdc-od-cont">
+                            Rovic Batacandolo was caught with his significant other kissing near the fire exit around 3:09 pm, 
+                            dated August 30, 2024. The report was submitted by an admin and the ID of the reported student was confiscated.
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
