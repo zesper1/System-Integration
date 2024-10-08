@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>viewUserAdmin</title>
+    <title>addAdmin</title>
 </head>
 
 <style>
@@ -170,6 +170,34 @@ height: 92vh;
     color: gold;
 }
 
+/* Dropdown styling */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    margin-top: 5px;
+    margin-left: 70px;
+    padding: 5px 0;
+    border-radius: 5px;
+}
+
+.dropdown-content a {
+    color: #595959;
+    padding: 10px;
+    text-decoration: none;
+    display: block;
+    font-size: 18px;
+    margin: 5px 0;
+}
+
+.dropdown-content a:hover {
+    background-color: #E9EAF6;
+    color: #35408E;
+}
+
 .LO{
     display: flex;
     height: 10%;
@@ -291,69 +319,151 @@ height: 92vh;
     color: black;
 }
 
-.tablecon{
+.con1{
+        display: flex;
+        height: 100%;
+        width: 100%;
+    }
+
+    .content2{
+        width: 60%;
+        height: 80%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+    
+.pupil{
+    width: 60%;
+    height: 20%;
+    background-color: white;
+    border-radius: 10px;
+    align-items: center;
     display: flex;
+    flex-direction: column;
+    color: #34408D;
+    font-family: 'pop';
+    outline: 1px solid black;
     justify-content: center;
-    height: 80%;
+    margin-bottom: 2%;
 }
 
-h2 {
+.baba{
+    display: flex;
+    margin-left: 10px ;
+}
+
+.studpic{
+    width: 40px;
+    height: 40px;
+}
+
+.det{
+    width: 100%;
+        height: 70%;
+        display: flex;
+        justify-content: start;
+        align-items: center;
+}
+
+.details{
+    width: 80%;
+    height: 100%;
+    background-color: white;
+    margin-top: 6%;
+    font-family: 'pop';
+    outline: 1px solid black;
+    color: #34408D;
+    padding: 3%;
+}
+
+
+.reportPIC .studpic{
+    width: 100px;
+    height: 100px;
+    margin-bottom: 5%;
+}
+
+.reportDetails{
+    text-align: justify;
+    margin-bottom: 5%;
+}
+.case{
+    text-align: justify;
+    margin-top: 1%;
+}
+
+.formcon{
+          display: flex;
+    justify-content: center;
+    height: 80%;
+        }
+        .form {
+            background-color: white;
+            width: 60%;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #34408D;
             text-align: center;
-            color: #333;
             margin-bottom: 20px;
         }
 
-        table {
+        .form-table {
             width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 20px;
         }
 
-        table, th, td {
+        .form-table label {
+            display: block;
+            font-weight: bold;
+            color: #34408D;
+            margin-bottom: 5px;
+        }
+
+        .form-table input[type="text"],
+        .form-table input[type="email"],
+        .form-table input[type="password"] {
+            width: 100%;
+            padding: 10px;
             border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: 'pop', sans-serif;
         }
 
-        th, td {
-            padding: 12px;
-            text-align: left;
+        .form-table .full-width {
+            grid-column: span 3;
         }
 
-        th {
+        .form-table .half-width {
+            grid-column: span 2;
+        }
+
+        .submit-btn {
             background-color: #34408D;
             color: white;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-
-        tr:hover {
-            background-color: #f1f1f1;
-        }
-
-        .actions {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .btn {
-            padding: 8px 12px;
-            text-decoration: none;
-            color: white;
+            padding: 10px 20px;
+            border: none;
             border-radius: 5px;
             cursor: pointer;
+            margin-top: 20px;
+            font-family: 'pop', sans-serif;
+            font-size: 16px;
+            text-align: center;
+            display: block;
+            width: 100px;
+            margin-left: auto;
         }
 
-        .btn-edit {
-            background-color: #4CAF50;
+        .submit-btn:hover {
+            background-color: #2b3675;
         }
-
-        .btn-delete {
-            background-color: #f44336;
-        }
-
- 
 </style>
 
 <body>
@@ -379,11 +489,9 @@ h2 {
 
         <div class="con2">
 
-        <!-- --------------<p>sidebar</p>-------------------- -->
-        <div class="sidebar">
-
-            <div class="overview">OVERVIEW</div>
-            
+         <!-- --------------<p>sidebar</p>-------------------- -->
+         <div class="sidebar">
+            <div class="overview">OVERVIEW</div>           
             <div class="dashboard">
 
         <line onclick="navigateTo('dashboardAdmin.php')" class="dashB">
@@ -406,9 +514,16 @@ h2 {
             <label class="txtR"> VIEW USER</label>
         </line>
 
-        <line onclick="navigateTo('usersAdmin.php')" class="dashB">
-            <a href="usersAdmin.php"><img src="../../../public/assets/images/add-user-3-xxl.png" class="dashPIC"></a>
-            <label class="txtR"> ADD ADMIN</label>
+        <line class="dashB" style="position: relative;">
+            <img src="../../../public/assets/images/add-user-3-xxl.png" class="dashPIC">
+            <label class="txtR" onclick="toggleDropdown()"> ADD USER ▼</label>
+            
+            <!-- Dropdown Menu -->
+            <div id="dropdown" class="dropdown-content">
+                <a href="addAdmin.php?type=admin">Admin</a>
+                <a href="addAdmin.php?type=admin">User</a>
+                <a href="addAdmin.php?type=faculty">Faculty</a>
+            </div>
         </line>
 
     </div>
@@ -431,72 +546,55 @@ h2 {
             <div class="content1">
             <div class="col">
                 <div class="text">
-                    <label class="hello"> VIEW USER
+                    <label class="hello"> ADD ADMIN
                         <?php
                         // Check if the session variable 'id' is set
                         echo $_SESSION["name"];
                         ?>
                     </label>
                 </div>
+            </div> 
             </div>
 
-            <div class="rep">
-                <div class="input-box1">
-                    <select name="role" placeholder="Select a role">             
-                        <option value=""disabled selected>Select Filter</option >   
-                      <option value="admin">Pending</option >
-                      <option value="user">Solved</option>
-                    </select>
-                  </div>
-
-                  <div class="glass">
-                    <input type="text" placeholder="Search">
-                </div>
+            <div class="formcon">
+            <div class="form">
+                <h2>Add Admin</h2>
+                <form action="addAdmin.php" method="post">
+                    <div class="form-table">
+                        <div>
+                            <label for="lastName">Last Name:</label>
+                            <input type="text" id="lastName" name="lastName" required>
+                        </div>
+                        <div>
+                            <label for="firstName">First Name:</label>
+                            <input type="text" id="firstName" name="firstName" required>
+                        </div>
+                        <div>
+                            <label for="middleName">Middle Name:</label>
+                            <input type="text" id="middleName" name="middleName">
+                        </div>
+                        <div>
+                            <label for="adminEmail">Email:</label>
+                            <input type="email" id="adminEmail" name="adminEmail" required>
+                        </div>
+                        <div>
+                            <label for="adminPassword">Password:</label>
+                            <input type="password" id="adminPassword" name="adminPassword" required>
+                        </div>
+                        <div>
+                            <label for="role">Role:</label>
+                            <input type="text" id="role" name="role" placeholder="Admin/Super Admin" required>
+                        </div>
+                        <div class="full-width">
+                            <label for="department">Department:</label>
+                            <input type="text" id="department" name="department" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="submit-btn">Add</button>
+                </form>
             </div>
             </div>
 
-            <div class="tablecon">
-            <div class="table">
-                <h2>User List</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Role</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Sample data -->
-                        <tr>
-                            <td>1</td>
-                            <td>John Doe</td>
-                            <td>johndoe@example.com</td>
-                            <td>Admin</td>
-                            <td class="actions">
-                                <a href="#" class="btn btn-edit">Edit</a>
-                                <a href="#" class="btn btn-delete">Delete</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Jane Smith</td>
-                            <td>janesmith@example.com</td>
-                            <td>User</td>
-                            <td class="actions">
-                                <a href="#" class="btn btn-edit">Edit</a>
-                                <a href="#" class="btn btn-delete">Delete</a>
-                            </td>
-                        </tr>
-                        <!-- Add more rows as needed -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-    </div>
     </div>
 
      <!-- --------------<p>mainbar</p>-------------------- -->
@@ -520,6 +618,27 @@ h2 {
             window.location.href = "../../config/logout.php";
         }
     });
+</script>
+
+<script>
+    
+    function toggleDropdown() {
+        var dropdown = document.getElementById("dropdown");
+        dropdown.style.display = (dropdown.style.display === "block") ? "none" : "block";
+    }
+
+    // Close the dropdown if the user clicks outside of it
+    window.onclick = function(event) {
+        if (!event.target.matches('.txtR')) {
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            for (var i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.style.display === "block") {
+                    openDropdown.style.display = "none";
+                }
+            }
+        }
+    }
 </script>
 
 </html>

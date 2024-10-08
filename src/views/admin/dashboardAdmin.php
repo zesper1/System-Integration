@@ -171,6 +171,34 @@ height: 92vh;
     color: gold;
 }
 
+ /* Dropdown styling */
+ .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    margin-top: 5px;
+    margin-left: 70px;
+    padding: 5px 0;
+    border-radius: 5px;
+}
+
+.dropdown-content a {
+    color: #595959;
+    padding: 10px;
+    text-decoration: none;
+    display: block;
+    font-size: 18px;
+    margin: 5px 0;
+}
+
+.dropdown-content a:hover {
+    background-color: #E9EAF6;
+    color: #35408E;
+}
+
 .LO{
     display: flex;
     height: 10%;
@@ -329,16 +357,17 @@ height: 92vh;
             <label class="txtR"> VIEW USER</label>
         </line>
 
-        <line onclick="navigateTo('addAdmin.php')" class="dashB">
-            <a href="addAdmin.php"><img src="../../../public/assets/images/add-user-3-xxl.png" class="dashPIC"></a>
-            <label class="txtR"> ADD ADMIN</label>
+        <line class="dashB" style="position: relative;">
+            <img src="../../../public/assets/images/add-user-3-xxl.png" class="dashPIC">
+            <label class="txtR" onclick="toggleDropdown()"> ADD USER ▼</label>
+            
+            <!-- Dropdown Menu -->
+            <div id="dropdown" class="dropdown-content">
+                <a href="addAdmin.php?type=admin">Admin</a>
+                <a href="addAdmin.php?type=admin">User</a>
+                <a href="addAdmin.php?type=faculty">Faculty</a>
+            </div>
         </line>
-
-        <line onclick="navigateTo('addUser.php')" class="dashB">
-            <a href="addUser.php"><img src="../../../public/assets/images/add-user-3-xxl.png" class="dashPIC"></a>
-            <label class="txtR"> ADD USER</label>
-        </line>
-
 
     </div>
 
@@ -439,6 +468,27 @@ height: 92vh;
             window.location.href = "../../config/logout.php";
         }
     });
+</script>
+
+<script>
+    
+    function toggleDropdown() {
+        var dropdown = document.getElementById("dropdown");
+        dropdown.style.display = (dropdown.style.display === "block") ? "none" : "block";
+    }
+
+    // Close the dropdown if the user clicks outside of it
+    window.onclick = function(event) {
+        if (!event.target.matches('.txtR')) {
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            for (var i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.style.display === "block") {
+                    openDropdown.style.display = "none";
+                }
+            }
+        }
+    }
 </script>
 
 </html>

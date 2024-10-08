@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>appealAdmin</title>
+    <title>addFaculty</title>
 </head>
 
 <style>
@@ -168,6 +168,34 @@ height: 92vh;
     align-items: center;
     justify-content: left;
     color: gold;
+}
+
+/* Dropdown styling */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    margin-top: 5px;
+    margin-left: 70px;
+    padding: 5px 0;
+    border-radius: 5px;
+}
+
+.dropdown-content a {
+    color: #595959;
+    padding: 10px;
+    text-decoration: none;
+    display: block;
+    font-size: 18px;
+    margin: 5px 0;
+}
+
+.dropdown-content a:hover {
+    background-color: #E9EAF6;
+    color: #35408E;
 }
 
 .LO{
@@ -366,72 +394,76 @@ height: 92vh;
     margin-top: 1%;
 }
 
-  /* Appeal Table */
-
-  .tablecon{
-    display: flex;
+.formcon{
+          display: flex;
     justify-content: center;
     height: 80%;
-}
-  .wrapper{
-    display: flex;
-    width: 80%;
-    height: 90%;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
-}
+        }
+        .form {
+            background-color: white;
+            width: 60%;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
 
-.appeal-table-container {
-    margin: 20px;
-    width: 95%;
-}
+        h2 {
+            color: #34408D;
+            text-align: center;
+            margin-bottom: 20px;
+        }
 
-.appeal-table-container h2 {
-    color: #34408D;
-    margin-bottom: 15px;
-}
+        .form-table {
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 20px;
+        }
 
-.appeal-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-family: 'pop';
-    color: #34408D;
-    background-color: #FFFFFF;
-}
+        .form-table label {
+            display: block;
+            font-weight: bold;
+            color: #34408D;
+            margin-bottom: 5px;
+        }
 
-.appeal-table th, .appeal-table td {
-    padding: 12px 15px;
-    border: 1px solid #ddd;
-    text-align: left;
-}
+        .form-table input[type="text"],
+        .form-table input[type="email"],
+        .form-table input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: 'pop', sans-serif;
+        }
 
-.appeal-table th {
-    background-color: #E9EAF6;
-    font-weight: bold;
-}
+        .form-table .full-width {
+            grid-column: span 3;
+        }
 
-.appeal-table tr:nth-child(even) {
-    background-color: #f2f2f2;
-}
+        .form-table .half-width {
+            grid-column: span 2;
+        }
 
-.appeal-table tr:hover {
-    background-color: #f1f1f1;
-}
+        .submit-btn {
+            background-color: #34408D;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-family: 'pop', sans-serif;
+            font-size: 16px;
+            text-align: center;
+            display: block;
+            width: 100px;
+            margin-left: auto;
+        }
 
-.action-btn {
-    background-color: #34408D;
-    color: white;
-    padding: 5px 10px;
-    text-decoration: none;
-    border-radius: 5px;
-    font-size: 0.9em;
-}
-
-.action-btn:hover {
-    background-color: #2b3670;
-}
+        .submit-btn:hover {
+            background-color: #2b3675;
+        }
 </style>
 
 <body>
@@ -457,50 +489,55 @@ height: 92vh;
 
         <div class="con2">
 
-        <!-- --------------<p>sidebar</p>-------------------- -->
-        <div class="sidebar">
+       <!-- --------------<p>sidebar</p>-------------------- -->
+       <div class="sidebar">
+        <div class="overview">OVERVIEW</div>           
+        <div class="dashboard">
 
-            <div class="overview">OVERVIEW</div>
-            
-            <div class="dashboard">
+    <line onclick="navigateTo('dashboardAdmin.php')" class="dashB">
+        <img src="../../../public/assets/images/dashboard.png" class="dashPIC">
+        <label class="txtR"> DASHBOARD</label>
+    </line>
+    
+    <line onclick="navigateTo('reportsAdmin.php')" class="dashB">
+        <img src="../../../public/assets/images/report.png" class="dashPIC">
+        <label class="txtR"> REPORTS</label>
+    </line>
+    
+    <line onclick="navigateTo('appealAdmin.php')" class="dashB">
+        <a href="appealAdmin.php"><img src="../../../public/assets/images/paper.png" class="dashPIC"></a>
+        <label class="txtR"> REPLY TO APPEAL</label>
+    </line>
+    
+    <line onclick="navigateTo('usersAdmin.php')" class="dashB">
+        <a href="usersAdmin.php"><img src="../../../public/assets/images/users.png" class="dashPIC"></a>
+        <label class="txtR"> VIEW USER</label>
+    </line>
 
-        <line onclick="navigateTo('dashboardAdmin.php')" class="dashB">
-            <img src="../../../public/assets/images/dashboard.png" class="dashPIC">
-            <label class="txtR"> DASHBOARD</label>
-        </line>
+    <line class="dashB" style="position: relative;">
+        <img src="../../../public/assets/images/add-user-3-xxl.png" class="dashPIC">
+        <label class="txtR" onclick="toggleDropdown()"> ADD USER ▼</label>
         
-        <line onclick="navigateTo('reportsAdmin.php')" class="dashB">
-            <img src="../../../public/assets/images/report.png" class="dashPIC">
-            <label class="txtR"> REPORTS</label>
-        </line>
-        
-        <line onclick="navigateTo('appealAdmin.php')" class="dashB">
-            <a href="appealAdmin.php"><img src="../../../public/assets/images/paper.png" class="dashPIC"></a>
-            <label class="txtR"> REPLY TO APPEAL</label>
-        </line>
-        
-        <line onclick="navigateTo('usersAdmin.php')" class="dashB">
-            <a href="usersAdmin.php"><img src="../../../public/assets/images/users.png" class="dashPIC"></a>
-            <label class="txtR"> VIEW USER</label>
-        </line>
+        <!-- Dropdown Menu -->
+        <div id="dropdown" class="dropdown-content">
+            <a href="addAdmin.php?type=admin">Admin</a>
+            <a href="addAdmin.php?type=admin">User</a>
+            <a href="addAdmin.php?type=faculty">Faculty</a>
+        </div>
+    </line>
 
-        <line onclick="navigateTo('usersAdmin.php')" class="dashB">
-            <a href="usersAdmin.php"><img src="../../../public/assets/images/add-user-3-xxl.png" class="dashPIC"></a>
-            <label class="txtR"> ADD ADMIN</label>
-        </line>
+</div>
 
+    <div class="LO">
+            <a id="logout-link">
+                <img src="../../../public/assets/images/logout.png" class="dashPIC" alt="Logout">
+            </a>
+            <label class="txtR"><?php
+                echo $_SESSION["name"];
+            ?> LOGOUT</label>
     </div>
-
-        <div class="LO">
-                <a id="logout-link">
-                    <img src="../../../public/assets/images/logout.png" class="dashPIC" alt="Logout">
-                </a>
-                <label class="txtR"><?php
-                    echo $_SESSION["name"];
-                ?> LOGOUT</label>
-        </div>
-        </div>
-        <!-- --------------<p>sidebar</p>-------------------- -->
+    </div>
+    <!-- --------------<p>sidebar</p>-------------------- -->
          
         <!-- --------------<p>mainbar</p>-------------------- -->
 
@@ -509,45 +546,55 @@ height: 92vh;
             <div class="content1">
             <div class="col">
                 <div class="text">
-                    <label class="hello"> APPEAL
+                    <label class="hello"> ADD ADMIN
                         <?php
                         // Check if the session variable 'id' is set
                         echo $_SESSION["name"];
                         ?>
                     </label>
                 </div>
+            </div> 
+            </div>
+
+            <div class="formcon">
+            <div class="form">
+                <h2>Add Admin</h2>
+                <form action="addAdmin.php" method="post">
+                    <div class="form-table">
+                        <div>
+                            <label for="lastName">Last Name:</label>
+                            <input type="text" id="lastName" name="lastName" required>
+                        </div>
+                        <div>
+                            <label for="firstName">First Name:</label>
+                            <input type="text" id="firstName" name="firstName" required>
+                        </div>
+                        <div>
+                            <label for="middleName">Middle Name:</label>
+                            <input type="text" id="middleName" name="middleName">
+                        </div>
+                        <div>
+                            <label for="adminEmail">Email:</label>
+                            <input type="email" id="adminEmail" name="adminEmail" required>
+                        </div>
+                        <div>
+                            <label for="adminPassword">Password:</label>
+                            <input type="password" id="adminPassword" name="adminPassword" required>
+                        </div>
+                        <div>
+                            <label for="role">Employee ID:</label>
+                            <input type="text" id="Employee ID" name="Employee ID"  required>
+                        </div>
+                        <div class="full-width">
+                            <label for="department">Department:</label>
+                            <input type="text" id="department" name="department" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="submit-btn">Add</button>
+                </form>
             </div>
             </div>
 
-            <div class="tablecon">
-            <div class="wrapper">
-                <div class="appeal-table-container">
-                  <h2>Student Appeals</h2>
-                  <table class="appeal-table">
-                      <thead>
-                          <tr>
-                              <th>Student Name</th>
-                              <th>Appeal Date</th>
-                              <th>Violation</th>
-                              <th>Appeal Details</th>
-                              <th>Action</th>
-                          </tr>
-                      </thead>
-                      <tbody>           
-                                  <tr>
-                                          <td>name</td>
-                                          <td>date</td>
-                                          <td>violation</td>
-                                          <td>details</td>
-                                          <td><a href='appealResponse.php?id={$appeal['id']}' class='action-btn'>Reply</a></td>
-                                        </tr>
-                      </tbody>
-                  </table>
-                </div>
-                </div>
-            </div>
-
-    </div>
     </div>
 
      <!-- --------------<p>mainbar</p>-------------------- -->
@@ -555,6 +602,28 @@ height: 92vh;
         </div>   
     </div>
     </div>
+    <?php
+    if(isset($_SESSION['exists']) && $_SESSION['exists'] == true){
+        echo "
+            <script>
+                alert('User already exists!');
+            </script>
+        ";
+        $_SESSION['exists'] = false;
+    } else {
+         if(isset($_SESSION["success"])){
+            if ($_SESSION["success"] == true){
+                echo "
+                <script>
+                    alert('User registered successfully!');
+                </script>
+            ";
+            $_SESSION["success"] = false;
+            } else {
+            }
+         }
+    }
+?>   
 </body>
 
 <script>
@@ -571,6 +640,27 @@ height: 92vh;
             window.location.href = "../../config/logout.php";
         }
     });
+</script>
+
+<script>
+    
+    function toggleDropdown() {
+        var dropdown = document.getElementById("dropdown");
+        dropdown.style.display = (dropdown.style.display === "block") ? "none" : "block";
+    }
+
+    // Close the dropdown if the user clicks outside of it
+    window.onclick = function(event) {
+        if (!event.target.matches('.txtR')) {
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            for (var i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.style.display === "block") {
+                    openDropdown.style.display = "none";
+                }
+            }
+        }
+    }
 </script>
 
 </html>
