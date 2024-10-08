@@ -16,6 +16,7 @@
     src: url(../../../public/assets/Fonts/Poppins-Bold.ttf);
     }
 
+    /* containers */
     *
     {
         margin: 0;
@@ -41,6 +42,69 @@
         display: flex;
     }
 
+    /* containers */
+
+    /* topbar */
+
+    .student{
+        background-color: #34408D;
+        width: 100%;
+        height: 8%;
+        display: flex;
+        align-items: center;
+        justify-content: left;
+        border-bottom: 5px solid #E6C213;
+    }
+
+    .inf1{
+        display: flex;
+        width: 50%;
+        align-items: center;
+    }
+
+    .logo{
+    width: 100%;
+    display: flex;
+    color: white;
+    margin-left: 10px;
+    }
+
+    .pic{
+width: 40px;
+height: 45px;
+margin-right: 5px;
+}
+
+
+    .NU{
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    }
+
+    .inf{
+        display: flex;
+        width: 50%;
+        align-items: center;
+    }
+
+    .info2{
+        width: 100%;
+        display: flex ;
+        justify-content: end;
+        align-items: center;
+        margin-right: 10px;
+    }
+
+    .toplogo{
+        width: 30px;
+        height: 30px;
+        margin: 10px;
+        cursor: pointer;
+    }
+
+    /* topbar */
+
      /* sidebar */
 
 .sidebar{
@@ -49,28 +113,6 @@ width: 25%;
 height: 92vh;
 }
 
-.logo{
-    width: 100%;
-    display: flex;
-    color: white;
-    margin-left: 10px;
-}
-
-<<<<<<< HEAD
-=======
-.pic{
-width: 40px;
-height: 45px;
-margin-right: 5px;
-}
-
-.NU{
-    line-height: 1;
-    display: flex;
-    align-items: center;
-}
-
->>>>>>> 9570c81fdb87c2a8b504ede6dfa507f61f2d8589
 .overview{
     width: 100%;
     height: 10%;
@@ -89,26 +131,6 @@ margin-right: 5px;
     display: flex;
     flex-direction: column;
     align-content: center;
-}
-
-.LO{
-    display: flex;
-    height: 10%;
-    align-content: end;
-    width: 100%;
-}
-
-.LO .dashPIC{
-    width: 30px;
-    height: 30px;
-    margin-left: 40px;
-    cursor: pointer;
-}
-
-.LO .txtR{
-    font-size: 20px;
-    color: #595959;
-    margin-left: 30px;
 }
 
 .dashboard .dashB{
@@ -149,55 +171,35 @@ margin-right: 5px;
     color: gold;
 }
 
+.LO{
+    display: flex;
+    height: 10%;
+    align-content: end;
+    width: 100%;
+}
 
-/* sidebar */
+.LO .dashPIC{
+    width: 30px;
+    height: 30px;
+    margin-left: 40px;
+    cursor: pointer;
+}
 
-    .topbar{
-        background-color: white;
-        width:70%;
-        height: 70px;
-        display: flex;
-    }
+.LO .txtR{
+    font-size: 20px;
+    color: #595959;
+    margin-left: 30px;
+}
 
+/* mainbar */
 
-    .student{
-        background-color: #34408D;
+.content{
         width: 100%;
-        height: 8%;
+        height: 100%;
         display: flex;
-        align-items: center;
-        justify-content: left;
-        border-bottom: 5px solid #E6C213;
+        flex-direction: column;
     }
 
-    .inf{
-        display: flex;
-        width: 50%;
-        align-items: center;
-    }
-
-    .inf1{
-        display: flex;
-        width: 50%;
-        align-items: center;
-    }
-
-    .info2{
-        width: 100%;
-        display: flex ;
-        justify-content: end;
-        align-items: center;
-        margin-right: 10px;
-    }
-
-    .toplogo{
-        width: 30px;
-        height: 30px;
-        margin: 10px;
-        cursor: pointer;
-    }
-
- 
     .col{
         width:100%;
         height: 55px;
@@ -207,21 +209,6 @@ margin-right: 5px;
         font-family: 'pop';
     }
 
-<<<<<<< HEAD
-    .pic{
-width: 40px;
-height: 45px;
-margin-right: 5px;
-}
-
-.NU{
-    line-height: 1;
-    display: flex;
-    align-items: center;
-}
-
-=======
->>>>>>> 9570c81fdb87c2a8b504ede6dfa507f61f2d8589
     .text{
         color: #35408E;
         display: flex;
@@ -234,24 +221,8 @@ margin-right: 5px;
     margin-top: 10px;
     }
 
-    .content{
-        width: 100%;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .box2 {
-        margin-left:50% ;
-    }
-
-    .mainbar{
-        justify-content: start;
-        padding: 30px;
-        color: #35408E;
-    }
-
-    .students{
+    
+    .graph{
         width: 87%;
     height: 80%;
     background-color: white;
@@ -261,12 +232,6 @@ margin-right: 5px;
     margin-top: 2%;
     }
 
-    .txt{
-        display: flex;
-        justify-content: center;
-        font-size: 25px;
-    }
-    
     #chart-container {
       width: 800px;
       height: 400px;
@@ -309,11 +274,18 @@ margin-right: 5px;
       stroke-width: 2px; 
     }
 
+    .txt{
+        display: flex;
+        justify-content: center;
+        font-size: 25px;
+    }
 </style>
 
 <body>
     <div class="container">
 
+
+         <!-- --------------<p>navbar</p>-------------------- -->
         <div class="student">
             <div class="inf1">
             <div class="logo">
@@ -322,21 +294,19 @@ margin-right: 5px;
             </div> 
         </div>
             <div class="inf">
-
-            
             <div class="info2">
                 <img src="../../../public/assets/images/bell.png" class="toplogo">
                 <img src="../../../public/assets/images/settings.png" class="toplogo">
             </div>
         </div>
         </div>
+         <!-- --------------<p>navbar</p>-------------------- -->
 
         <div class="con2">
 
+        <!-- --------------<p>sidebar</p>-------------------- -->
         <div class="sidebar">
-
-            <div class="overview">OVERVIEW</div>
-            
+            <div class="overview">OVERVIEW</div>           
             <div class="dashboard">
 
         <line onclick="navigateTo('dashboardAdmin.php')" class="dashB">
@@ -359,10 +329,16 @@ margin-right: 5px;
             <label class="txtR"> VIEW USER</label>
         </line>
 
-        <line onclick="navigateTo('usersAdmin.php')" class="dashB">
-            <a href="usersAdmin.php"><img src="../../../public/assets/images/add-user-3-xxl.png" class="dashPIC"></a>
+        <line onclick="navigateTo('addAdmin.php')" class="dashB">
+            <a href="addAdmin.php"><img src="../../../public/assets/images/add-user-3-xxl.png" class="dashPIC"></a>
             <label class="txtR"> ADD ADMIN</label>
         </line>
+
+        <line onclick="navigateTo('addUser.php')" class="dashB">
+            <a href="addUser.php"><img src="../../../public/assets/images/add-user-3-xxl.png" class="dashPIC"></a>
+            <label class="txtR"> ADD USER</label>
+        </line>
+
 
     </div>
 
@@ -374,10 +350,12 @@ margin-right: 5px;
                     echo $_SESSION["name"];
                 ?> LOGOUT</label>
         </div>
-
         </div>
-            
+        <!-- --------------<p>sidebar</p>-------------------- -->
 
+        
+
+        <!-- --------------<p>mainbar</p>-------------------- -->    
         <div class="content">
             <div class="col">
                 <div class="text">
@@ -390,7 +368,7 @@ margin-right: 5px;
                 </div>
             </div>
 
-            <div class="students">
+            <div class="graph">
                 <div id="chart-container">
                     <canvas id="myChart"></canvas>
                   </div>
@@ -399,8 +377,9 @@ margin-right: 5px;
                     LINE GRAPH OF REPORTS AND VIOLATION IN NU DASMARIÑAS
                   </div>
             </div> 
-           
-        </div>   
+        </div> 
+        <!-- --------------<p>mainbar</p>-------------------- --> 
+
     </div>
     </div>
 </body>
