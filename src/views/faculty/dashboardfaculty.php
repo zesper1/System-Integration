@@ -1,606 +1,415 @@
 <!DOCTYPE html>
+<?php
+    include "../../connection/db_conn.php";
+    session_start();
+?>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FacReport</title>
+    <title>writeReportStudent</title>
+</head>
 
-    <style>
-        @font-face {
-            font-family: 'pop';
-            src: url(Poppins/Poppins-Bold.ttf);
-        }
+<style>
+    @font-face{
+    font-family: 'pop';
+    src: url(../../../public/assets/Fonts/Poppins-Bold.ttf);
+    }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    /* containers */
+    *
+    {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
 
-        body {
-            width: 100%;
-            height: 100vh;
-            background-color: #E9EAF6;
-        }
+    body{
+        width: 100%;
+        background-color: #E9EAF6;
+        font-family: 'pop';
+        height: 100vh;
+        overflow: hidden;
+    }
 
-        .container {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            font-family: 'pop';
-            color: #35408E;
-        }
-
-        .sidebar{
-
-        background-color: whitesmoke;
-        width: 25%;
+    .container{
+        width: 100%;
+        display: flex;
         height: 100%;
-        border-top-right-radius: 5%;
-        border-bottom-right-radius: 5%;
-        }
+        flex-direction: column;
+    }
 
-        .txt1 {
-            margin-left: 5px;
-            color: #35408E;
-        }
+    .con2{
+        display: flex;
+    }
 
-        .logo {
-            width: 100%;
-            height: 15%;
-            display: flex;
-            align-items: start;
-            justify-content: left;
-        }
+    /* containers */
 
-        .header {
-            width: 100%;
-            height: 100px;
-            display: flex;
-            align-items: center;
-            padding: 30px;
-            line-height: 1;
-        }
+     /* topbar */
 
-        .overview{
-            width: 100%;
-            height: 10px;
-            font-size: 15px;
-            display: flex;
-            align-items: start;
-            justify-content:left;
-            color: #AFB1C2;
-            margin-top: 50px;
-            margin-left: 40px;
-
-        }
-
-        .dashboard {
-            width: 100%;
-            height: 50%;  
-            margin-top: 20px;  
-        }
-
-        .dashboard .dashB {
-            width: 100%;
-            height: 15%;
-            display: flex;
-            align-items: center;
-            justify-content: left;
-            margin-top: 10px;
-        }
-
-        .dashboard .dashPIC {
-            width: 30px;
-            height: 30px;
-            margin-left: 40px;
-        }
-
-        .dashboard .txtR {
-            font-size: 20px;
-            color: #595959;
-            margin-left: 30px;
-        }
-
-        .dashboard .txtA {
-            font-size: 20px;
-            color: gold;
-            margin-left: 30px;
-        }
-
-        .LogOut {
-            width: 100%;
-            height: 25%;
-            display: flex;
-            align-items: center;
-            justify-content: left;
-        }
-
-        .LogOut .LOut {
-            width: 40px;
-            height: 40px;
-            margin-left: 50px;
-        }
-
-        .LogOut .txtR {
-            font-size: 20px;
-            color: #595959;
-            margin-left: 30px;
-        }
-
-
-        .items {
-            width: 100%;
-            height: 51%;
-            padding: 60px;
-        }
-
-        .items .txtR {
-            font-size: 20px;
-            color: #595959;
-            margin-left: 20px;
-        }
-
-        .content{
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            background-color: lavender;
-        }
-
-        .student{
-
-        background-color: whitesmoke;
-        width: 35%;
+     .student{
+        background-color: #34408D;
+        width: 100%;
         height: 8%;
-        border-bottom-right-radius: 100px;
-        border-bottom-left-radius: 100px;
-        margin-left: 55%;
         display: flex;
         align-items: center;
         justify-content: left;
+        border-bottom: 5px solid #E6C213;
+    }
 
-        }
+    .inf1{
+        display: flex;
+        width: 50%;
+        align-items: center;
+    }
 
-        .student .profT{
-        font-size: 15px;
-        color: #595959;
+    .logo{
+    width: 100%;
+    display: flex;
+    color: white;
+    margin-left: 10px;
+}
 
-        }
+.pic{
+width: 40px;
+height: 45px;
+margin-right: 5px;
+}
 
-        .student .profPic{
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        margin-left: 30px;
-        margin-right: 20px;
-        }
+.NU{
+    line-height: 1;
+    display: flex;
+    align-items: center;
+}
 
-        .student .pic2{
-            width: 30px;
-            height: 30px;
-            color: #595959;
-            
-        }
+    .inf{
+        display: flex;
+        width: 50%;
+        align-items: center;
+    }
 
-        .student .pic1{
+    .info2{
+        width: 100%;
+        display: flex ;
+        justify-content: end;
+        align-items: center;
+        margin-right: 10px;
+    }
+
+    .toplogo{
         width: 30px;
         height: 30px;
-        margin-left: 80px;
-        margin-right: 20px;
-        color: #595959;
+        margin: 10px;
+        cursor: pointer;
+    }
 
-        }
+    /* topbar */
 
+    /* sidebar */
 
-        line {
-            display: flex;
-            margin-bottom: 40px;
-        }
+.sidebar{
+background-color: white;
+width: 25%;
+height: 92vh;
+}
 
-        .logos {
-            width: 50px;
-            height: 50px;
-            margin-right: 10px;
-        }
+.overview{
+    width: 100%;
+    height: 10%;
+    font-size: 15px;
+    display: flex;
+    align-items: start;
+    justify-content:left;
+    align-items: end;
+    color: #AFB1C2;
+    margin-left: 40px;
+}
 
-        label {
-            margin-top: 15px;
-            margin-left: 5px;
-        }
+.dashboard{
+    width: 100%;
+    height: 80%;  
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+}
 
-        .logout {
-            padding: 60px;
-            display: flex;
-            align-items: center;
-            margin-top: 15px;
-        }
+.dashboard .dashB{
+    width: 100%;
+    height: 15%;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    margin-top: 10px;
 
-        .topbar {
-            background-color: white;
-            width: 70%;
-            height: 70px;
-            display: flex;
-        }
+}
 
-        .box2 {
-            border-bottom-left-radius: 20px;
-            border-bottom-right-radius: 20px;
-            background-color: white;
-            width: 40%;
-            height: 70px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-left: 50%;
-        }
+.dashboard .dashPIC{
+    width: 30px;
+    height: 30px;
+    margin-left: 40px;
+    cursor: pointer;
+}
 
-        .toplogo {
-            width: 35px;
-            height: 35px;
-            margin: 10px;
-            color: #AFB1C2;
-        }
+.dashboard .txtR{
+    font-size: 20px;
+    color: #595959;
+    margin-left: 30px;
+}
 
-        .info {
-            font-family: 'pop';
-            margin-left: 10px;
-            color: #AFB1C2;
-            display: flex;
-            align-items: center;
-        }
+.dashboard .txtA{
+    font-size: 20px;
+    color: gold;
+    margin-left: 30px;
+}
 
-        .info2 {
-            display: flex;
-            align-items: center;
-            margin-right: 20px;
-        }
+.dashboard .users{
+    width: 100%;
+    height: 15%;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    color: gold;
+}
 
-        .name {
-            margin-bottom: 10px;
-        }
+.LO{
+    display: flex;
+    height: 10%;
+    align-content: end;
+    width: 100%;
+}
 
-        .mainbar {
-            height: 10%;
+.LO .dashPIC{
+    width: 30px;
+    height: 30px;
+    margin-left: 40px;
+    cursor: pointer;
+}
+
+.LO .txtR{
+    font-size: 20px;
+    color: #595959;
+    margin-left: 30px;
+}
+
+/* sidebar */
+
+/* mainbar */
+
+.content{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .content1{
+        display: flex;
+        width: 100%;
+        height: 15%;
+    }
+
+    .col{
+        width:100%;
+        height: 55px;
+        display: flex;
+        justify-content: start;
+        color: #35408E;
+        font-family: 'pop';
+    }
+
+    .text{
+        color: #35408E;
+        display: flex;
+    align-items: center;
+    justify-content: start;
+    height: 100%;
+    width: 50%;
+    font-size: 30px;
+    margin-left: 60px;
+    margin-top: 10px;
+    }
+
+    .content{
             width: 100%;
             display: flex;
-            align-items: center;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .col{
+            width: 100%;
+            display: flex;
             justify-content: start;
-            padding: 30px;
             color: #35408E;
-        }
-
-        .text {
-            font-family: 'pop';
-            font-size: 30px;
-        }
-
-        .wrapper {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-            height: 100%;
-        }
-
-        .announcementw-win {
-            background-color: whitesmoke;
-            border-radius: 20%;
-            width: 55%;
-            height: 98%;
-            color: #AFB1C2;
-            font-family: 'pop';
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            margin-left: 3%;
-        }
-
-        .wrap2 {
-            display: flex;
-            flex-direction: row;
-            height: 80%;
-            width: 100%;
-        }
-
-        .wrap3 {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-            width: 100%;
-        }
-
-        .wrap {
-            width: 37%;
-            height: 98%;
-        }
-
-        .violations {
-            background-color: whitesmoke;
-            width: 100%;
-            height: 48%;
-            border-radius: 10%;
-            margin-left: 7%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #E6C213;
             font-family: 'pop';
         }
 
-        .t .t1 {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-        }
-
-        .logo3 {
-            margin-left: 30%;
-        }
-
-        .search {
-            width: 38%;
-            height: 70px;
+        .text{
+            color: #35408E;
             display: flex;
             align-items: center;
-            justify-content: center;
-            color: #E6C213;
-            font-family: 'pop';
-            font-size: 2.5rem;
-        }
-
-        h4 {
-            margin-left: 30%;
-        }
-
-        .items {
-            width: 100%;
-            height: 50%;  
-            margin-top: 20px;  
-        }
-
-        .students {
-            width: 70%;
-            height: 450px;
-            background-color: white;
-            margin-left: 15%;
-            margin-top: 3%;
-            border-radius: 50px;
-            display: flex;
-            flex-direction: column;
-            align-items: start;
             justify-content: start;
-            color: #34408D;
-            font-family: 'pop';
-            padding: 3%;
-            position: relative;
-        }
-
-        .pic{
-
-        width: 50px;
-        height: 60px;
-        margin-right: 10px;
-        margin-left: 50px;
-        margin-top: 30px;
-
-        }
-
-        .NU{
-            line-height: 1;
-            font-size: 20px;
-            margin-top: 40px;
-        }
-
-        .baba {
-            line-height: 1;
-        }
-
-        .up {
-            display: flex;
-            align-content: start;
-            margin-top: 30px;
-            margin-bottom: 10%;
-        }
-
-        .up p {
-            margin-left: 30px;
-            margin-top: 5px;
-        }
-
-        labeli {
-            color: #E6C213;
-            font-size: 1.5rem;
-        }
-
-        .form {
-            display: flex;
-            flex-direction: column;
-            height: 50%;
+            height: 100%;
+            width: 50%;
+            font-size: 30px;
+            margin-left: 60px;
             margin-top: 10px;
         }
 
-        .loob {
+        /* Form Styling */
+        .report-form {
+            width: 80%;
+            margin: 20px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .report-form label {
+            display: block;
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #34408D;
+        }
+
+        .report-form input, .report-form select, .report-form textarea {
             width: 100%;
-            height: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
         }
 
-        .tf {
-            width: 50%;
-            height: 40px;
-            margin: 11px 0;
-            margin-left: 5px;
-            transform: translateY(-50%);
-            font-size: 20px;
-            font-family: 'pop';
-            box-sizing: border-box;
-            padding: 12px, 36px, 12px, 12px;
-            border-radius: 15px;
-            border: none;
+        .report-form textarea {
+            height: 100px;
         }
 
-        .tf input {
-            width: 100%;
-            height: 100%;
-            background: #DBDCE6;
-            border: none;
-            outline: none;
-            border: 2px solid rgba(255, 255, 255, .2);
-            border-radius: 12px;
-            font-size: 10px;
-            color: black;
-            padding: 20px 45px 20px 20px;
-            font-family: 'pop';
-        }
-
-        .tf1 {
-            width: 100%;
-            height: 50%;
-            transform: translateY(-50%);
-            font-size: 20px;
-            font-family: 'pop';
-            box-sizing: border-box;
-            border-radius: 15px;
-            background-color: rgba(255, 255, 255, 0.8);
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            position: relative;
-            resize: none;
-        }
-
-        .tf1 input {
-            width: 100%;
-            height: 100%;
-            margin: 30px 0;
-            transform: translateY(-50%);
-            font-size: 20px;
-            font-family: 'pop';
-            box-sizing: border-box;
-            position: relative;
-            border-radius: 15px;
-            background-color: rgba(255, 255, 255, 0.8);
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .ib {
-            display: flex;
-            height: 20%;
-            margin-bottom: 5px;
-        }
-
-        .bot{
-            width: 90%;
-            position: absolute;
-            bottom: 20px;
-            right: 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .file{
-            display: flex;
-            flex-direction: column;
-            align-items: start;
-            justify-content: center;
-            width: 50%;
-        }
-        
-        .send-button {
-            width: 120px;
-            height: 40px;
-            background-color: #E6C213;
-            border-radius: 25px;
+        .report-form button {
+            padding: 10px 20px;
+            background-color: #34408D;
             color: white;
-            font-family: 'pop';
-            font-size: 1.2rem;
+            font-size: 18px;
             border: none;
+            border-radius: 5px;
             cursor: pointer;
         }
 
-        .boton{
-            display: flex;
-            align-items: center;
-            justify-content: end;
+        .report-form button:hover {
+            background-color: #2b357a;
         }
 
-
-      
-
-    </style>
-</head>
+   
+</style>
 
 <body>
     <div class="container">
+
+        <!-- --------------<p>topbar</p>-------------------- -->
+        <div class="student">
+            <div class="inf1">
+            <div class="logo">
+                <img src="../../../public/assets/images/NU_shield.svg.png" class="pic">
+            <label class="NU">NATIONAL UNIVERSITY</label> 
+            </div> 
+        </div>
+            <div class="inf">
+          
+            <div class="info2">
+                <img src="../../../public/assets/images/bell.png" class="toplogo">
+                <img src="../../../public/assets/images/settings.png" class="toplogo">
+            </div>
+        </div>
+        </div>
+        <!-- --------------<p>topbar</p>-------------------- -->
+
+        <div class="con2">
+
         <!-- --------------<p>sidebar</p>-------------------- -->
         <div class="sidebar">
-            <div class="logo">
-                <img src="../../public/assets/images/NU_shield.svg.png" class="pic">   
-                <text class="NU">NATIONAL<br>UNIVERSITY</text>
-            </div>
 
-            <div class="overview"> OVERVIEW</div>
-
+            <div class="overview">OVERVIEW</div>
+            
             <div class="dashboard">
-                <div class="dashB">
-                    <img src="../../public/assets/images/paper.png" class="dashPIC"/>
-                    <text class="txtR"> WRITE A REPORT</text>
-                </div>
+        
+                <line onclick="navigateTo('reportsAdmin.php')" class="dashB">
+                    <img src="../../../public/assets/images/report.png" class="dashPIC">
+                    <label class="txtR"> WRITE A REPORT</label>
+                </line>
                 
-            </div>
-            <div class="LogOut">
-                <img src="../../public/assets/images/logout.png" class="LOut"/>
-                <text class="txtR">LOGOUT</text>
-            </div>
+    </div>
+
+        <div class="LO">
+                <a id="logout-link">
+                    <img src="../../../public/assets/images/logout.png" class="dashPIC" alt="Logout">
+                </a>
+                <label class="txtR"><?php
+                    echo $_SESSION["name"];
+                ?> LOGOUT</label>
         </div>
+        </div>
+        <!-- --------------<p>sidebar</p>-------------------- -->
+         
+        <!-- --------------<p>mainbar</p>-------------------- -->
 
         <div class="content">
-            <!-- --------------<p>student</p>-------------------- -->
-            <div class="student">
-                <img src="../../public/assets/images/first.jpg" class="profPic">
-                <p class="profT">JOHN LUIS MAGO</p>
-                <img src="../../public/assets/images/bell.png" class="pic1">
-                <img src="../../public/assets/images/settings-8-xl.png" class="pic2">
-            </div>
-
-            <div class="search">
-                <div class="rep">
-                    <h4>REPORTS</h4>
+            <div class="content1">
+                <div class="col">
+                    <div class="text">
+                        <label class="hello"> FILE A REPORT 
+                            <?php
+                                echo $_SESSION["name"];
+                            ?>
+                        </label>
+                    </div>
                 </div>
             </div>
 
-            <div class="students">
-                <div class="loob">
-                    <div class="apppeal">
-                        <labeli>REPORT DETAILS</labeli>
-                    </div>
-                    <div class="form">
-                        <div class="ib">
-                            <div class="email"> To:</div>
-                            <input type="text" class="tf" required>
-                        </div>
+            <!-- Report Form -->
+            <form class="report-form" action="submitReport.php" method="POST">
+                <label for="title">Report Title:</label>
+                <input type="text" id="title" name="title" placeholder="Enter the report title" required>
 
-                        <div class="ib">
-                            <div class="email2"> Subject:</div>
-                            <input type="text" class="tf" required>
-                        </div>
-                    </div>
-                    <textarea type="text" class="tf1" required></textarea>
-                    <div class="bot">
-                        <div class="file">
-                        <label for="fileInput" class="file-input">ATTACH YOUR FILES HERE</label>
-                        <input type="file" id="fileInput" class="file-input">
-                    </div>
-                    <div class="boton">
-                        <button class="send-button">SEND</button>
-                    </div>
-                    </div>
-                    
-                </div>
-            </div>
+                <label for="type">Report Type:</label>
+                <select id="type" name="type" required>
+                    <option value="violation">Violation</option>
+                    <option value="complaint">Complaint</option>
+                </select>
+
+                <label for="description">Description:</label>
+                <textarea id="description" name="description" placeholder="Describe the issue..." required></textarea>
+
+                <label for="image">Attach Image (optional):</label>
+                <input type="file" id="image" name="image" accept="image/*">
+
+                <button type="submit">Submit Report</button>
+            </form>
+
         </div>
     </div>
+
+     <!-- --------------<p>mainbar</p>-------------------- -->
+           
+        </div>   
+    </div>
+    </div>
 </body>
+
+<script>
+    function navigateTo(pagename){
+        window.location.href = pagename;
+    }
+</script>
+
+<script>   
+    document.getElementById('logout-link').addEventListener('click', function(event) {                  
+        event.preventDefault();                           
+        var confirmation = confirm('Are you sure you want to log out?');                         
+        if (confirmation) {
+            window.location.href = "../../config/logout.php";
+        }
+    });
+</script>
+
 </html>

@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>writeReportStudent</title>
+    <title>StudentDB</title>
 </head>
 
 <style>
@@ -195,13 +195,13 @@ height: 92vh;
 /* mainbar */
 
 .content{
-        width: 100%;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .content1{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+.content1{
         display: flex;
         width: 100%;
         height: 15%;
@@ -228,78 +228,47 @@ height: 92vh;
     margin-top: 10px;
     }
 
-    .content{
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            padding: 20px;
-        }
+.table-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
 
-        .col{
-            width: 100%;
-            display: flex;
-            justify-content: start;
-            color: #35408E;
-            font-family: 'pop';
-        }
+table {
+    width: 90%;
+    border-collapse: collapse;
+    font-family: 'pop';
+    background-color: #ffffff;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+}
 
-        .text{
-            color: #35408E;
-            display: flex;
-            align-items: center;
-            justify-content: start;
-            height: 100%;
-            width: 50%;
-            font-size: 30px;
-            margin-left: 60px;
-            margin-top: 10px;
-        }
+table thead {
+    background-color: #34408D;
+    color: white;
+    font-size: 18px;
+}
 
-        /* Form Styling */
-        .report-form {
-            width: 80%;
-            margin: 20px auto;
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
+table th, table td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
 
-        .report-form label {
-            display: block;
-            font-size: 18px;
-            margin-bottom: 10px;
-            color: #34408D;
-        }
+table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
 
-        .report-form input, .report-form select, .report-form textarea {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 20px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 16px;
-        }
+table tbody tr:hover {
+    background-color: #e0e0e0;
+}
 
-        .report-form textarea {
-            height: 100px;
-        }
+table tbody td {
+    font-size: 16px;
+    color: #333;
+}
 
-        .report-form button {
-            padding: 10px 20px;
-            background-color: #34408D;
-            color: white;
-            font-size: 18px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .report-form button:hover {
-            background-color: #2b357a;
-        }
-
-   
+  
 </style>
 
 <body>
@@ -365,7 +334,7 @@ height: 92vh;
             <div class="content1">
                 <div class="col">
                     <div class="text">
-                        <label class="hello"> FILE A REPORT 
+                        <label class="hello"> VIEW VIOLATIONS
                             <?php
                                 echo $_SESSION["name"];
                             ?>
@@ -373,25 +342,44 @@ height: 92vh;
                     </div>
                 </div>
             </div>
-
-            <!-- Report Form -->
-            <form class="report-form" action="submitReport.php" method="POST">
-                <label for="title">Appeal Title:</label>
-                <input type="text" id="title" name="title" placeholder="Enter the appeal title" required>
-
-                <label for="type">Report Type:</label>
-                <select id="type" name="type" required>
-                    <option value="violation">Violation</option>
-                    <option value="complaint">Complaint</option>
-                </select>
-
-                <label for="description">Enter your appeal:</label>
-                <textarea id="description" name="description" required></textarea>
-
-                <button type="submit">Submit Appeal</button>
-            </form>
-
-        </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Report ID</th>
+                            <th>Report Date</th>
+                            <th>Student Name</th>
+                            <th>Description</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>2024-10-10</td>
+                            <td>John Doe</td>
+                            <td>Cheating in exams</td>
+                            <td>Pending</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>2024-10-05</td>
+                            <td>Jane Smith</td>
+                            <td>Plagiarism in assignment</td>
+                            <td>Resolved</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>2024-09-29</td>
+                            <td>Sam Brown</td>
+                            <td>Late submission</td>
+                            <td>Pending</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+    </div>
+    </div>
     </div>
 
      <!-- --------------<p>mainbar</p>-------------------- -->

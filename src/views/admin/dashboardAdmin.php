@@ -29,6 +29,7 @@
         background-color: #E9EAF6;
         font-family: 'pop';
         height: 100vh;
+        overflow: hidden;
     }
 
     .container{
@@ -251,18 +252,20 @@ height: 92vh;
 
     
     .graph{
-        width: 87%;
-    height: 80%;
+    width: 87%;
+    height: 550px;
     background-color: white;
     color: #34408D;
     font-family: 'pop';
     margin-left: 5%;
     margin-top: 2%;
+    overflow: auto;
     }
 
     #chart-container {
-      width: 800px;
+      width: 90%;
       height: 400px;
+      justify-content: center;
       margin: 20px auto; 
       border: 1px solid #ddd; 
       border-radius: 5px; 
@@ -270,11 +273,12 @@ height: 92vh;
       display: flex;
       flex-grow: 1;
       align-items: center;
+      margin-top: 5%;
     }
   
     #myChart {
       width: 100%;
-      height: auto;
+      height: 100%;
     }
   
     /* Axes styling */
@@ -307,6 +311,60 @@ height: 92vh;
         justify-content: center;
         font-size: 25px;
     }
+
+    .table{
+            width: 100%;
+            display: flex;
+            height: 100%;
+            flex-direction: column;
+        }
+
+        .tbl1{
+            display: flex;
+        }
+
+        .tblcontent{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        /* Table Styling */
+        .report-table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: white;
+            font-family: 'pop';
+        }
+
+        .report-table th, .report-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .report-table th {
+            background-color: #34408D;
+            color: white;
+        }
+
+        .report-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .report-table tr:hover {
+            background-color: #ddd;
+        }
+
+        .report-table th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #34408D;
+            color: white;
+        }
 </style>
 
 <body>
@@ -405,7 +463,59 @@ height: 92vh;
                   <div class="txt">
                     LINE GRAPH OF REPORTS AND VIOLATION IN NU DASMARIÑAS
                   </div>
+
+                  <div class="table">
+
+                    <div class="tbl">
+                        <!-- Main bar section with table -->
+                        <div class="tblcontent">
+            
+                            <!-- Reports Table -->
+                            <table class="report-table">
+                                <thead>
+                                    <tr>
+                                        <th>Report ID</th>
+                                        <th>Date Submitted</th>
+                                        <th>Report Type</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Example report rows -->
+                                    <tr>
+                                        <td>001</td>
+                                        <td>2024-10-01</td>
+                                        <td>Violation</td>
+                                        <td>Pending</td>
+                                    </tr>
+                                    <tr>
+                                        <td>002</td>
+                                        <td>2024-10-03</td>
+                                        <td>Appeal</td>
+                                        <td>Reviewed</td>
+                                    </tr>
+                                    <tr>
+                                        <td>003</td>
+                                        <td>2024-10-05</td>
+                                        <td>Complaint</td>
+                                        <td>Resolved</td>
+                                    </tr>
+                                    <tr>
+                                        <td>004</td>
+                                        <td>2024-10-07</td>
+                                        <td>Violation</td>
+                                        <td>Pending</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+            
+                        </div>
+                    </div>
+                </div>
+    
             </div> 
+
+            
         </div> 
         <!-- --------------<p>mainbar</p>-------------------- --> 
 
@@ -448,6 +558,8 @@ height: 92vh;
     type: 'line',
     data: data,
     options: {
+        responsive: true, 
+    maintainAspectRatio: false, 
       responsive: true,
       maintainAspectRatio: false,
       title: {
@@ -458,6 +570,8 @@ height: 92vh;
   };
 
   const myChart = new Chart(ctx, config);
+
+
 </script>
 
 <script>   
@@ -490,5 +604,7 @@ height: 92vh;
         }
     }
 </script>
+
+
 
 </html>

@@ -29,6 +29,7 @@
         background-color: #E9EAF6;
         font-family: 'pop';
         height: 100vh;
+        overflow: hidden;
     }
 
     .container{
@@ -376,8 +377,8 @@ height: 92vh;
 
             <!-- Report Form -->
             <form class="report-form" action="submitReport.php" method="POST">
-                <label for="title">Appeal Title:</label>
-                <input type="text" id="title" name="title" placeholder="Enter the appeal title" required>
+                <label for="title">Report Title:</label>
+                <input type="text" id="title" name="title" placeholder="Enter the report title" required>
 
                 <label for="type">Report Type:</label>
                 <select id="type" name="type" required>
@@ -385,10 +386,13 @@ height: 92vh;
                     <option value="complaint">Complaint</option>
                 </select>
 
-                <label for="description">Enter your appeal:</label>
-                <textarea id="description" name="description" required></textarea>
+                <label for="description">Description:</label>
+                <textarea id="description" name="description" placeholder="Describe the issue..." required></textarea>
 
-                <button type="submit">Submit Appeal</button>
+                <label for="image">Attach Image (optional):</label>
+                <input type="file" id="image" name="image" accept="image/*">
+
+                <button type="submit">Submit Report</button>
             </form>
 
         </div>
