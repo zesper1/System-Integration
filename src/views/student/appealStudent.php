@@ -332,17 +332,17 @@ height: 92vh;
             
             <div class="dashboard">
 
-                <line onclick="navigateTo('dashboardAdmin.php')" class="dashB">
+            <line onclick="navigateTo('dashboardstudent.php')" class="dashB">
                     <img src="../../../public/assets/images/dashboard.png" class="dashPIC">
                     <label class="txtR"> VIEW VIOALTIONS</label>
                 </line>
         
-                <line onclick="navigateTo('reportsAdmin.php')" class="dashB">
+                <line onclick="navigateTo('reportstudent.php')" class="dashB">
                     <img src="../../../public/assets/images/report.png" class="dashPIC">
                     <label class="txtR"> WRITE A REPORT</label>
                 </line>
                 
-                <line onclick="navigateTo('reportsAdmin.php')" class="dashB">
+                <line onclick="navigateTo('appealStudent.php')" class="dashB">
                     <img src="../../../public/assets/images/report.png" class="dashPIC">
                     <label class="txtR"> WRITE AN APPEAL</label>
                 </line>

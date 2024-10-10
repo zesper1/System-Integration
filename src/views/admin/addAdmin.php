@@ -509,8 +509,8 @@ height: 92vh;
             <label class="txtR"> REPLY TO APPEAL</label>
         </line>
         
-        <line onclick="navigateTo('usersAdmin.php')" class="dashB">
-            <a href="usersAdmin.php"><img src="../../../public/assets/images/users.png" class="dashPIC"></a>
+        <line onclick="navigateTo('viewUsersAdmin.php')" class="dashB">
+            <a href="viewUsersAdmin.php"><img src="../../../public/assets/images/users.png" class="dashPIC"></a>
             <label class="txtR"> VIEW USER</label>
         </line>
 
@@ -520,9 +520,9 @@ height: 92vh;
             
             <!-- Dropdown Menu -->
             <div id="dropdown" class="dropdown-content">
-                <a href="addAdmin.php?type=admin">Admin</a>
-                <a href="addAdmin.php?type=admin">User</a>
-                <a href="addAdmin.php?type=faculty">Faculty</a>
+                <a href="../admin/addAdmin.php">Admin</a>
+                <a href="../admin/addStudent.php">User</a>
+                <a href="../admin/addFaculty.php">Faculty</a>
             </div>
         </line>
 

@@ -427,8 +427,8 @@ h2 {
             <label class="txtR"> REPLY TO APPEAL</label>
         </line>
         
-        <line onclick="navigateTo('usersAdmin.php')" class="dashB">
-            <a href="usersAdmin.php"><img src="../../../public/assets/images/users.png" class="dashPIC"></a>
+        <line onclick="navigateTo('viewUsersAdmin.php')" class="dashB">
+            <a href="viewUsersAdmin.php"><img src="../../../public/assets/images/users.png" class="dashPIC"></a>
             <label class="txtR"> VIEW USER</label>
         </line>
 

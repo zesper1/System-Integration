@@ -1,7 +1,8 @@
 <?php
 $name = "localhost";
 $uname = "zedrick";
-$upass = "1234";
+$uname = "cristan";
+$upass = "";
 
 $db_name = "sdao";
 

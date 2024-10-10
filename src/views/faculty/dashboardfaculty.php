@@ -333,7 +333,7 @@ height: 92vh;
             
             <div class="dashboard">
         
-                <line onclick="navigateTo('reportsAdmin.php')" class="dashB">
+                <line onclick="navigateTo('dashboardfaculty.php')" class="dashB">
                     <img src="../../../public/assets/images/report.png" class="dashPIC">
                     <label class="txtR"> WRITE A REPORT</label>
                 </line>
