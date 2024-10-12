@@ -314,8 +314,9 @@ height: 92vh;
     .table{
             width: 100%;
             display: flex;
-            height: 100%;
+            height: fit-content;
             flex-direction: column;
+
         }
 
         .tbl1{
@@ -414,18 +415,11 @@ height: 92vh;
             <label class="txtR"> VIEW USER</label>
         </line>
 
-        <line class="dashB" style="position: relative;">
-            <img src="../../../public/assets/images/add-user-3-xxl.png" class="dashPIC">
-            <label class="txtR" onclick="toggleDropdown()"> ADD USER ▼</label>
-            
-            <!-- Dropdown Menu -->
-            <div id="dropdown" class="dropdown-content">
-                <a href="../admin/addAdmin.php">Admin</a>
-                <a href="../admin/addStudent.php">User</a>
-                <a href="../admin/addFaculty.php">Faculty</a>
-            </div>
-
+        <line onclick="navigateTo('addAdmin.php')" class="dashB">
+            <a href="addAdmin.php"><img src="../../../public/assets/images/users.png" class="dashPIC"></a>
+            <label class="txtR"> ADD ADMIN</label>
         </line>
+
 
     </div>
 

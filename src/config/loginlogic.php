@@ -29,8 +29,8 @@ if (isset($_POST['login'])) {
                 $result = $stmt1->get_result();
                 if ($result) {
                     if ($result->num_rows > 0) {
-                        $row = $result->fetch_assoc();
-                        $_SESSION["name"] = strtoupper($row['first_name'] . " " . $row['last_name']);
+                        $row1 = $result->fetch_assoc();
+                        $_SESSION["name"] = strtoupper($row1['first_name'] . " " . $row1['last_name']);
                     } else {
                         echo "Name not found";
                     }
