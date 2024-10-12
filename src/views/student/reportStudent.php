@@ -569,6 +569,7 @@ height: 92vh;
 
         resultsBox.innerHTML = "<ul>" + content + "</ul>";
     }
+    
 </script>
 </body>
 </html>
