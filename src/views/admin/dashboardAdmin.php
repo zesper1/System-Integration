@@ -314,8 +314,9 @@ height: 92vh;
     .table{
             width: 100%;
             display: flex;
-            height: 100%;
+            height: fit-content;
             flex-direction: column;
+
         }
 
         .tbl1{
