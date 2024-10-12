@@ -365,9 +365,9 @@ height: 92vh;
             <div class="content1">
                 <div class="col">
                     <div class="text">
-                        <label class="hello"> FILE A REPORT 
+                        <label class="hello"> APPEAL TO A VIOLATION
                             <?php
-                                echo $_SESSION["name"];
+                                // echo $_SESSION["name"];
                             ?>
                         </label>
                     </div>
@@ -376,8 +376,11 @@ height: 92vh;
 
             <!-- Report Form -->
             <form class="report-form" action="submitReport.php" method="POST">
-                <label for="title">Appeal Title:</label>
-                <input type="text" id="title" name="title" placeholder="Enter the appeal title" required>
+                <label for="title">Select Violation:</label>
+                <select id="title" name="title" required>
+                    <option value="v1">Violation 1</option>
+                    <option value="v2">Violation 2</option>
+                </select>
 
                 <label for="type">Report Type:</label>
                 <select id="type" name="type" required>
