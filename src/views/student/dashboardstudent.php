@@ -267,8 +267,15 @@ table tbody td {
     font-size: 16px;
     color: #333;
 }
-
-  
+.tableBtn{
+    width: 100px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-family: 'pop';
+    border: none;
+    color: white;
+    background-color: #34408D;
+} 
 </style>
 
 <body>
@@ -355,13 +362,6 @@ table tbody td {
                     </thead>
                     <tbody>
                         <tr>
-                            <td>1</td>
-                            <td>2024-10-10</td>
-                            <td>John Doe</td>
-                            <td>Cheating in exams</td>
-                            <td>Pending</td>
-                        </tr>
-                        <tr>
                             <td>2</td>
                             <td>2024-10-05</td>
                             <td>Jane Smith</td>
@@ -374,6 +374,32 @@ table tbody td {
                             <td>Sam Brown</td>
                             <td>Late submission</td>
                             <td>Pending</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Violation ID</th>
+                            <th>Violation Type</th>
+                            <th>Violation Severity</th>
+                            <th>Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>2</td>
+                            <td>Nakabusangot</td>
+                            <td>Gil Baltazar</td>
+                            <td>12/10/2024</td>
+                            <td>
+                                <button class="tableBtn"> Appeal </button>
+                                <button class="tableBtn"> View </button>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
