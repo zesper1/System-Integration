@@ -299,8 +299,12 @@ height: 92vh;
         .report-form button:hover {
             background-color: #2b357a;
         }
-
-   
+    .select{
+        display: none;
+    }
+    .active{
+        display: block;
+    }
 </style>
 
 <body>
@@ -376,23 +380,30 @@ height: 92vh;
             </div>
 
             <!-- Report Form -->
-            <form class="report-form" action="submitReport.php" method="POST">
+            <form class="report-form" action="../../config/add.php" method="POST" enctype= "multipart/form-data">
                 <label for="title">Report Title:</label>
                 <input type="text" id="title" name="title" placeholder="Enter the report title" required>
 
                 <label for="type">Report Type:</label>
-                <select id="type" name="type" required>
-                    <option value="violation">Violation</option>
-                    <option value="complaint">Complaint</option>
+                <select id="reportType" name="type" required>
+                    <option value="Default" default>Choose a report type.</option>
+                    <option value="Violation">Violation</option>
+                    <option value="Complaint">Complaint</option>
+                </select>
+
+                <select id="vType" name="vType" class="select" required>
+                    <option value="Default" default>Choose a violation type.</option>
+                    <option value="v1">Violation1</option>
+                    <option value="v2">Violation2</option>
                 </select>
 
                 <label for="description">Description:</label>
                 <textarea id="description" name="description" placeholder="Describe the issue..." required></textarea>
 
                 <label for="image">Attach Image (optional):</label>
-                <input type="file" id="image" name="image" accept="image/*">
+                <input type="file" id="image" name="my_image">
 
-                <button type="submit">Submit Report</button>
+                <input type="submit" name="submit" value="Submit Report">
             </form>
 
         </div>
@@ -403,9 +414,7 @@ height: 92vh;
         </div>   
     </div>
     </div>
-</body>
-
-<script>
+    <script>
     function navigateTo(pagename){
         window.location.href = pagename;
     }
@@ -419,6 +428,22 @@ height: 92vh;
             window.location.href = "../../config/logout.php";
         }
     });
-</script>
+    // Get the select element
+    const selectElement = document.getElementById("reportType");
+    const violationSelect = document.getElementById("vType");
+    // Add event listener for 'change' event
+    selectElement.addEventListener("change", function() {
+    // Get the selected option value
+    const selectedValue = selectElement.value;
+    if(selectedValue == "Violation"){
+        violationSelect.classList.add('active');
+    } else {
+        violationSelect.classList.remove('active');
+    }
+    // Perform action based on the selected value
+    console.log("You selected:", selectedValue);
+    });
 
+</script>
+</body>
 </html>

@@ -581,14 +581,14 @@ height: 92vh;
                             <label for="adminPassword">Password:</label>
                             <input type="password" id="adminPassword" name="adminPassword" required>
                         </div>
-                        <div>
+                        <!-- <div>
                             <label for="role">Role:</label>
                             <input type="text" id="role" name="role" placeholder="Admin/Super Admin" required>
                         </div>
                         <div class="full-width">
                             <label for="department">Department:</label>
                             <input type="text" id="department" name="department" required>
-                        </div>
+                        </div> -->
                     </div>
                     <button type="submit" class="submit-btn">Add</button>
                 </form>
