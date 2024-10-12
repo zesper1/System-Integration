@@ -267,10 +267,10 @@ table tbody td {
     font-size: 16px;
     color: #333;
 }
+
 .tableBtn{
     width: 100px;
-    padding: 10px 20px;
-    border-radius: 10px;
+    padding: 5px 10px;
     font-family: 'pop';
     border: none;
     color: white;
@@ -278,7 +278,12 @@ table tbody td {
     margin-inline: 5px;
     text-decoration: none;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 } 
+
+.tableBtn:hover {
+    background-color: #2b3377; /* Darker background on hover */
+}
 .modal{
     display: none; /* Initially hidden */
     position: fixed; /* Stay in place */
@@ -361,9 +366,7 @@ table tbody td {
                 <a id="logout-link">
                     <img src="../../../public/assets/images/logout.png" class="dashPIC" alt="Logout">
                 </a>
-                <label class="txtR"><?php
-                    echo $_SESSION["name"];
-                ?> LOGOUT</label>
+                <label class="txtR"> LOGOUT</label>
         </div>
         </div>
         <!-- --------------<p>sidebar</p>-------------------- -->

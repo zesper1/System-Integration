@@ -205,7 +205,7 @@ height: 92vh;
     .content1{
         display: flex;
         width: 100%;
-        height: 15%;
+        height: 10%;
     }
 
     .col{
@@ -260,12 +260,12 @@ height: 92vh;
         .report-form {
             width: 80%;
             height: 100%;
+            max-height: 500px;
             margin: 20px auto;
             background-color: white;
             padding: 20px;
-            border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            overflow: scroll;
+            overflow: auto;
         }
 
         .report-form label {
@@ -360,9 +360,7 @@ height: 92vh;
                 <a id="logout-link">
                     <img src="../../../public/assets/images/logout.png" class="dashPIC" alt="Logout">
                 </a>
-                <label class="txtR"><?php
-                    echo $_SESSION["name"];
-                ?> LOGOUT</label>
+                <label class="txtR"> LOGOUT</label>
         </div>
         </div>
         <!-- --------------<p>sidebar</p>-------------------- -->
@@ -396,10 +394,15 @@ height: 92vh;
                     <option value="v1">Inaproprote hair color</option>
                     <option value="v2">Improper uniform</option>
                     <option value="v3">No wearing proper uniform</option>
-
-                    <input type="text" id="vType" name="vType" placeholder="Enter name" required>
-                    <input type="text" id="vType" name="vType" placeholder="Enter course" required>
                 </select>
+
+                <div id="nameCourseFields" class="select">
+        <label for="vName">Name:</label>
+        <input type="text" id="vName" name="vName" placeholder="Enter name" required>
+
+        <label for="vCourse">Course:</label>
+        <input type="text" id="vCourse" name="vCourse" placeholder="Enter course" required>
+    </div>
 
                 <label for="description">Description:</label>
                 <textarea id="description" name="description" placeholder="Describe the issue..." required></textarea>
@@ -435,14 +438,19 @@ height: 92vh;
     // Get the select element
     const selectElement = document.getElementById("reportType");
     const violationSelect = document.getElementById("vType");
+    const nameCourseFields = document.getElementById("nameCourseFields");
     // Add event listener for 'change' event
     selectElement.addEventListener("change", function() {
     // Get the selected option value
     const selectedValue = selectElement.value;
     if(selectedValue == "Violation"){
         violationSelect.classList.add('active');
+        nameCourseFields.classList.add("active");
+        reportForm.style.overflowY = 'auto';
     } else {
         violationSelect.classList.remove('active');
+        nameCourseFields.classList.remove("active");
+        reportForm.style.overflowY = 'hidden';
     }
     // Perform action based on the selected value
     console.log("You selected:", selectedValue);
