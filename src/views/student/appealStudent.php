@@ -2,6 +2,13 @@
 <?php
     include "../../connection/db_conn.php";
     session_start();
+    $vioID = '';
+    $vioName = '';
+    $vioSeverity = '';
+    $vioDate = '';
+    if(isset($_GET['violationID'])){
+       $vioID = $_GET['violationID'];
+    }
 ?>
 <html lang="en">
 <head>
@@ -410,7 +417,18 @@ height: 92vh;
     }
 </script>
 
-<script>   
+<script>
+    const violationID = "v" + <?php echo $vioID ?>;
+    console.log(violationID);
+    const violationTitle = document.getElementById('title');
+
+    // Loop through the options to find the matching value
+    for (var i = 0; i < violationTitle.options.length; i++) {
+        if (violationTitle.options[i].value === violationID) {
+            violationTitle.value = violationID; // Set the value to the matching violationID
+            break; // Exit the loop once the value is set
+        }
+    }
     document.getElementById('logout-link').addEventListener('click', function(event) {                  
         event.preventDefault();                           
         var confirmation = confirm('Are you sure you want to log out?');                         

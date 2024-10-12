@@ -275,12 +275,45 @@ table tbody td {
     border: none;
     color: white;
     background-color: #34408D;
+    margin-inline: 5px;
+    text-decoration: none;
+    cursor: pointer;
 } 
+.modal{
+    display: none; /* Initially hidden */
+    position: fixed; /* Stay in place */
+    z-index: 1000; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.4); /* Transparent black background */
+    margin: 0 auto;
+  }
+  .modal-content{
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be wider or narrower */
+  }
+  #closeBtn{
+    cursor: pointer;
+  }
 </style>
 
 <body>
     <div class="container">
-
+    <div class="modal hidden" id="view-modal">
+            <div class="modal-content">
+                <input id="violationID" type="text" readonly>
+                <input id="violationName" type="text" readonly>
+                <input id="violationSeverity" type="text" readonly>
+                <input id="violationDate" type="text" readonly>
+                <button id="closeBtn" onclick="closeModal()">&times;</button>
+            </div>
+        </div>
         <!-- --------------<p>topbar</p>-------------------- -->
         <div class="student">
             <div class="inf1">
@@ -393,12 +426,12 @@ table tbody td {
                     <tbody>
                         <tr>
                             <td>2</td>
-                            <td>Nakabusangot</td>
-                            <td>Gil Baltazar</td>
-                            <td>12/10/2024</td>
+                            <td id="title">Nakabusangot</td>
+                            <td id="name">3rd Offense</td>
+                            <td id="date">12/10/2024</td>
                             <td>
-                                <button class="tableBtn"> Appeal </button>
-                                <button class="tableBtn"> View </button>
+                                <a class="tableBtn" href="appealStudent.php?violationID=2"> Appeal </a>
+                                <a class="tableBtn" onclick="openViewModal('2', 'Nakabusangot', '3rd Offense', '12/10/24')"> View </a>
                             </td>
                         </tr>
                     </tbody>
@@ -430,5 +463,5 @@ table tbody td {
         }
     });
 </script>
-
+<script src="../../../public/assets/js/dashBoardStudent.js"></script>
 </html>
