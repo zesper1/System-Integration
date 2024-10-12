@@ -43,7 +43,7 @@ if ($error === 0) {
                 $stmt->bind_param("iss", $report_id ,$new_img_name, $filetype);
                 if ($stmt->execute()) {
                     $_SESSION['image_upload_modal'] = true;
-                    header("Location: ../views/student/reportStudent.php?success=Image updated successfully");
+                    header("Location: ../views/student/reportStudent.php?success=Report added successfully");
                 } else {
                     $em = "Database update failed: " . htmlspecialchars($stmt->error);
                     header("Location: ../views/student/reportStudent.php?error=$em");
