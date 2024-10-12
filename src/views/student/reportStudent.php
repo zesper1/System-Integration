@@ -259,11 +259,13 @@ height: 92vh;
         /* Form Styling */
         .report-form {
             width: 80%;
+            height: 100%;
             margin: 20px auto;
             background-color: white;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: scroll;
         }
 
         .report-form label {
@@ -284,6 +286,7 @@ height: 92vh;
 
         .report-form textarea {
             height: 100px;
+            resize: none;
         }
 
         .report-form button {
@@ -371,9 +374,6 @@ height: 92vh;
                 <div class="col">
                     <div class="text">
                         <label class="hello"> FILE A REPORT 
-                            <?php
-                                echo $_SESSION["name"];
-                            ?>
                         </label>
                     </div>
                 </div>
@@ -393,8 +393,12 @@ height: 92vh;
 
                 <select id="vType" name="vType" class="select" required>
                     <option value="Default" default>Choose a violation type.</option>
-                    <option value="v1">Violation1</option>
-                    <option value="v2">Violation2</option>
+                    <option value="v1">Inaproprote hair color</option>
+                    <option value="v2">Improper uniform</option>
+                    <option value="v3">No wearing proper uniform</option>
+
+                    <input type="text" id="vType" name="vType" placeholder="Enter name" required>
+                    <input type="text" id="vType" name="vType" placeholder="Enter course" required>
                 </select>
 
                 <label for="description">Description:</label>
