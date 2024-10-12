@@ -309,7 +309,7 @@ height: 92vh;
         display: block;
     }
     .result-box{
-        background-color: #595959;
+        background-color: lightslategray;
     }
     .result-box ul {
         border-top:1px solid #999;
@@ -404,68 +404,67 @@ height: 92vh;
                     <option value="Violation">Violation</option>
                     <option value="Complaint">Complaint</option>
                 </select>
-
-                <select id="vType" name="vType" class="select" required>
-                    <option value="Default" default>Choose a violation type.</option>
-                    <option value="v1">Inaproprote hair color</option>
-                    <option value="v2">Improper uniform</option>
-                    <option value="v3">No wearing proper uniform</option>
-                </select>
+                
 
                 <div id="nameCourseFields" class="select">
-        <label for="vName">Name:</label>
-        <input type="text" id="vName" name="vName" placeholder="Enter name" required>
-        <div class="result-box"></div>
-        <label for="vCourse">Course:</label>
-        <input type="text" id="vCourse" name="vCourse" placeholder="Enter course" required>
-    </div>
-
-                <select type="text" id="inputcourse" class="violator" name="vType" placeholder="Enter course" required>
-                    <option value="Default" default>Course Name</option>
-                    <option value="v1">BSIT</option>
-                    <option value="v2">BSCS</option>
-                    <option value="v3">BSCE</option>
-                </select>    
-                <input type="text" id="inputname" class="violator" name="violator" placeholder="Enter student name" autocomplete = "off" required>
-                <div class="result-box">
-                    <?php
-                    $studentArray = []; 
-                    $stmt = $conn->prepare("SELECT * FROM user WHERE role_id = 3");
-                    $stmt->execute();
-                    $result = $stmt->get_result();
-                    if($result){
-                        if($result->num_rows >0){
-                            while($row = $result->fetch_assoc()){
-                                $fetchName = $conn->prepare("SELECT * FROM userdetails WHERE userID=?");
-                                $fetchName->bind_param("i", $row["user_ID"]);
-                                $fetchName->execute();
-                                $fnRes = $fetchName->get_result();
-                                if($fnRes){
-                                    if($fnRes->num_rows > 0){
-                                        $row1 = $fnRes->fetch_assoc();
-                                        $studentName = $row1['first_name'] . " " . $row1['last_name'];
-                                        
+                    <label for="vType">Violation:</label>
+                    <select id="vType" name="vType" class="select" required>
+                        <option value="Default" default>Choose a violation type.</option>
+                        <option value="1">Inaproprote hair color</option>
+                        <option value="2">Improper uniform</option>
+                        <option value="3">No wearing proper uniform</option>
+                    </select>
+                    <label for="courseSelect">Course:</label>
+                    <select type="text" id="inputcourse" class="violator" name="courseSelect" placeholder="Enter course" required>
+                        <option value="Default" default>Course</option>
+                        <option value="v1">BSIT</option>
+                        <option value="v2">BSCS</option>
+                        <option value="v3">BSCE</option>
+                    </select>    
+                    <label for="vName">Name:</label>
+                    <input type="text" id="inputname" class="violator" name="violator" placeholder="Enter student name" autocomplete = "off" required>
+                    <div class="result-box">
+                        <?php
+                        $studentArray = []; 
+                        $stmt = $conn->prepare("SELECT * FROM user WHERE role_id = 3");
+                        $stmt->execute();
+                        $result = $stmt->get_result();
+                        if($result){
+                            if($result->num_rows >0){
+                                while($row = $result->fetch_assoc()){
+                                    $fetchName = $conn->prepare("SELECT * FROM userdetails WHERE userID=?");
+                                    $fetchName->bind_param("i", $row["user_ID"]);
+                                    $fetchName->execute();
+                                    $fnRes = $fetchName->get_result();
+                                    if($fnRes){
+                                        if($fnRes->num_rows > 0){
+                                            $row1 = $fnRes->fetch_assoc();
+                                            $studentName = $row1['last_name'] . ", " . $row1['first_name'];
+                                            
+                                        }
                                     }
+                                    $studentArray[] = ["id" => $row["user_ID"], "name" => $studentName];
                                 }
-                                $studentArray[] = ["id" => $row["user_ID"], "name" => $studentName];
                             }
                         }
-                    }
 
-                    
-                    $dataFromPHP = [
-                        ["id" => 1, "name" => "John Doe"],
-                        ["id" => 2, "name" => "Jane Smith"],
-                        ["id" => 3, "name" => "Bob Johnson"]
-                    ];
-                    $jsonData = json_encode($studentArray);
-                    ?>
-                    <!-- <ul>
-                         <li>HTML</li>
-                        <li>JAVA</li>
-                        <li>CSS</li> 
-                    </ul> -->
+                        
+                        $dataFromPHP = [
+                            ["id" => 1, "name" => "John Doe"],
+                            ["id" => 2, "name" => "Jane Smith"],
+                            ["id" => 3, "name" => "Bob Johnson"]
+                        ];
+                        $jsonData = json_encode($studentArray);
+                        ?>
+                        <!-- <ul>
+                            <li>HTML</li>
+                            <li>JAVA</li>
+                            <li>CSS</li> 
+                        </ul> -->
+                    </div>
                 </div>
+                
+                
                 <label for="description">Description:</label>
                 <textarea id="description" name="description" placeholder="Describe the issue..." required></textarea>
                 
@@ -529,18 +528,8 @@ height: 92vh;
 <script>
     var searchData = <?php echo $jsonData; ?>;
     const resultsBox = document.querySelector(".result-box");
-    const inputBox = document.getElementById("vName");
+    const inputBox = document.getElementById("inputname");
 
-    // inputBox.onkeyup = function(){
-    //     let result =[];
-    //     let input = inputBox.value;
-    //     if(input.length){
-    //         result = searchData.filter((keyword) =>{
-    //             return keyword.name.toLowerCase().includes(input.toLowerCase());
-    //         });
-    //         console.log(result);
-    //     }
-    // }
     inputBox.onkeyup = function() {
         let keyword = inputBox.value;
 
@@ -558,18 +547,29 @@ height: 92vh;
             display(filteredStudents);
             resultsBox.style.display = "block";
         } else {
-            resultsBox.innerHTML = "No student found";
+            resultsBox.innerHTML = "";
+            resultsBox.style.display = "none";
         }
         
     };
-    function display(result){
-        const content = result.map((list)=>{
-            return "<li>" + list.name + "</li>";
-        });
+    function display(result) {
+    if (result.length > 0) {
+        // If there are matching students, display them
+        const content = result.map((student) => {
+            return "<li onclick=selectInput(this)>" + "(ID: " +student.id + ") "+student.name  + "</li>";
+        }).join(''); // Join without commas
 
         resultsBox.innerHTML = "<ul>" + content + "</ul>";
+    } else {
+        // If no students are found, display a "No students found" message
+        resultsBox.innerHTML = "<p>No students found</p>";
     }
-    
+}
+
+    function selectInput(list){
+        inputBox.value = list.innerHTML;
+        resultsBox.innerHTML = '';
+    }
 </script>
 </body>
 </html>

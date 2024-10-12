@@ -165,18 +165,47 @@ if (isset($_POST['submit']) && isset($_FILES['my_image'])) {
     $rDesc = $_POST['description'];
     if($rType == 'Violation'){
         $violatorID = $_POST['violator'];
-    }
-    //prepare statement
-    $stmt = $conn->prepare("INSERT INTO report (reportName, reportOwnerID, reportType) VALUES (?, ?, ?)");
-    $stmt->bind_param("sis", $rTitle, $_SESSION['id'], $rType);
-    if($stmt->execute()){
-        $report_id = $stmt->insert_id;
-        $stmt1 = $conn->prepare("INSERT INTO reportstatus (reportID, status_DETAILS) VALUES (?, ?)");
-        $stmt1->bind_param("is", $report_id, $rDesc);
-        if($stmt1 -> execute()){
-            include_once "upload.php";
+        $violationID = $_POST['vType'];
+        // Use regex to match the ID
+        if (preg_match('/\d+/', $violatorID, $matches)) {
+            $id = $matches[0]; // Get the first match
+            echo $id;
+            $stmt = $conn->prepare("SELECT user_ID FROM user WHERE user_ID = ?");
+            $stmt->bind_param("s", $id);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            
+            if ($result->num_rows > 0) {
+                echo "id exists";
+            } else {
+                echo "not";
+            }
+        }
+        $stmt = $conn->prepare("INSERT INTO report (reportName, reportOwnerID, reportType, violation_ID, accused_ID) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param("sisii", $rTitle, $_SESSION['id'], $rType, $violationID, $id);
+        if($stmt->execute()){
+            $report_id = $stmt->insert_id;
+            $stmt1 = $conn->prepare("INSERT INTO reportstatus (reportID, status_DETAILS) VALUES (?, ?)");
+            $stmt1->bind_param("is", $report_id, $rDesc);
+            if($stmt1 -> execute()){
+                include_once "upload.php";
+            }
+        }
+
+    } else {
+        $stmt = $conn->prepare("INSERT INTO report (reportName, reportOwnerID, reportType) VALUES (?, ?, ?)");
+        $stmt->bind_param("sis", $rTitle, $_SESSION['id'], $rType);
+        if($stmt->execute()){
+            $report_id = $stmt->insert_id;
+            $stmt1 = $conn->prepare("INSERT INTO reportstatus (reportID, status_DETAILS) VALUES (?, ?)");
+            $stmt1->bind_param("is", $report_id, $rDesc);
+            if($stmt1 -> execute()){
+                include_once "upload.php";
+            }
         }
     }
+    //prepare statement
+    
 } else {
     header("Location: ../views/student/reportStudent.php?flagged");
 }
