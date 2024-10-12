@@ -394,7 +394,7 @@ height: 92vh;
             </div>
 
             <!-- Report Form -->
-            <form class="report-form" action="../../config/add.php" method="POST" enctype= "multipart/form-data">
+            <form class="report-form" id="reportForm" action="../../config/add.php" method="POST" enctype= "multipart/form-data">
                 <label for="title">Report Title:</label>
                 <input type="text" id="title" name="title" placeholder="Enter the report title" required>
 
@@ -412,16 +412,14 @@ height: 92vh;
                     <option value="v3">No wearing proper uniform</option>
                 </select>
 
-<<<<<<< Updated upstream
                 <div id="nameCourseFields" class="select">
         <label for="vName">Name:</label>
         <input type="text" id="vName" name="vName" placeholder="Enter name" required>
-
+        <div class="result-box"></div>
         <label for="vCourse">Course:</label>
         <input type="text" id="vCourse" name="vCourse" placeholder="Enter course" required>
     </div>
 
-=======
                 <select type="text" id="inputcourse" class="violator" name="vType" placeholder="Enter course" required>
                     <option value="Default" default>Course Name</option>
                     <option value="v1">BSIT</option>
@@ -468,7 +466,6 @@ height: 92vh;
                         <li>CSS</li> 
                     </ul> -->
                 </div>
->>>>>>> Stashed changes
                 <label for="description">Description:</label>
                 <textarea id="description" name="description" placeholder="Describe the issue..." required></textarea>
                 
@@ -504,7 +501,7 @@ height: 92vh;
     const selectElement = document.getElementById("reportType");
     const inputName = document.getElementById("inputname");
     const inputCourse = document.getElementById("inputcourse");
-
+    const reportForm = document.getElementById("reportForm");
     const violationSelect = document.getElementById("vType");
     const nameCourseFields = document.getElementById("nameCourseFields");
     // Add event listener for 'change' event
@@ -532,7 +529,7 @@ height: 92vh;
 <script>
     var searchData = <?php echo $jsonData; ?>;
     const resultsBox = document.querySelector(".result-box");
-    const inputBox = document.getElementById("inputname");
+    const inputBox = document.getElementById("vName");
 
     // inputBox.onkeyup = function(){
     //     let result =[];
