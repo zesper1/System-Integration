@@ -2,6 +2,9 @@
 include "../connection/db_conn.php";
 session_start();
 
+///////////////////////
+// ADMIN PROMPTS //////
+///////////////////////
 if (isset($_POST["add_student"])) {
     // Name variables
     $lname = $_POST["last_name"];
@@ -148,5 +151,33 @@ if (isset($_POST["add_faculty"])) {
         $conn->rollback();
         echo "Transaction failed: " . $e->getMessage();
     }
+}
+if (isset($_POST["addAdmin"])){
+    
+}
+///////////////////////
+// STUDENT PROMPTS ////
+///////////////////////
+if (isset($_POST['submit']) && isset($_FILES['my_image'])) {
+    // REPORT DETAILS FUNCTION
+    $rTitle = $_POST['title'];
+    $rType = $_POST['type'];
+    $rDesc = $_POST['description'];
+    //prepare statement
+    $stmt = $conn->prepare("INSERT INTO report (reportName, reportOwnerID, reportType) VALUES (?, ?, ?)");
+    $stmt->bind_param("sis", $rTitle, $_SESSION['id'], $rType);
+    if($stmt->execute()){
+        $report_id = $stmt->insert_id;
+        $stmt1 = $conn->prepare("INSERT INTO reportstatus (reportID, status_DETAILS) VALUES (?, ?)");
+        $stmt1->bind_param("is", $report_id, $rDesc);
+        if($stmt1 -> execute()){
+            include_once "upload.php";
+        }
+    }
+
+    //upload image function(recyclable)
+    // include_once "upload.php";
+} else {
+    header("Location: ../views/student/reportStudent.php?flagged");
 }
 ?>
