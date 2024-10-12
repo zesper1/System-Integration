@@ -302,11 +302,27 @@ height: 92vh;
         .report-form button:hover {
             background-color: #2b357a;
         }
-    .select{
+    .select, .violator{
         display: none;
     }
     .active{
         display: block;
+    }
+    .result-box{
+        background-color: #595959;
+    }
+    .result-box ul {
+        border-top:1px solid #999;
+        padding: 15px 10px;
+    }
+    .result-box ul li{
+        list-style: none;
+        border-radius: 3px;
+        padding: 15px 10px;
+        cursor: pointer;
+    }
+    .result-box ul li:hover{
+        background-color: #E6C213;
     }
 </style>
 
@@ -396,6 +412,7 @@ height: 92vh;
                     <option value="v3">No wearing proper uniform</option>
                 </select>
 
+<<<<<<< Updated upstream
                 <div id="nameCourseFields" class="select">
         <label for="vName">Name:</label>
         <input type="text" id="vName" name="vName" placeholder="Enter name" required>
@@ -404,9 +421,57 @@ height: 92vh;
         <input type="text" id="vCourse" name="vCourse" placeholder="Enter course" required>
     </div>
 
+=======
+                <select type="text" id="inputcourse" class="violator" name="vType" placeholder="Enter course" required>
+                    <option value="Default" default>Course Name</option>
+                    <option value="v1">BSIT</option>
+                    <option value="v2">BSCS</option>
+                    <option value="v3">BSCE</option>
+                </select>    
+                <input type="text" id="inputname" class="violator" name="violator" placeholder="Enter student name" autocomplete = "off" required>
+                <div class="result-box">
+                    <?php
+                    $studentArray = []; 
+                    $stmt = $conn->prepare("SELECT * FROM user WHERE role_id = 3");
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+                    if($result){
+                        if($result->num_rows >0){
+                            while($row = $result->fetch_assoc()){
+                                $fetchName = $conn->prepare("SELECT * FROM userdetails WHERE userID=?");
+                                $fetchName->bind_param("i", $row["user_ID"]);
+                                $fetchName->execute();
+                                $fnRes = $fetchName->get_result();
+                                if($fnRes){
+                                    if($fnRes->num_rows > 0){
+                                        $row1 = $fnRes->fetch_assoc();
+                                        $studentName = $row1['first_name'] . " " . $row1['last_name'];
+                                        
+                                    }
+                                }
+                                $studentArray[] = ["id" => $row["user_ID"], "name" => $studentName];
+                            }
+                        }
+                    }
+
+                    
+                    $dataFromPHP = [
+                        ["id" => 1, "name" => "John Doe"],
+                        ["id" => 2, "name" => "Jane Smith"],
+                        ["id" => 3, "name" => "Bob Johnson"]
+                    ];
+                    $jsonData = json_encode($studentArray);
+                    ?>
+                    <!-- <ul>
+                         <li>HTML</li>
+                        <li>JAVA</li>
+                        <li>CSS</li> 
+                    </ul> -->
+                </div>
+>>>>>>> Stashed changes
                 <label for="description">Description:</label>
                 <textarea id="description" name="description" placeholder="Describe the issue..." required></textarea>
-
+                
                 <label for="image">Attach Image (optional):</label>
                 <input type="file" id="image" name="my_image">
 
@@ -437,6 +502,9 @@ height: 92vh;
     });
     // Get the select element
     const selectElement = document.getElementById("reportType");
+    const inputName = document.getElementById("inputname");
+    const inputCourse = document.getElementById("inputcourse");
+
     const violationSelect = document.getElementById("vType");
     const nameCourseFields = document.getElementById("nameCourseFields");
     // Add event listener for 'change' event
@@ -444,10 +512,14 @@ height: 92vh;
     // Get the selected option value
     const selectedValue = selectElement.value;
     if(selectedValue == "Violation"){
+        inputName.classList.add('active');
+        inputCourse.classList.add('active');
         violationSelect.classList.add('active');
         nameCourseFields.classList.add("active");
         reportForm.style.overflowY = 'auto';
     } else {
+        inputName.classList.remove('active');
+        inputCourse.classList.remove('active');
         violationSelect.classList.remove('active');
         nameCourseFields.classList.remove("active");
         reportForm.style.overflowY = 'hidden';
@@ -456,6 +528,50 @@ height: 92vh;
     console.log("You selected:", selectedValue);
     });
 
+</script>
+<script>
+    var searchData = <?php echo $jsonData; ?>;
+    const resultsBox = document.querySelector(".result-box");
+    const inputBox = document.getElementById("inputname");
+
+    // inputBox.onkeyup = function(){
+    //     let result =[];
+    //     let input = inputBox.value;
+    //     if(input.length){
+    //         result = searchData.filter((keyword) =>{
+    //             return keyword.name.toLowerCase().includes(input.toLowerCase());
+    //         });
+    //         console.log(result);
+    //     }
+    // }
+    inputBox.onkeyup = function() {
+        let keyword = inputBox.value;
+
+        // Ensure that the keyword is a string and is not empty
+        if (typeof keyword === "string" && keyword.trim() !== "") {
+            keyword = keyword.toLowerCase();  // Convert the keyword to lowercase
+
+            // Filter the students array based on the 'name' property
+            const filteredStudents = searchData.filter(function(student) {
+                return student.name.toLowerCase().includes(keyword);
+            });
+
+            // Display the filtered students
+            console.log(filteredStudents);
+            display(filteredStudents);
+            resultsBox.style.display = "block";
+        } else {
+            resultsBox.innerHTML = "No student found";
+        }
+        
+    };
+    function display(result){
+        const content = result.map((list)=>{
+            return "<li>" + list.name + "</li>";
+        });
+
+        resultsBox.innerHTML = "<ul>" + content + "</ul>";
+    }
 </script>
 </body>
 </html>

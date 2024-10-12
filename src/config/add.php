@@ -163,6 +163,9 @@ if (isset($_POST['submit']) && isset($_FILES['my_image'])) {
     $rTitle = $_POST['title'];
     $rType = $_POST['type'];
     $rDesc = $_POST['description'];
+    if($rType == 'Violation'){
+        $violatorID = $_POST['violator'];
+    }
     //prepare statement
     $stmt = $conn->prepare("INSERT INTO report (reportName, reportOwnerID, reportType) VALUES (?, ?, ?)");
     $stmt->bind_param("sis", $rTitle, $_SESSION['id'], $rType);
@@ -174,9 +177,6 @@ if (isset($_POST['submit']) && isset($_FILES['my_image'])) {
             include_once "upload.php";
         }
     }
-
-    //upload image function(recyclable)
-    // include_once "upload.php";
 } else {
     header("Location: ../views/student/reportStudent.php?flagged");
 }
