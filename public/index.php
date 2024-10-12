@@ -211,6 +211,23 @@
             border-color: #21b0fe;
         }
 
+        .createacc {
+    text-align: right;
+    margin-top: 10px;
+    font-size: 13px;
+}
+
+.createacc a {
+    color: #35408E;
+    text-decoration: none;
+}
+
+.createacc a:hover {
+    color: #2b3675;
+    text-decoration: underline;
+}
+
+
     </style>
 </head>
 <body>
@@ -253,8 +270,13 @@
                     <div class="input-box">
                         <label class="Pass">Password</label>
                         <input type="password" id="password" name="password" placeholder="Enter your password" required>      
-                        <i class="fa-solid fa-eye" id="showpass"></i>                     
-                    </div>               
+                        <i class="fa-solid fa-eye" id="showpass"></i>  
+
+                        <div class="createacc">
+                        <a href="../src/views/admin/createAccount.php">Create Account</a>
+                        </div>                 
+                    </div>   
+
                     <button type="submit" name="login" id="submit" class="btn">Login</button>                
                 </form>
             </div>
