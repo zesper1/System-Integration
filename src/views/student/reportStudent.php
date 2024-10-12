@@ -259,7 +259,7 @@ height: 92vh;
         /* Form Styling */
         .report-form {
             width: 80%;
-            height: 100%;
+            height: 120%;
             max-height: 500px;
             margin: 20px auto;
             background-color: white;
@@ -408,21 +408,21 @@ height: 92vh;
 
                 <div id="nameCourseFields" class="select">
                     <label for="vType">Violation:</label>
-                    <select id="vType" name="vType" class="select" required>
+                    <select id="vType" name="vType" class="select">
                         <option value="Default" default>Choose a violation type.</option>
                         <option value="1">Inaproprote hair color</option>
                         <option value="2">Improper uniform</option>
                         <option value="3">No wearing proper uniform</option>
                     </select>
                     <label for="courseSelect">Course:</label>
-                    <select type="text" id="inputcourse" class="violator" name="courseSelect" placeholder="Enter course" required>
+                    <select type="text" id="inputcourse" class="violator" name="courseSelect" placeholder="Enter course">
                         <option value="Default" default>Course</option>
                         <option value="v1">BSIT</option>
                         <option value="v2">BSCS</option>
                         <option value="v3">BSCE</option>
                     </select>    
                     <label for="vName">Name:</label>
-                    <input type="text" id="inputname" class="violator" name="violator" placeholder="Enter student name" autocomplete = "off" required>
+                    <input type="text" id="inputname" class="violator" name="violator" placeholder="Enter student name" autocomplete = "off">
                     <div class="result-box">
                         <?php
                         $studentArray = []; 
@@ -518,7 +518,7 @@ height: 92vh;
         inputCourse.classList.remove('active');
         violationSelect.classList.remove('active');
         nameCourseFields.classList.remove("active");
-        reportForm.style.overflowY = 'hidden';
+        reportForm.style.overflowY = 'scroll';
     }
     // Perform action based on the selected value
     console.log("You selected:", selectedValue);
