@@ -155,6 +155,10 @@ height: 92vh;
     margin-left: 30px;
 }
 
+.session-name{
+    color: #E6C213;
+}
+
 .dashboard .txtA{
     font-size: 20px;
     color: gold;
@@ -170,33 +174,7 @@ height: 92vh;
     color: gold;
 }
 
-/* Dropdown styling */
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: white;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-    z-index: 1;
-    margin-top: 5px;
-    margin-left: 70px;
-    padding: 5px 0;
-    border-radius: 5px;
-}
 
-.dropdown-content a {
-    color: #595959;
-    padding: 10px;
-    text-decoration: none;
-    display: block;
-    font-size: 18px;
-    margin: 5px 0;
-}
-
-.dropdown-content a:hover {
-    background-color: #E9EAF6;
-    color: #35408E;
-}
 
 .LO{
     display: flex;
@@ -338,10 +316,12 @@ height: 92vh;
 .table1 {
     width: 30%;
     background-color: #fff;
-    overflow-y: auto;
+    overflow-y: auto; /* Make scrollable */
     border-right: 1px solid #ccc;
     padding: 10px;
+    max-height: 100%; /* Ensure it doesn’t exceed parent height */
 }
+
 
 .report-list {
     display: flex;
@@ -382,7 +362,10 @@ height: 92vh;
     width: 70%;
     padding: 20px;
     background-color: #fff;
+    display: none;
 }
+
+
 
 .main-content h2 {
     color: #34408D;
@@ -476,16 +459,9 @@ height: 92vh;
             <label class="txtR"> VIEW USER</label>
         </line>
 
-        <line class="dashB" style="position: relative;">
-            <img src="../../../public/assets/images/add-user-3-xxl.png" class="dashPIC">
-            <label class="txtR" onclick="toggleDropdown()"> ADD USER ▼</label>
-            
-            <!-- Dropdown Menu -->
-            <div id="dropdown" class="dropdown-content">
-                <a href="addAdmin.php?type=admin">Admin</a>
-                <a href="addAdmin.php?type=admin">User</a>
-                <a href="addAdmin.php?type=faculty">Faculty</a>
-            </div>
+        <line onclick="navigateTo('addAdmin.php')" class="dashB">
+            <a href="addAdmin.php"><img src="../../../public/assets/images/add-user-3-xxl.png" class="dashPIC"></a>
+            <label class="txtR"> ADD ADMIN</label>
         </line>
 
     </div>
@@ -494,9 +470,7 @@ height: 92vh;
                 <a id="logout-link">
                     <img src="../../../public/assets/images/logout.png" class="dashPIC" alt="Logout">
                 </a>
-                <label class="txtR"><?php
-                    echo $_SESSION["name"];
-                ?> LOGOUT</label>
+                <label class="txtR"> LOGOUT</label>
         </div>
         </div>
         <!-- --------------<p>sidebar</p>-------------------- -->
@@ -508,12 +482,15 @@ height: 92vh;
             <div class="content1">
             <div class="col">
                 <div class="text">
-                    <label class="hello"> REPORTS
-                        <?php
-                        // Check if the session variable 'id' is set
-                        echo $_SESSION["name"];
-                        ?>
-                    </label>
+                <label class="hello"> HELLO, 
+    <span class="session-name">
+        <?php 
+        // Display the session variable 'name'
+        echo $_SESSION["name"]; 
+        ?>
+    </span>
+</label>
+
                 </div>
             </div>
 
@@ -536,17 +513,19 @@ height: 92vh;
             <div class="table">
                 <!-- Sidebar with list of reports -->
                 <div class="table1">
-                    <div class="report-list">
-                        <div class="report-item active" onclick="showDetails()">
-                            <img src="student-photo.jpg" alt="Student Photo" class="student-photo">
-                            <div class="report-info">
-                                <p>Rovic Batacandolo</p>
-                                <small>Wed 2:11 PM</small>
-                                <p class="violation">Public Display of Affection</p>
-                            </div>
-                        </div>
-                        <!-- Repeat this block for more report items -->
-                    </div>
+                <div class="report-list">
+    <!-- Repeat this block for each report item, updating the index -->
+    <div class="report-item active" onclick="showDetails(0)">
+        <img src="student-photo.jpg" alt="Student Photo" class="student-photo">
+        <div class="report-info">
+            <p>Rovic Batacandolo</p>
+            <small>Wed 2:11 PM</small>
+            <p class="violation">Public Display of Affection</p>
+        </div>
+    </div>
+    <!-- Add more report items here with unique onclick="showDetails(index)" -->
+</div>
+
                 </div>
         
                 <!-- Main content area to show report details -->
@@ -616,5 +595,50 @@ height: 92vh;
         }
     }
 </script>
+
+<script>
+    // Sample data structure for reports
+    const reports = [
+        {
+            name: "Rovic Batacandolo",
+            time: "Wed 2:11 PM",
+            violation: "Public Display of Affection",
+            id: "2022-171700",
+            description: "Rovic Batacandolo was caught with his significant other kissing near the fire exit around 3:09 pm, dated August 30, 2024. The report was submitted by an admin and the ID of the reported student was confiscated.",
+            photo: "student-photo.jpg"
+        },
+        // Add more reports as needed
+    ];
+
+    // Function to display report details
+    function showDetails(reportIndex) {
+        const report = reports[reportIndex];
+
+        // Update the details on the right side
+        document.querySelector('.details-photo').src = report.photo;
+        document.querySelector('.details-info').innerHTML = `
+            <p><strong>Student Name:</strong> ${report.name}</p>
+            <p><strong>Student ID:</strong> ${report.id}</p>
+            <p><strong>Violation:</strong> ${report.violation}</p>
+        `;
+        document.querySelector('.violation-details p').textContent = report.description;
+
+        // Show the main content section if hidden
+        document.querySelector('.main-content').style.display = 'block';
+    }
+
+    // Add click event listeners to each report item
+    document.querySelectorAll('.report-item').forEach((item, index) => {
+        item.addEventListener('click', () => {
+            // Highlight the selected report item
+            document.querySelectorAll('.report-item').forEach(i => i.classList.remove('active'));
+            item.classList.add('active');
+
+            // Show the corresponding report details
+            showDetails(index);
+        });
+    });
+</script>
+
 
 </html>

@@ -201,6 +201,22 @@ height: 92vh;
     flex-direction: column;
     padding: 20px;
 }
+
+/* Table Section Container */
+.table-section {
+    margin-bottom: 30px;
+    padding: 0 20px;
+}
+
+/* Table Section Header */
+.table-section h2 {
+    font-size: 24px;
+    color: #35408E;
+    margin-bottom: 15px;
+margin-left: 55px;
+    font-family: 'pop';
+}
+
 .content1{
         display: flex;
         width: 100%;
@@ -410,73 +426,82 @@ table tbody td {
         <!-- --------------<p>mainbar</p>-------------------- -->
 
         <div class="content">
-            <div class="content1">
-                <div class="col">
-                    <div class="text">
-                        <label class="hello"> VIEW VIOLATIONS
-                            <?php
-                                echo $_SESSION["name"];
-                            ?>
-                        </label>
-                    </div>
-                </div>
+    <div class="content1">
+        <div class="col">
+            <div class="text">
+                <label class="hello"> VIEW VIOLATIONS
+                    <?php echo $_SESSION["name"]; ?>
+                </label>
             </div>
-            <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Report ID</th>
-                            <th>Report Date</th>
-                            <th>Student Name</th>
-                            <th>Description</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>2</td>
-                            <td>2024-10-05</td>
-                            <td>Jane Smith</td>
-                            <td>Plagiarism in assignment</td>
-                            <td>Resolved</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>2024-09-29</td>
-                            <td>Sam Brown</td>
-                            <td>Late submission</td>
-                            <td>Pending</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Violation ID</th>
-                            <th>Violation Type</th>
-                            <th>Violation Severity</th>
-                            <th>Date</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>2</td>
-                            <td id="title">Nakabusangot</td>
-                            <td id="name">3rd Offense</td>
-                            <td id="date">12/10/2024</td>
-                            <td>
-                                <a class="tableBtn" href="appealStudent.php?violationID=2"> Appeal </a>
-                                <a class="tableBtn" onclick="openViewModal('2', 'Nakabusangot', '3rd Offense', '12/10/24')"> View </a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+        </div>
     </div>
+
+    <!-- Received Violations Table -->
+    <div class="table-section">
+        <h2>Received Violations</h2>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Violation ID</th>
+                        <th>Violation Type</th>
+                        <th>Violation Severity</th>
+                        <th>Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>2</td>
+                        <td id="title">Nakabusangot</td>
+                        <td id="name">3rd Offense</td>
+                        <td id="date">12/10/2024</td>
+                        <td>
+                            <a class="tableBtn" href="appealStudent.php?violationID=2"> Appeal </a>
+                            <a class="tableBtn" onclick="openViewModal('2', 'Nakabusangot', '3rd Offense', '12/10/24')"> View </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Filed Reports Table -->
+    <div class="table-section">
+        <h2>Filed Reports</h2>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Report ID</th>
+                        <th>Report Date</th>
+                        <th>Student Name</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>2</td>
+                        <td>2024-10-05</td>
+                        <td>Jane Smith</td>
+                        <td>Plagiarism in assignment</td>
+                        <td>Resolved</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>2024-09-29</td>
+                        <td>Sam Brown</td>
+                        <td>Late submission</td>
+                        <td>Pending</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
     </div>
     </div>
 

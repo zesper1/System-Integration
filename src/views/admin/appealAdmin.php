@@ -155,6 +155,10 @@ height: 92vh;
     margin-left: 30px;
 }
 
+.session-name{
+    color: #E6C213;
+}
+
 .dashboard .txtA{
     font-size: 20px;
     color: gold;
@@ -170,33 +174,6 @@ height: 92vh;
     color: gold;
 }
 
-/* Dropdown styling */
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: white;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-    z-index: 1;
-    margin-top: 5px;
-    margin-left: 70px;
-    padding: 5px 0;
-    border-radius: 5px;
-}
-
-.dropdown-content a {
-    color: #595959;
-    padding: 10px;
-    text-decoration: none;
-    display: block;
-    font-size: 18px;
-    margin: 5px 0;
-}
-
-.dropdown-content a:hover {
-    background-color: #E9EAF6;
-    color: #35408E;
-}
 
 .LO{
     display: flex;
@@ -510,27 +487,17 @@ height: 92vh;
             <label class="txtR"> VIEW USER</label>
         </line>
 
-        <line class="dashB" style="position: relative;">
-            <img src="../../../public/assets/images/add-user-3-xxl.png" class="dashPIC">
-            <label class="txtR" onclick="toggleDropdown()"> ADD USER ▼</label>
-            
-            <!-- Dropdown Menu -->
-            <div id="dropdown" class="dropdown-content">
-                <a href="addAdmin.php?type=admin">Admin</a>
-                <a href="addAdmin.php?type=admin">User</a>
-                <a href="addAdmin.php?type=faculty">Faculty</a>
-            </div>
+        <line onclick="navigateTo('addAdmin.php')" class="dashB">
+            <a href="addAdmin.php"><img src="../../../public/assets/images/add-user-3-xxl.png" class="dashPIC"></a>
+            <label class="txtR"> ADD ADMIN</label>
         </line>
-
     </div>
 
         <div class="LO">
                 <a id="logout-link">
                     <img src="../../../public/assets/images/logout.png" class="dashPIC" alt="Logout">
                 </a>
-                <label class="txtR"><?php
-                    echo $_SESSION["name"];
-                ?> LOGOUT</label>
+                <label class="txtR"> LOGOUT</label>
         </div>
         </div>
         <!-- --------------<p>sidebar</p>-------------------- -->
@@ -542,12 +509,15 @@ height: 92vh;
             <div class="content1">
             <div class="col">
                 <div class="text">
-                    <label class="hello"> APPEAL
-                        <?php
-                        // Check if the session variable 'id' is set
-                        echo $_SESSION["name"];
-                        ?>
-                    </label>
+                <label class="hello"> HELLO, 
+    <span class="session-name">
+        <?php 
+        // Display the session variable 'name'
+        echo $_SESSION["name"]; 
+        ?>
+    </span>
+</label>
+
                 </div>
             </div>
             </div>

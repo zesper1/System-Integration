@@ -155,6 +155,10 @@ height: 92vh;
     margin-left: 30px;
 }
 
+.session-name{
+    color: #E6C213;
+}
+
 .dashboard .txtA{
     font-size: 20px;
     color: gold;
@@ -514,17 +518,12 @@ height: 92vh;
             <label class="txtR"> VIEW USER</label>
         </line>
 
-        <line class="dashB" style="position: relative;">
-            <img src="../../../public/assets/images/add-user-3-xxl.png" class="dashPIC">
-            <label class="txtR" onclick="toggleDropdown()"> ADD USER ▼</label>
-            
-            <!-- Dropdown Menu -->
-            <div id="dropdown" class="dropdown-content">
-                <a href="../admin/addAdmin.php">Admin</a>
-                <a href="../admin/addStudent.php">User</a>
-                <a href="../admin/addFaculty.php">Faculty</a>
-            </div>
+        <line onclick="navigateTo('addAdmin.php')" class="dashB">
+            <a href="addAdmin.php"><img src="../../../public/assets/images/add-user-3-xxl.png" class="dashPIC"></a>
+            <label class="txtR"> ADD ADMIN</label>
         </line>
+
+
 
     </div>
 
@@ -532,9 +531,7 @@ height: 92vh;
                 <a id="logout-link">
                     <img src="../../../public/assets/images/logout.png" class="dashPIC" alt="Logout">
                 </a>
-                <label class="txtR"><?php
-                    echo $_SESSION["name"];
-                ?> LOGOUT</label>
+                <label class="txtR"> LOGOUT</label>
         </div>
         </div>
         <!-- --------------<p>sidebar</p>-------------------- -->
@@ -546,12 +543,15 @@ height: 92vh;
             <div class="content1">
             <div class="col">
                 <div class="text">
-                    <label class="hello"> ADD ADMIN
-                        <?php
-                        // Check if the session variable 'id' is set
-                        echo $_SESSION["name"];
-                        ?>
-                    </label>
+                <label class="hello"> HELLO, 
+    <span class="session-name">
+        <?php 
+        // Display the session variable 'name'
+        echo $_SESSION["name"]; 
+        ?>
+    </span>
+</label>
+
                 </div>
             </div> 
             </div>

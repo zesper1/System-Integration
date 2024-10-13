@@ -156,6 +156,10 @@ height: 92vh;
     margin-left: 30px;
 }
 
+.session-name{
+    color: #E6C213;
+}
+
 .dashboard .txtA{
     font-size: 20px;
     color: gold;
@@ -416,7 +420,7 @@ height: 92vh;
         </line>
 
         <line onclick="navigateTo('addAdmin.php')" class="dashB">
-            <a href="addAdmin.php"><img src="../../../public/assets/images/users.png" class="dashPIC"></a>
+            <a href="addAdmin.php"><img src="../../../public/assets/images/add-user-3-xxl.png" class="dashPIC"></a>
             <label class="txtR"> ADD ADMIN</label>
         </line>
 
@@ -427,9 +431,7 @@ height: 92vh;
                 <a id="logout-link" >
                     <img src="../../../public/assets/images/logout.png" class="dashPIC" alt="Logout">
                 </a>
-                <label class="txtR"><?php
-                    echo $_SESSION["name"];
-                ?> LOGOUT</label>
+                <label class="txtR"> LOGOUT</label>
         </div>
         </div>
         <!-- --------------<p>sidebar</p>-------------------- -->
@@ -440,12 +442,15 @@ height: 92vh;
         <div class="content">
             <div class="col">
                 <div class="text">
-                    <label class="hello"> HELLO, 
-                        <?php
-                        // Check if the session variable 'id' is set
-                        echo $_SESSION["name"];
-                        ?>
-                    </label>
+                <label class="hello"> HELLO, 
+    <span class="session-name">
+        <?php 
+        // Display the session variable 'name'
+        echo $_SESSION["name"]; 
+        ?>
+    </span>
+</label>
+
                 </div>
             </div>
 
