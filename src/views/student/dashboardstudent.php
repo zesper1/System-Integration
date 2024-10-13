@@ -284,28 +284,64 @@ table tbody td {
 .tableBtn:hover {
     background-color: #2b3377; /* Darker background on hover */
 }
-.modal{
+/* Modal Overlay */
+.modal {
     display: none; /* Initially hidden */
-    position: fixed; /* Stay in place */
-    z-index: 1000; /* Sit on top */
+    position: fixed;
+    z-index: 1000;
     left: 0;
     top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgba(0,0,0,0.4); /* Transparent black background */
-    margin: 0 auto;
-  }
-  .modal-content{
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5); /* Semi-transparent black */
+    transition: opacity 0.3s ease;
+}
+
+.modal.show {
+    display: block; /* Display modal */
+    opacity: 1; /* Fade in */
+}
+
+.modal-content {
     background-color: #fefefe;
-    margin: 15% auto; /* 15% from the top and centered */
+    margin: 10% auto;
     padding: 20px;
+    border-radius: 8px;
     border: 1px solid #888;
-    width: 80%; /* Could be wider or narrower */
-  }
-  #closeBtn{
+    border-top: 30px solid #2b3377;
+    width: 60%;
+    max-width: 600px; /* Max width for larger screens */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+    text-align: center;
+}
+
+.modal-content input {
+    width: 80%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.modal-content #closeBtn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 20px;
+    background: none;
+    border: none;
+    color: #888;
     cursor: pointer;
-  }
+    transition: color 0.3s ease;
+}
+
+.modal-content #closeBtn:hover {
+    color: #333; /* Darker color on hover */
+}
+
 </style>
 
 <body>
