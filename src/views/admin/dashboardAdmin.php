@@ -157,7 +157,7 @@ height: 92vh;
 }
 
 .session-name{
-    color: #E6C213;
+    color: black;
 }
 
 .dashboard .txtA{
