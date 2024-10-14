@@ -564,7 +564,7 @@ height: 92vh;
         // If no students are found, display a "No students found" message
         resultsBox.innerHTML = "<p>No students found</p>";
     }
-}
+ }
 
     function selectInput(list){
         inputBox.value = list.innerHTML;
