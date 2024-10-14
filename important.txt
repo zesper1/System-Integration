@@ -1,0 +1,1 @@
+import niyo sa phpmyadmin ung sdao.sql na file
