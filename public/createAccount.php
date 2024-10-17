@@ -1,13 +1,62 @@
 <!DOCTYPE html>
 <?php
-    include "../../connection/db_conn.php";
-    session_start();
+include "../src/connection/db_conn.php";
+session_start();
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Get admin email and password
+    $email = $_POST['Email'];
+    $password = $_POST['Password'];
+    $role_id = 2; // Fixed role_id
+
+    // Hash the password for security
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+    // Prepare SQL statement for inserting admin
+    $stmt = $conn->prepare("INSERT INTO user (email, password, role_id) VALUES (?, ?, ?)");
+    $stmt->bind_param("ssi", $email, $hashed_password, $role_id);
+
+    // Execute the statement for admin
+    if ($stmt->execute()) {
+        // Successfully added admin, now get the last inserted ID
+        $userId = $stmt->insert_id; // Get the last inserted ID
+
+        // Get user details from the POST request
+        $lastName = $conn->real_escape_string($_POST['lastName']);
+        $firstName = $conn->real_escape_string($_POST['firstName']);
+        $middleName = $conn->real_escape_string($_POST['middleName']);
+        $department = $conn->real_escape_string($_POST['department']);
+
+        // Prepare SQL statement for inserting user details
+        $stmtDetails = $conn->prepare("INSERT INTO faculty (fac_id, last_name, first_name, middle_name, dept) VALUES (?, ?, ?, ?, ?)");
+        $stmtDetails->bind_param("sssss", $userId, $lastName, $firstName, $middleName, $department); // Bind the user ID as fac_id
+
+        // Execute the statement for user details
+        if ($stmtDetails->execute()) {
+            echo "<script>alert('Faculty added successfully!');</script>";
+        } else {
+            echo "<script>alert('Error adding user details: " . $stmtDetails->error . "');</script>";
+        }
+
+        // Close the details statement
+        $stmtDetails->close();
+    } else {
+        echo "<script>alert('Error adding admin: " . $stmt->error . "');</script>";
+    }
+
+    // Close the admin statement
+    $stmt->close();
+}
+
+// Close the database connection
+$conn->close();
 ?>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>addAdmin</title>
+    <title>createAccount</title>
 </head>
 
 <style>
@@ -338,7 +387,7 @@
             <div class="formcon">
             <div class="form">
                 <h2>Create an Account</h2>
-                <form action="addAdmin.php" method="post">
+                <form action="createAccount.php" method="post">
                     <div class="form-table">
                         <div>
                             <label for="lastName">Last Name:</label>
@@ -354,11 +403,11 @@
                         </div>
                         <div>
                             <label for="adminEmail">Email:</label>
-                            <input type="email" id="adminEmail" name="adminEmail" required>
+                            <input type="email" id="adminEmail" name="Email" required>
                         </div>
                         <div>
                             <label for="adminPassword">Password:</label>
-                            <input type="password" id="adminPassword" name="adminPassword" required>
+                            <input type="password" id="adminPassword" name="Password" required>
                         </div>
                         <div>
                             <label for="role">Role:</label>

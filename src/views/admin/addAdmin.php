@@ -1,8 +1,57 @@
 <!DOCTYPE html>
 <?php
-    include "../../connection/db_conn.php";
-    session_start();
+include "../../connection/db_conn.php";
+session_start();
+
+// Check if the form is submitted
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Get admin email and password
+    $email = $_POST['adminEmail'];
+    $password = $_POST['adminPassword'];
+    $role_id = 1; // Fixed role_id
+
+    // Hash the password for security
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+    // Prepare SQL statement for inserting admin
+    $stmt = $conn->prepare("INSERT INTO user (email, password, role_id) VALUES (?, ?, ?)");
+    $stmt->bind_param("ssi", $email, $hashed_password, $role_id);
+
+    // Execute the statement for admin
+    if ($stmt->execute()) {
+        // Successfully added admin, now insert user details
+        $user_ID = $conn->insert_id;
+        // Get user details from the POST request
+        $lastName = $conn->real_escape_string($_POST['lastName']);
+        $firstName = $conn->real_escape_string($_POST['firstName']);
+        $middleName = $conn->real_escape_string($_POST['middleName']);
+
+        // Prepare SQL statement for inserting user details
+        $stmtDetails = $conn->prepare("INSERT INTO userdetails (userID, last_name, first_name, middle_name) VALUES (?, ?, ?, ?)");
+        $stmtDetails->bind_param("isss", $user_ID, $lastName, $firstName, $middleName);
+
+        // Execute the statement for user details
+        if ($stmtDetails->execute()) {
+            echo "<script>alert('Admin and user details added successfully!');</script>";
+        } else {
+            echo "<script>alert('Error adding user details: " . $stmtDetails->error . "');</script>";
+        }
+
+        // Close the details statement
+        $stmtDetails->close();
+    } else {
+        echo "<script>alert('Error adding admin: " . $stmt->error . "');</script>";
+    }
+
+    // Close the admin statement
+    $stmt->close();
+}
+
+// Close the database connection
+$conn->close();
 ?>
+
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
