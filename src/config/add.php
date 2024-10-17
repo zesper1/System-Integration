@@ -170,16 +170,16 @@ if (isset($_POST['submit']) && isset($_FILES['my_image'])) {
         if (preg_match('/\d+/', $violatorID, $matches)) {
             $id = $matches[0]; // Get the first match
             echo $id;
-            $stmt = $conn->prepare("SELECT user_ID FROM user WHERE user_ID = ?");
-            $stmt->bind_param("s", $id);
-            $stmt->execute();
-            $result = $stmt->get_result();
+            // $stmt = $conn->prepare("SELECT user_ID FROM user WHERE user_ID = ?");
+            // $stmt->bind_param("s", $id);
+            // $stmt->execute();
+            // $result = $stmt->get_result();
             
-            if ($result->num_rows > 0) {
-                echo "id exists";
-            } else {
-                echo "not";
-            }
+            // if ($result->num_rows > 0) {
+            //     echo "id exists";
+            // } else {
+            //     echo "not";
+            // }
         }
         $stmt = $conn->prepare("INSERT INTO report (reportName, reportOwnerID, reportType, violation_ID, accused_ID) VALUES (?, ?, ?, ?, ?)");
         $stmt->bind_param("sisii", $rTitle, $_SESSION['id'], $rType, $violationID, $id);

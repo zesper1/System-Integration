@@ -1,8 +1,8 @@
 function openViewModal(id, name, severity, date) {
 
-    document.getElementById('violationID').value = id;
+    // document.getElementById('violationID').value = id;
     document.getElementById('violationName').value = name;
-    document.getElementById('violationSeverity').value = severity;
+    // document.getElementById('violationSeverity').value = severity;
     document.getElementById('violationDate').value = date;
 
     document.getElementById('view-modal').style.display = "block";

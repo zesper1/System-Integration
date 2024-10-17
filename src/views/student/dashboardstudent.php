@@ -364,10 +364,18 @@ table tbody td {
     <div class="container">
     <div class="modal hidden" id="view-modal">
             <div class="modal-content">
-                <input id="violationID" type="text" readonly>
-                <input id="violationName" type="text" readonly>
-                <input id="violationSeverity" type="text" readonly>
-                <input id="violationDate" type="text" readonly>
+                <div class="mc-header">
+                    You have been found guilty for doing: <input id="violationName" type="text" readonly>
+                </div>
+                <div class="mc-date">
+                    Submitted on: <input id="violationDate" type="text" readonly>
+                </div>
+                <div class="mcr-details">
+                    Report Details: Ang aga aga nakabusangot agad mukha.
+                </div>
+                <div class="mcr-attachment">
+                    Attachment to support the claim: <img src="" alt="">
+                </div>
                 <button id="closeBtn" onclick="closeModal()">&times;</button>
             </div>
         </div>
