@@ -27,7 +27,6 @@
     body{
         width: 100%;
         background-color: #E9EAF6;
-        font-family: 'pop';
         height: 100vh;
     }
 
@@ -54,6 +53,7 @@
         align-items: center;
         justify-content: left;
         border-bottom: 5px solid #E6C213;
+        font-family: 'pop';
     }
 
     .inf1{
@@ -110,6 +110,7 @@ margin-right: 5px;
 background-color: white;
 width: 25%;
 height: 92vh;
+font-family: 'pop';
 }
 
 .overview{
@@ -216,6 +217,10 @@ height: 92vh;
     font-size: 20px;
     color: #595959;
     margin-left: 30px;
+}
+
+.session-name{
+    color: #E6C213;
 }
 
 /* sidebar */
@@ -402,6 +407,7 @@ height: 92vh;
         .form {
             background-color: white;
             width: 60%;
+            height: fit-content;
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
@@ -453,7 +459,6 @@ height: 92vh;
             border-radius: 5px;
             cursor: pointer;
             margin-top: 20px;
-            font-family: 'pop', sans-serif;
             font-size: 16px;
             text-align: center;
             display: block;
@@ -464,6 +469,39 @@ height: 92vh;
         .submit-btn:hover {
             background-color: #2b3675;
         }
+        /* Dropdown styling */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 100%; /* Match the width of the text fields */
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    margin-top: 5px; /* Space between the dropdown and the text field */
+    border-radius: 5px;
+    overflow: hidden; /* To prevent any overflow */
+    color: #35408E;
+}
+
+.dropdown-content a {
+    color: #35408E;
+    padding: 10px; /* Space for better click area */
+    text-decoration: none;
+    display: block;
+    font-size: 18px;
+}
+
+.dropdown-content a:hover {
+    background-color: #E9EAF6; /* Highlight on hover */
+    color: #35408E;
+}
+
+/* Ensure the dropdown aligns with input fields */
+.input-box1 {
+    position: relative; /* Required for the absolute positioning of the dropdown */
+    width: 100%; /* Match input field width */
+}
+
 </style>
 
 <body>
@@ -521,7 +559,6 @@ height: 92vh;
         <!-- Dropdown Menu -->
         <div id="dropdown" class="dropdown-content">
                 <a href="../admin/addAdmin.php">Admin</a>
-                <a href="../admin/addStudent.php">User</a>
                 <a href="../admin/addFaculty.php">Faculty</a>
             </div>
     </line>
@@ -532,9 +569,7 @@ height: 92vh;
             <a id="logout-link">
                 <img src="../../../public/assets/images/logout.png" class="dashPIC" alt="Logout">
             </a>
-            <label class="txtR"><?php
-                echo $_SESSION["name"];
-            ?> LOGOUT</label>
+            <label class="txtR"> LOGOUT</label>
     </div>
     </div>
     <!-- --------------<p>sidebar</p>-------------------- -->
@@ -546,11 +581,13 @@ height: 92vh;
             <div class="content1">
             <div class="col">
                 <div class="text">
-                    <label class="hello"> ADD ADMIN
-                        <?php
-                        // Check if the session variable 'id' is set
-                        echo $_SESSION["name"];
-                        ?>
+                    <label class="hello"> HELLO,
+                    <span class="session-name">
+        <?php 
+        // Display the session variable 'name'
+        echo $_SESSION["name"]; 
+        ?>
+    </span>
                     </label>
                 </div>
             </div> 
@@ -558,8 +595,8 @@ height: 92vh;
 
             <div class="formcon">
             <div class="form">
-                <h2>Add Admin</h2>
-                <form action="addAdmin.php" method="post">
+                <h2>Add Faculty</h2>
+                <form action="addFaculty.php" method="post">
                     <div class="form-table">
                         <div>
                             <label for="lastName">Last Name:</label>
@@ -574,8 +611,8 @@ height: 92vh;
                             <input type="text" id="middleName" name="middleName">
                         </div>
                         <div>
-                            <label for="adminEmail">Email:</label>
-                            <input type="email" id="adminEmail" name="adminEmail" required>
+                            <label for="facultyEmail">Email:</label>
+                            <input type="email" id="facultyEmail" name="facultyEmail" required>
                         </div>
                         <div>
                             <label for="adminPassword">Password:</label>
@@ -585,10 +622,17 @@ height: 92vh;
                             <label for="role">Employee ID:</label>
                             <input type="text" id="Employee ID" name="Employee ID"  required>
                         </div>
-                        <div class="full-width">
-                            <label for="department">Department:</label>
-                            <input type="text" id="department" name="department" required>
-                        </div>
+                        <div class="input-box1">
+    <label for="school">School:</label>
+    <select id="school" name="school" required>
+        <option value="">Select school</option>
+        <option value="SECA">SECA</option>
+        <option value="SBMA">SBMA</option>
+        <option value="SASE">SASE</option>
+        <option value="SHS">SHS</option>
+    </select>
+</div>
+
                     </div>
                     <button type="submit" class="submit-btn">Add</button>
                 </form>

@@ -310,9 +310,7 @@ $conn->close();
             font-family: 'pop', sans-serif;
         }
 
-        .form-table .full-width {
-            grid-column: span 3;
-        }
+
 
         .form-table .half-width {
             grid-column: span 2;
@@ -410,16 +408,45 @@ $conn->close();
                             <input type="password" id="adminPassword" name="Password" required>
                         </div>
                         <div>
-                            <label for="role">Role:</label>
-                            <select id="role" name="role" required>
-                                <option value="">Select an account type</option>
-                                <option value="student">Student</option>
-                                <option value="faculty">Faculty</option>
+                            <label for="studentID">Student-ID:</label>
+                            <input type="text" id="studentID" name="studentID" required>
+                        </div>
+                        <div>
+                            <label for="program">Program:</label>
+                            <input type="text" id="program" name="program" required>
+                        </div>
+                        <div>
+                            <label for="yearLevel">Year Level:</label>
+                            <select id="yearLevel" name="yearLevel" required>
+                                <option value="">Select year level</option>
+                                <option value="SECA">G11</option>
+                                <option value="SBMA">G12</option>
+                                <option value="SASE">1st Year</option>
+                                <option value="SHS">2nd Year</option>
+                                <option value="SHS">3rd Year</option>
+                                <option value="SHS">4th Year</option>
                             </select>
                         </div>
-                        <div class="full-width">
-                            <label for="department">Department:</label>
-                            <input type="text" id="department" name="department" required>
+                        <div>
+                            <label for="section">Section:</label>
+                            <input type="text" id="section" name="section" required>
+                        </div>
+                        <div>
+    <label for="role">Role:</label>
+    <select id="role" name="role" required>
+        <option value="student" selected>Student</option>
+    </select>
+</div>
+
+                        <div>
+                            <label for="school">School:</label>
+                            <select id="school" name="school" required>
+                                <option value="">Select school</option>
+                                <option value="SECA">SECA</option>
+                                <option value="SBMA">SBMA</option>
+                                <option value="SASE">SASE</option>
+                                <option value="SHS">SHS</option>
+                            </select>
                         </div>
                     </div>
                     <button type="submit" class="submit-btn">Add</button>

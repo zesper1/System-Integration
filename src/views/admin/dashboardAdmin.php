@@ -157,7 +157,7 @@ height: 92vh;
 }
 
 .session-name{
-    color: #000000;
+    color: #E6C213;
 }
 
 .dashboard .txtA{
@@ -419,10 +419,16 @@ height: 92vh;
             <label class="txtR"> VIEW USER</label>
         </line>
 
-        <line onclick="navigateTo('addAdmin.php')" class="dashB">
-            <a href="addAdmin.php"><img src="../../../public/assets/images/add-user-3-xxl.png" class="dashPIC"></a>
-            <label class="txtR"> ADD ADMIN</label>
-        </line>
+        <line class="dashB" style="position: relative;">
+        <img src="../../../public/assets/images/add-user-3-xxl.png" class="dashPIC">
+        <label class="txtR" onclick="toggleDropdown()"> ADD USER ▼</label>
+        
+        <!-- Dropdown Menu -->
+        <div id="dropdown" class="dropdown-content">
+                <a href="../admin/addAdmin.php">Admin</a>
+                <a href="../admin/addFaculty.php">Faculty</a>
+            </div>
+    </line>
 
 
     </div>

@@ -76,7 +76,6 @@ $conn->close();
     body{
         width: 100%;
         background-color: #E9EAF6;
-        font-family: 'pop';
         height: 100vh;
     }
 
@@ -103,6 +102,7 @@ $conn->close();
         align-items: center;
         justify-content: left;
         border-bottom: 5px solid #E6C213;
+        font-family: 'pop';
     }
 
     .inf1{
@@ -159,6 +159,7 @@ margin-right: 5px;
 background-color: white;
 width: 25%;
 height: 92vh;
+font-family: 'pop';
 }
 
 .overview{
@@ -455,6 +456,7 @@ height: 92vh;
         .form {
             background-color: white;
             width: 60%;
+            height: fit-content;
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
@@ -506,7 +508,6 @@ height: 92vh;
             border-radius: 5px;
             cursor: pointer;
             margin-top: 20px;
-            font-family: 'pop', sans-serif;
             font-size: 16px;
             text-align: center;
             display: block;
@@ -567,10 +568,16 @@ height: 92vh;
             <label class="txtR"> VIEW USER</label>
         </line>
 
-        <line onclick="navigateTo('addAdmin.php')" class="dashB">
-            <a href="addAdmin.php"><img src="../../../public/assets/images/add-user-3-xxl.png" class="dashPIC"></a>
-            <label class="txtR"> ADD ADMIN</label>
-        </line>
+        <line class="dashB" style="position: relative;">
+        <img src="../../../public/assets/images/add-user-3-xxl.png" class="dashPIC">
+        <label class="txtR" onclick="toggleDropdown()"> ADD USER ▼</label>
+        
+        <!-- Dropdown Menu -->
+        <div id="dropdown" class="dropdown-content">
+                <a href="../admin/addAdmin.php">Admin</a>
+                <a href="../admin/addFaculty.php">Faculty</a>
+            </div>
+    </line>
 
 
 
@@ -630,14 +637,14 @@ height: 92vh;
                             <label for="adminPassword">Password:</label>
                             <input type="password" id="adminPassword" name="adminPassword" required>
                         </div>
-                        <!-- <div>
+                         <div>
                             <label for="role">Role:</label>
                             <input type="text" id="role" name="role" placeholder="Admin/Super Admin" required>
                         </div>
                         <div class="full-width">
                             <label for="department">Department:</label>
                             <input type="text" id="department" name="department" required>
-                        </div> -->
+                        </div> 
                     </div>
                     <button type="submit" class="submit-btn">Add</button>
                 </form>
