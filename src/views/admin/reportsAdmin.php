@@ -2,6 +2,71 @@
 <?php
     include "../../connection/db_conn.php";
     session_start();
+    function fetchViolationType($conn, $id){
+        $stmt = $conn->prepare("SELECT * FROM violationtype WHERE violationType_ID = ?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if($result){
+            if($result->num_rows > 0){
+                while($row = $result->fetch_assoc()){
+                    $violationName = $row["violationTypeName"];
+                }
+            }
+        }
+        return $violationName;
+    }
+    function fetchName($conn, $id){
+        $stmt = $conn->prepare("SELECT * FROM userdetails WHERE userID = ?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if($result){
+            if($result->num_rows > 0){
+                while($row = $result->fetch_assoc()){
+                    $name = $row['first_name'] . " " . $row['last_name'];
+                }
+            }
+        }
+        return $name;
+    }
+    function fetchViolationReport($conn, array $array){
+        $stmt = $conn->prepare("
+            SELECT 
+                report.report_ID,
+                violationreport.accusedID,
+                violationreport.violationTypeID,
+                attachment.fileName,
+                reportstatus.status_DETAILS
+            FROM 
+                report 
+            JOIN 
+                attachment ON report.report_ID = attachment.reportID 
+            JOIN 
+                reportstatus ON report.report_ID = reportstatus.reportID
+            JOIN 
+                violationreport ON report.report_ID = violationreport.reportID;
+        ");
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $array = []; // Initialize the array
+        if ($result) {
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    $name = fetchName($conn, $row["accusedID"]);
+                    $violation = fetchViolationType($conn, $row["violationTypeID"]);
+                    $array[] = [
+                        "name" => $name,
+                        "id" => $row["accusedID"],
+                        "violation" => $violation,
+                        "attachment" => $row["fileName"],
+                        "details" => $row["status_DETAILS"],
+                    ];
+                }
+            }
+        }
+        return $array;
+    }
 ?>
 <html lang="en">
 <head>
@@ -547,14 +612,32 @@ height: 92vh;
                 <div class="table1">
                 <div class="report-list">
     <!-- Repeat this block for each report item, updating the index -->
-    <div class="report-item active" onclick="showDetails(0)">
+     <?php
+     $tempdump = array();
+     $reportslist = fetchViolationReport($conn, $tempdump);
+     $index = 0;
+     foreach ($reportslist as $item) {
+        echo "
+        <div class='report-item active' onclick='showDetails($index)'>
+            <img src='student-photo.jpg' alt='Student Photo' class='student-photo'>
+            <div class='report-info'>
+                <p>$item[name]</p>
+                <small>Wed 2:11 PM</small>
+                <p class='violation'>$item[violation]</p>
+            </div>
+        </div>
+        ";
+        $index++;
+    }
+     ?>
+    <!-- <div class="report-item active" onclick="showDetails(0)">
         <img src="student-photo.jpg" alt="Student Photo" class="student-photo">
         <div class="report-info">
             <p>Rovic Batacandolo</p>
             <small>Wed 2:11 PM</small>
             <p class="violation">Public Display of Affection</p>
         </div>
-    </div>
+    </div> -->
     <!-- Add more report items here with unique onclick="showDetails(index)" -->
 </div>
 
@@ -566,15 +649,15 @@ height: 92vh;
                     <div class="details">
                         <img src="student-photo.jpg" alt="Student Photo" class="details-photo">
                         <div class="details-info">
-                            <p><strong>Student Name:</strong> Rovic Batacandolo</p>
-                            <p><strong>Student ID:</strong> 2022-171700</p>
-                            <p><strong>Violation:</strong> Public Display of Affection</p>
+                            <p id="stud-name"><strong>Student Name:</strong> Rovic Batacandolo</p>
+                            <p id="stud-id"><strong>Student ID:</strong> 2022-171700</p>
+                            <p id="stud-vio"><strong>Violation:</strong> Public Display of Affection</p>
                         </div>
                     </div>
                     <div class="violation-details">
                         <h3>Violation Details and Other Attachments</h3>
-                        <p>Rovic Batacandolo was caught with his significant other kissing near the fire exit around 3:09 pm, dated August 30, 2024. The report was submitted by an admin and the ID of the reported student was confiscated.</p>
-                        <a href="#" class="attachment">View Attachment</a>
+                        <p id="rep-desc">Rovic Batacandolo was caught with his significant other kissing near the fire exit around 3:09 pm, dated August 30, 2024. The report was submitted by an admin and the ID of the reported student was confiscated.</p>
+                        <a href="#" class="rep-attachment" id="rep-attch">View Attachment</a>
                     </div>
                 </div>
             </div>
@@ -627,50 +710,12 @@ height: 92vh;
         }
     }
 </script>
-
-<script>
-    // Sample data structure for reports
-    const reports = [
-        {
-            name: "Rovic Batacandolo",
-            time: "Wed 2:11 PM",
-            violation: "Public Display of Affection",
-            id: "2022-171700",
-            description: "Rovic Batacandolo was caught with his significant other kissing near the fire exit around 3:09 pm, dated August 30, 2024. The report was submitted by an admin and the ID of the reported student was confiscated.",
-            photo: "student-photo.jpg"
-        },
-        // Add more reports as needed
-    ];
-
-    // Function to display report details
-    function showDetails(reportIndex) {
-        const report = reports[reportIndex];
-
-        // Update the details on the right side
-        document.querySelector('.details-photo').src = report.photo;
-        document.querySelector('.details-info').innerHTML = `
-            <p><strong>Student Name:</strong> ${report.name}</p>
-            <p><strong>Student ID:</strong> ${report.id}</p>
-            <p><strong>Violation:</strong> ${report.violation}</p>
-        `;
-        document.querySelector('.violation-details p').textContent = report.description;
-
-        // Show the main content section if hidden
-        document.querySelector('.main-content').style.display = 'block';
-    }
-
-    // Add click event listeners to each report item
-    document.querySelectorAll('.report-item').forEach((item, index) => {
-        item.addEventListener('click', () => {
-            // Highlight the selected report item
-            document.querySelectorAll('.report-item').forEach(i => i.classList.remove('active'));
-            item.classList.add('active');
-
-            // Show the corresponding report details
-            showDetails(index);
-        });
-    });
-</script>
-
+<?php
+    $temp = array();
+    $violationReports = fetchViolationReport($conn, $temp);
+    $jsonified = json_encode($violationReports);
+?>
+<script> var reports = <?php echo $jsonified; ?> </script>
+<script src="../../../public/assets/js/reportsAdmin.js"></script>
 
 </html>
