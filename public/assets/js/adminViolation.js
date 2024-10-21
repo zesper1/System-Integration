@@ -10,6 +10,7 @@ const inputBox2 = document.getElementById("SupportingDetail");
 const resultsBox2 = document.getElementById("resultsBox2");
 
 // Placeholders to show report details
+const repDetContainer = document.getElementById("report-info");
 const reportIdentification = document.getElementById("repDetID");
 const reportDescription = document.getElementById("rdc-desc");
 const reportName = document.getElementById("rdc-name");
@@ -35,6 +36,7 @@ function selectReport(list) {
     console.log("Selected Report:", selectedReport);
     // Display the report details if found
     if (selectedReport) {
+        repDetContainer.style.display = "block";
         var filedirec = "../../../public/assets/images/violations/" + selectedReport.filename;
         reportDescription.innerText = "Description: " + selectedReport.description;
         reportName.innerText = "Report Name: " + selectedReport.name;

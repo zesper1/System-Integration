@@ -603,7 +603,7 @@ height: 92vh;
                 <label for="SupportingDetail">Supporing Evidence:</label>
                 <input type="text" name="SupportingDetail" id="SupportingDetail" placeholder="Search by report name">
                 <div class="result-box" id="resultsBox2"></div>
-                <div id="report-info">
+                <div id="report-info" style="display: none;">
                     <input type="hidden" name="repDetID" id="repDetID" readonly>
                     <h3>Report Details:</h3>
                     <p id="rdc-desc"></p>        <!-- For description -->
