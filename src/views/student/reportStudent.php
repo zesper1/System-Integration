@@ -503,7 +503,7 @@ height: 92vh;
                 <label for="image">Attach Image (optional):</label>
                 <input type="file" id="image" name="my_image">
 
-                <input type="submit" name="submit" value="Submit Report">
+                <input type="submit" name="submitReport" value="Submit Report">
             </form>
 
         </div>

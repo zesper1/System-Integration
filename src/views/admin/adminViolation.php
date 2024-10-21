@@ -35,7 +35,7 @@
         if($result){
             if($result->num_rows > 0){
                 while($row = $result->fetch_assoc()){
-                    echo "<option id = '$row[violationType_ID]' value = '$row[violationTypeName]'>$row[violationTypeName]</option>";
+                    echo "<option id = '$row[violationType_ID]' value = '$row[violationType_ID]'>$row[violationTypeName]</option>";
                 }
             }
         }
@@ -69,9 +69,32 @@
                 }
             }
         }
-        print_r($array);
         return $array;
     }
+    function fetchSeverity($conn){
+        $stmt = $conn->prepare("SELECT * FROM severity");
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if($result){
+            if($result->num_rows > 0){
+                while($row = $result->fetch_assoc()){
+                    echo "<option id = '$row[severity_ID]' value = '$row[severity_LEVEL]'>$row[severity_LEVEL]</option>";
+                }
+            }
+        }
+    }
+    if(isset($_SESSION["success"])){
+        if ($_SESSION["success"] == true){
+            echo "
+            <script>
+                alert('Violation added successfully!');
+            </script>
+        ";
+        $_SESSION["success"] = false;
+        } else {
+        }
+    }
+    
 ?>
 <html lang="en">
 <head>
@@ -545,7 +568,7 @@ height: 92vh;
 
                 </div>
             </div>
-            <form>
+            <form method="post" action="../../config/add.php">
                 <label for="StudentName">Violator Name:</label>
                     <?php
                         $temp = array(); 
@@ -560,7 +583,7 @@ height: 92vh;
 
                         $jsonified = json_encode($searchQuery);
                     ?>
-                <input type="text" name="StudentName" id="StudentName" placeholder="Search by report name">
+                <input type="text" name="StudentName" id="StudentName" placeholder="Search by student name">
                 <br>
                 <div class="result-box" id="resultsBox1"></div>
                 <label for="ViolationType">Violation Type:</label>
@@ -570,10 +593,24 @@ height: 92vh;
                     ?>
                 </select>
                 <br>
+                <label for="ViolationSeverity">Violation Severity:</label>
+                <select name="ViolationSeverity" id="ViolationSeverity">
+                    <?php
+                        fetchSeverity($conn);
+                    ?>
+                </select>
+                <br>
                 <label for="SupportingDetail">Supporing Evidence:</label>
                 <input type="text" name="SupportingDetail" id="SupportingDetail" placeholder="Search by report name">
                 <div class="result-box" id="resultsBox2"></div>
-                <!-- <a href="../../../public/assets/images/violations/sample.png">view </a> -->
+                <div id="report-info">
+                    <input type="hidden" name="repDetID" id="repDetID" readonly>
+                    <h3>Report Details:</h3>
+                    <p id="rdc-desc"></p>        <!-- For description -->
+                    <p id="rdc-name"></p>        <!-- For report name -->
+                    <a id="rdc-link" target="_blank">View Attachment</a> <!-- For report attachment -->
+                </div>
+                <input type="submit" name="addViolation" value="Submit">
             </form>
             
 
@@ -621,81 +658,8 @@ height: 92vh;
     }
 </script>
 <script>
-    var searchData = <?php echo $jsonified; ?>;  // Assuming both searchData use the same data
-
-    // Extract the two groups from the searchData object
-    var searchData1 = searchData.group1;  // For StudentName input box
-    var searchData2 = searchData.group2;  // For SupportingDetail input box
-    console.log(searchData2);
-    const inputBox1 = document.getElementById("StudentName");
-    const resultsBox1 = document.getElementById("resultsBox1");
-
-    const inputBox2 = document.getElementById("SupportingDetail");
-    const resultsBox2 = document.getElementById("resultsBox2");
-
-    // Function to handle input for the first search box (using searchData1)
-    inputBox1.onkeyup = function() {
-        handleSearch(inputBox1, resultsBox1, searchData1);
-    };
-
-    // Function to handle input for the second search box (using searchData2)
-    inputBox2.onkeyup = function() {
-        handleSearch(inputBox2, resultsBox2, searchData2);
-    };
-
-    // Generic search function to filter and display results
-    function handleSearch(inputBox, resultsBox, searchData) {
-        let keyword = inputBox.value;
-
-        // Ensure that the keyword is a string and is not empty
-        if (typeof keyword === "string" && keyword.trim() !== "") {
-            keyword = keyword.toLowerCase();  // Convert the keyword to lowercase
-
-            // Filter the students array based on the 'name' property
-            const filteredStudents = searchData.filter(function(student) {
-                return student && student.name && student.name.toLowerCase().includes(keyword);
-            });
-
-            // Display the filtered students in the correct results box
-            display(filteredStudents, resultsBox);
-            resultsBox.style.display = "block";
-        } else {
-            resultsBox.innerHTML = "";
-            resultsBox.style.display = "none";
-        }
-    }
-
-    // Function to display results in the corresponding result box
-    function display(result, resultsBox) {
-        if (result.length > 0) {
-            // If there are matching students, display them
-            const content = result.map((student) => {
-                return "<li onclick=selectInput(this)>" + "(ID: " +student.id + ") "+student.name  + "</li>";
-            }).join(''); // Join without commas
-
-            resultsBox.innerHTML = "<ul>" + content + "</ul>";
-        } else {
-            // If no students are found, display a "No students found" message
-            resultsBox.innerHTML = "<p>No students found</p>";
-        }
-    }
-
-    // Function to handle when a student name is clicked from the result list
-    function selectInput(list){
-        // Find which input box the user clicked
-        const parentResultsBox = list.closest('.result-box');
-        
-        if (parentResultsBox.id === 'resultsBox1') {
-            inputBox1.value = list.innerHTML;
-        } else if (parentResultsBox.id === 'resultsBox2') {
-            inputBox2.value = list.innerHTML;
-        }
-
-        // Clear the respective results box
-        parentResultsBox.innerHTML = '';
-    }
-
+   var searchData = <?php echo $jsonified; ?>;  // Assuming both searchData use the same data
 </script>
-
+<script src="../../../public/assets/js/adminViolation.js" defer></script>
 
 </html>
