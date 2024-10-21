@@ -45,6 +45,7 @@
             SELECT 
                 report.report_ID AS report_id, 
                 report.reportName, 
+                report.reportType,
                 attachment.filename, 
                 reportstatus.status_DETAILS 
             FROM 
@@ -63,6 +64,7 @@
                     $array[] = [
                         "id" => $row["report_id"], // Use 'report_id' since you aliased it
                         "name" => $row["reportName"],
+                        "reportType" => $row["reportType"],
                         "filename" => $row["filename"],
                         "description" => $row["status_DETAILS"]
                     ];

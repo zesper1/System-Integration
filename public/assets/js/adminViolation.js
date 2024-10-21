@@ -37,7 +37,12 @@ function selectReport(list) {
     // Display the report details if found
     if (selectedReport) {
         repDetContainer.style.display = "block";
-        var filedirec = "../../../public/assets/images/violations/" + selectedReport.filename;
+        if (selectedReport.reportType == "Violation"){
+            var filedirec = "../../../public/assets/images/violations/" + selectedReport.filename;
+        } else if (selectedReport.reportType == "Complaint"){
+            var filedirec = "../../../public/assets/images/complains/" + selectedReport.filename;
+        }
+        
         reportDescription.innerText = "Description: " + selectedReport.description;
         reportName.innerText = "Report Name: " + selectedReport.name;
         reportAttachment.setAttribute('href', filedirec);
