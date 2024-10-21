@@ -374,11 +374,11 @@ table tbody td {
                 <div class="mc-date">
                     Submitted on: <input id="violationDate" type="text" readonly>
                 </div>
-                <div class="mcr-details">
-                    Report Details: Ang aga aga nakabusangot agad mukha.
+                <div class="mcr-details" id="mc-repdet">
+                    Report Description: <span id="mcrepdet"></span>
                 </div>
                 <div class="mcr-attachment">
-                    Attachment to support the claim: <img src="" alt="">
+                    Attachment to support the claim: <img src="" alt="" id="mc-attch" width="100px" height="100px">
                 </div>
                 <button id="closeBtn" onclick="closeModal()">&times;</button>
             </div>
@@ -475,7 +475,7 @@ table tbody td {
                         <td id="date">12/10/2024</td>
                         <td>
                             <a class="tableBtn" href="appealStudent.php?violationID=2"> Appeal </a>
-                            <a class="tableBtn" onclick="openViewModal('2', 'Nakabusangot', '3rd Offense', '12/10/24')"> View </a>
+                            <a class="tableBtn" onclick="openViewModal('Nakabusangot', 'tite', 'sample.png', '12/10/24')"> View </a>
                         </td>
                     </tr>
                 </tbody>
