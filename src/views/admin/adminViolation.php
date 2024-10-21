@@ -122,7 +122,6 @@
     body{
         width: 100%;
         background-color: #E9EAF6;
-        font-family: 'pop';
         height: 100vh;
     }
 
@@ -149,6 +148,7 @@
         align-items: center;
         justify-content: left;
         border-bottom: 5px solid #E6C213;
+        font-family: 'pop';
     }
 
     .inf1{
@@ -206,6 +206,7 @@ margin-right: 5px;
 background-color: white;
 width: 25%;
 height: 92vh;
+font-family: 'pop';
 }
 
 .overview{
@@ -302,6 +303,7 @@ height: 92vh;
     display: flex;
     height: 10%;
     align-content: end;
+    margin-top: 10%;
     width: 100%;
 }
 
@@ -348,138 +350,110 @@ height: 92vh;
     margin-top: 10px;
     }
 
-    
-    .graph{
-    width: 87%;
-    height: 550px;
-    background-color: white;
-    color: #34408D;
-    font-family: 'pop';
-    margin-left: 5%;
-    margin-top: 2%;
-    overflow: auto;
+    /* Form Styling */
+    form {
+        width: 80%;
+        margin: 20px auto;
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        color: #34408D;
+        font-style: bold;
     }
 
-    #chart-container {
-      width: 90%;
-      height: 400px;
-      justify-content: center;
-      margin: 20px auto; 
-      border: 1px solid #ddd; 
-      border-radius: 5px; 
-      background-color: #f5f5f5; 
-      display: flex;
-      flex-grow: 1;
-      align-items: center;
-      margin-top: 5%;
-    }
-  
-    #myChart {
-      width: 100%;
-      height: 100%;
-    }
-  
-    /* Axes styling */
-    .chartjs-axis {
-      color: #333; 
-    }
-  
-    .chartjs-tick-line {
-      stroke: #ddd; 
-    }
-  
-    /* Title styling */
-    .chartjs-title {
-      font-size: 18px; 
-      color: #333; 
-    }
-  
-    /* Legend styling */
-    .chartjs-legend {
-      font-size: 14px; 
-    }
-  
-    /* Data point styling (example) */
-    .chartjs-point {
-      stroke-width: 2px; 
+ 
+
+    input[type="text"],
+    select {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-family: 'pop';
     }
 
-    .txt{
-        display: flex;
-        justify-content: center;
-        font-size: 25px;
-    }
-
-    .table{
-            width: 100%;
-            display: flex;
-            height: fit-content;
-            flex-direction: column;
-
-        }
-
-        .tbl1{
-            display: flex;
-        }
-
-        .tblcontent{
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            padding: 20px;
-        }
-
-        /* Table Styling */
-        .report-table {
-            width: 80%;
-            margin: 20px auto;
-            border-collapse: collapse;
-            background-color: white;
-            font-family: 'pop';
-        }
-
-        .report-table th, .report-table td {
-            border: 1px solid #ddd;
-            padding: 12px;
-            text-align: left;
-        }
-
-        .report-table th {
-            background-color: #34408D;
-            color: white;
-        }
-
-        .report-table tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-
-        .report-table tr:hover {
-            background-color: #ddd;
-        }
-
-        .report-table th {
-            padding-top: 12px;
-            padding-bottom: 12px;
-            text-align: left;
-            background-color: #34408D;
-            color: white;
-        }
-        .result-box{
-        background-color: lightslategray;
-    }
-    .result-box ul {
-        border-top:1px solid #999;
-        padding: 15px 10px;
-    }
-    .result-box ul li{
-        list-style: none;
-        border-radius: 3px;
-        padding: 15px 10px;
+    input[type="submit"] {
+        width: 100%;
+        padding: 10px;
+        background-color: #35408E;
+        color: white;
+        border: none;
+        border-radius: 5px;
         cursor: pointer;
+        font-size: 18px;
     }
-    .result-box ul li:hover{
+
+    input[type="submit"]:hover {
+        background-color: #2d3670;
+    }
+
+    .result-box {
+        width: 100%;
+        max-height: 200px;
+        overflow-y: auto;
+        background-color: white;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        display: none;
+        margin-bottom: 20px;
+    }
+
+    .result-box ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .result-box ul li {
+        padding: 10px;
+        cursor: pointer;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .result-box ul li:hover {
         background-color: #E6C213;
     }
+
+    #report-info {
+        background-color: #f2f2f2;
+        padding: 15px;
+        border-radius: 5px;
+        display: none;
+        margin-bottom: 20px;
+    }
+
+    #report-info h3 {
+        margin-bottom: 10px;
+        font-size: 20px;
+        color: #35408E;
+    }
+
+    #report-info p {
+        margin: 5px 0;
+        font-size: 16px;
+    }
+
+    #report-info a {
+        color: #34408D;
+        text-decoration: none;
+        font-size: 16px;
+    }
+
+    #report-info a:hover {
+        text-decoration: underline;
+    }
+</style>
+
+
+    
+
+    
+    
+   
+
+    
+      
 </style>
 
 <body>
@@ -526,8 +500,8 @@ height: 92vh;
         </line>
 
         <line onclick="navigateTo('appealAdmin.php')" class="dashB">
-            <a href="adminViolation.php"><img src="../../../public/assets/images/paper.png" class="dashPIC"></a>
-            <label class="txtR"> violation</label>
+            <a href="adminViolation.php"><img src="../../../public/assets/images/warning.png" class="dashPIC"></a>
+            <label class="txtR"> VIOLATION</label>
         </line>
         
         <line onclick="navigateTo('viewUsersAdmin.php')" class="dashB">
