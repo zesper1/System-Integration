@@ -300,6 +300,10 @@ height: 92vh;
             background-color: #2b357a;
         }
 
+        .session-name{
+            color: #E6C213;
+        }
+
    
 </style>
 
@@ -344,9 +348,7 @@ height: 92vh;
                 <a id="logout-link">
                     <img src="../../../public/assets/images/logout.png" class="dashPIC" alt="Logout">
                 </a>
-                <label class="txtR"><?php
-                    echo $_SESSION["name"];
-                ?> LOGOUT</label>
+                <label class="txtR"> LOGOUT</label>
         </div>
         </div>
         <!-- --------------<p>sidebar</p>-------------------- -->
@@ -358,9 +360,12 @@ height: 92vh;
                 <div class="col">
                     <div class="text">
                         <label class="hello"> FILE A REPORT 
-                            <?php
-                                echo $_SESSION["name"];
-                            ?>
+                        <span class="session-name">
+        <?php 
+        // Display the session variable 'name'
+        echo $_SESSION["name"]; 
+        ?>
+    </span>
                         </label>
                     </div>
                 </div>

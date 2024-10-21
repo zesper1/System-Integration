@@ -358,6 +358,10 @@ table tbody td {
     color: #333; /* Darker color on hover */
 }
 
+.session-name{
+    color: #E6C213;
+}
+
 </style>
 
 <body>
@@ -438,7 +442,12 @@ table tbody td {
         <div class="col">
             <div class="text">
                 <label class="hello"> VIEW VIOLATIONS
-                    <?php echo $_SESSION["name"]; ?>
+                <span class="session-name">
+        <?php 
+        // Display the session variable 'name'
+        echo $_SESSION["name"]; 
+        ?>
+    </span>
                 </label>
             </div>
         </div>
