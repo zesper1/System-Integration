@@ -29,6 +29,7 @@
         background-color: #E9EAF6;
         font-family: 'pop';
         height: 100vh;
+        overflow: hidden;
     }
 
     .container{
@@ -207,6 +208,7 @@ height: 92vh;
     display: flex;
     height: 10%;
     align-content: end;
+    margin-top: 10%;
     width: 100%;
 }
 
@@ -415,8 +417,8 @@ height: 92vh;
         </line>
 
         <line onclick="navigateTo('adminViolation.php')" class="dashB">
-            <a href="adminViolation.php"><img src="../../../public/assets/images/paper.png" class="dashPIC"></a>
-            <label class="txtR"> violation</label>
+            <a href="adminViolation.php"><img src="../../../public/assets/images/warning.png" class="dashPIC"></a>
+            <label class="txtR"> VIOLATION</label>
         </line>
         
         <line onclick="navigateTo('viewUsersAdmin.php')" class="dashB">

@@ -28,6 +28,7 @@
         width: 100%;
         background-color: #E9EAF6;
         height: 100vh;
+        overflow: hidden;
     }
 
     .container{
@@ -203,6 +204,7 @@ font-family: 'pop';
     display: flex;
     height: 10%;
     align-content: end;
+    margin-top: 10%;
     width: 100%;
 }
 
@@ -546,6 +548,11 @@ font-family: 'pop';
         <a href="appealAdmin.php"><img src="../../../public/assets/images/paper.png" class="dashPIC"></a>
         <label class="txtR"> REPLY TO APPEAL</label>
     </line>
+
+    <line onclick="navigateTo('appealAdmin.php')" class="dashB">
+            <a href="adminViolation.php"><img src="../../../public/assets/images/warning.png" class="dashPIC"></a>
+            <label class="txtR"> VIOLATION</label>
+        </line>
     
     <line onclick="navigateTo('viewUsersAdmin.php')" class="dashB">
             <a href="viewUsersAdmin.php"><img src="../../../public/assets/images/users.png" class="dashPIC"></a>
