@@ -2,6 +2,36 @@
 <?php
     include "../../connection/db_conn.php";
     session_start();
+
+    function fetchViolationtypes($conn){
+        $fetch_vTypes = $conn->prepare("SELECT * FROM violationtype");
+        $fetch_vTypes->execute();
+        $fetch_vRes = $fetch_vTypes->get_result();
+        if($fetch_vRes){
+            if($fetch_vRes-> num_rows > 0){
+                while($row = $fetch_vRes->fetch_assoc()){
+                    echo "
+                    <option value = $row[violationType_ID]>$row[violationTypeName]</option>
+                    ";
+                }
+            }
+        }
+    }
+
+    function fetchComplaintTypes($conn){
+        $fetch_vTypes = $conn->prepare("SELECT * FROM complains_category");
+        $fetch_vTypes->execute();
+        $fetch_vRes = $fetch_vTypes->get_result();
+        if($fetch_vRes){
+            if($fetch_vRes-> num_rows > 0){
+                while($row = $fetch_vRes->fetch_assoc()){
+                    echo "
+                    <option value = $row[ccID]>$row[ccName]</option>
+                    ";
+                }
+            }
+        }
+    }
 ?>
 <html lang="en">
 <head>
@@ -405,14 +435,16 @@ height: 92vh;
                     <option value="Complaint">Complaint</option>
                 </select>
                 
-
+                <label for="cType" id="cTypeLabel" style="display: none;">Complaint Type:</label>
+                    <select id="cType" name="cType" class="select">
+                        <option value="Default" default>Choose a complaint type.</option>
+                        <?php fetchComplaintTypes($conn); ?>
+                </select>
                 <div id="nameCourseFields" class="select">
                     <label for="vType">Violation:</label>
                     <select id="vType" name="vType" class="select">
                         <option value="Default" default>Choose a violation type.</option>
-                        <option value="1">Inaproprote hair color</option>
-                        <option value="2">Improper uniform</option>
-                        <option value="3">No wearing proper uniform</option>
+                        <?php fetchViolationtypes($conn); ?>
                     </select>
                     <label for="courseSelect">Course:</label>
                     <select type="text" id="inputcourse" class="violator" name="courseSelect" placeholder="Enter course">
@@ -502,6 +534,10 @@ height: 92vh;
     const inputCourse = document.getElementById("inputcourse");
     const reportForm = document.getElementById("reportForm");
     const violationSelect = document.getElementById("vType");
+
+    const complaintSelect = document.getElementById("cType");
+    const complaintLabel = document.getElementById("cTypeLabel");
+
     const nameCourseFields = document.getElementById("nameCourseFields");
     // Add event listener for 'change' event
     selectElement.addEventListener("change", function() {
@@ -512,12 +548,16 @@ height: 92vh;
         inputCourse.classList.add('active');
         violationSelect.classList.add('active');
         nameCourseFields.classList.add("active");
+        complaintLabel.classList.remove("active");
+        complaintSelect.style.display = "none";
         reportForm.style.overflowY = 'auto';
-    } else {
+    } else if(selectedValue == "Complaint") {
         inputName.classList.remove('active');
         inputCourse.classList.remove('active');
         violationSelect.classList.remove('active');
         nameCourseFields.classList.remove("active");
+        complaintLabel.classList.add("active");
+        complaintSelect.style.display = "block";
         reportForm.style.overflowY = 'scroll';
     }
     // Perform action based on the selected value

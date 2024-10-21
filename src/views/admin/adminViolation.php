@@ -2,6 +2,76 @@
 <?php
     include "../../connection/db_conn.php";
     session_start();
+
+    function fetchStudent($conn, array $array){
+        $id = 3;
+        $stmt = $conn->prepare("SELECT * FROM user WHERE role_ID = ?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if($result){
+            if($result->num_rows > 0){
+                while($row = $result->fetch_assoc()){
+                    $fetchName = $conn->prepare("SELECT * FROM userdetails WHERE userID=?");
+                    $fetchName->bind_param("i", $row["user_ID"]);
+                    $fetchName->execute();
+                    $fnRes = $fetchName->get_result();
+                    if($fnRes){
+                        if($fnRes->num_rows > 0){
+                           $row1 = $fnRes->fetch_assoc();
+                            $studentName = $row1['last_name'] . ", " . $row1['first_name'];        
+                        }
+                    }
+                     $array[] = ["id" => $row["user_ID"], "name" => $studentName];
+                }
+            }
+        }
+        return $array;
+    }
+    function fetchViolations($conn){
+        $stmt = $conn->prepare("SELECT * FROM violationtype");
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if($result){
+            if($result->num_rows > 0){
+                while($row = $result->fetch_assoc()){
+                    echo "<option id = '$row[violationType_ID]' value = '$row[violationTypeName]'>$row[violationTypeName]</option>";
+                }
+            }
+        }
+    }
+    function fetchReport($conn, array $array){
+        $stmt = $conn->prepare("
+            SELECT 
+                report.report_ID AS report_id, 
+                report.reportName, 
+                attachment.filename, 
+                reportstatus.status_DETAILS 
+            FROM 
+                report 
+            JOIN 
+                attachment ON report.report_ID = attachment.reportID 
+            JOIN 
+                reportstatus ON report.report_ID = reportstatus.reportID;
+        ");
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $array = []; // Initialize the array
+        if ($result) {
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    $array[] = [
+                        "id" => $row["report_id"], // Use 'report_id' since you aliased it
+                        "name" => $row["reportName"],
+                        "filename" => $row["filename"],
+                        "description" => $row["status_DETAILS"]
+                    ];
+                }
+            }
+        }
+        print_r($array);
+        return $array;
+    }
 ?>
 <html lang="en">
 <head>
@@ -369,6 +439,22 @@ height: 92vh;
             background-color: #34408D;
             color: white;
         }
+        .result-box{
+        background-color: lightslategray;
+    }
+    .result-box ul {
+        border-top:1px solid #999;
+        padding: 15px 10px;
+    }
+    .result-box ul li{
+        list-style: none;
+        border-radius: 3px;
+        padding: 15px 10px;
+        cursor: pointer;
+    }
+    .result-box ul li:hover{
+        background-color: #E6C213;
+    }
 </style>
 
 <body>
@@ -414,7 +500,7 @@ height: 92vh;
             <label class="txtR"> REPLY TO APPEAL</label>
         </line>
 
-        <line onclick="navigateTo('adminViolation.php')" class="dashB">
+        <line onclick="navigateTo('appealAdmin.php')" class="dashB">
             <a href="adminViolation.php"><img src="../../../public/assets/images/paper.png" class="dashPIC"></a>
             <label class="txtR"> violation</label>
         </line>
@@ -453,77 +539,43 @@ height: 92vh;
         <div class="content">
             <div class="col">
                 <div class="text">
-                <label class="hello"> HELLO, 
-    <span class="session-name">
-        <?php 
-        // Display the session variable 'name'
-        echo $_SESSION["name"]; 
-        ?>
+                <label class="hello"> CHARGE A VIOLATION
     </span>
 </label>
 
                 </div>
             </div>
+            <form>
+                <label for="StudentName">Violator Name:</label>
+                    <?php
+                        $temp = array(); 
+                        $students = fetchStudent($conn, $temp);
+                        $dump = array(); 
+                        $reports = fetchReport($conn, $dump);
 
-            <div class="graph">
-                <div id="chart-container">
-                    <canvas id="myChart"></canvas>
-                  </div>
-            
-                  <div class="txt">
-                    LINE GRAPH OF REPORTS AND VIOLATION IN NU DASMARIÑAS
-                  </div>
+                        $searchQuery = [
+                            "group1" => $students,
+                            "group2" => $reports
+                        ];
 
-                  <div class="table">
-
-                    <div class="tbl">
-                        <!-- Main bar section with table -->
-                        <div class="tblcontent">
+                        $jsonified = json_encode($searchQuery);
+                    ?>
+                <input type="text" name="StudentName" id="StudentName" placeholder="Search by report name">
+                <br>
+                <div class="result-box" id="resultsBox1"></div>
+                <label for="ViolationType">Violation Type:</label>
+                <select name="ViolationType" id="ViolationType">
+                    <?php
+                        fetchViolations($conn);
+                    ?>
+                </select>
+                <br>
+                <label for="SupportingDetail">Supporing Evidence:</label>
+                <input type="text" name="SupportingDetail" id="SupportingDetail" placeholder="Search by report name">
+                <div class="result-box" id="resultsBox2"></div>
+                <!-- <a href="../../../public/assets/images/violations/sample.png">view </a> -->
+            </form>
             
-                            <!-- Reports Table -->
-                            <table class="report-table">
-                                <thead>
-                                    <tr>
-                                        <th>Report ID</th>
-                                        <th>Date Submitted</th>
-                                        <th>Report Type</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!-- Example report rows -->
-                                    <tr>
-                                        <td>001</td>
-                                        <td>2024-10-01</td>
-                                        <td>Violation</td>
-                                        <td>Pending</td>
-                                    </tr>
-                                    <tr>
-                                        <td>002</td>
-                                        <td>2024-10-03</td>
-                                        <td>Appeal</td>
-                                        <td>Reviewed</td>
-                                    </tr>
-                                    <tr>
-                                        <td>003</td>
-                                        <td>2024-10-05</td>
-                                        <td>Complaint</td>
-                                        <td>Resolved</td>
-                                    </tr>
-                                    <tr>
-                                        <td>004</td>
-                                        <td>2024-10-07</td>
-                                        <td>Violation</td>
-                                        <td>Pending</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-            
-                        </div>
-                    </div>
-                </div>
-    
-            </div> 
 
             
         </div> 
@@ -538,52 +590,6 @@ height: 92vh;
         window.location.href = pagename;
     }
 </script>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<script>
-  const ctx = document.getElementById('myChart').getContext('2d');
-
-  const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-
-  const reportData = [20, 39, 57, 23, 43, 45, 16, 32, 18, 28, 3, 61];
-  const violationData = [3, 7, 6, 10, 13, 24, 15, 19, 30, 70, 25, 31];
-
-  const data = {
-    labels: labels,
-    datasets: [{
-      label: 'Reports',
-      data: reportData,
-      borderColor: 'blue',
-      fill: false
-    }, {
-      label: 'Violations',
-      data: violationData,
-      borderColor: 'red',
-      fill: false
-    }]
-  };
-
-  const config = {
-    type: 'line',
-    data: data,
-    options: {
-        responsive: true, 
-    maintainAspectRatio: false, 
-      responsive: true,
-      maintainAspectRatio: false,
-      title: {
-        display: true,
-        text: 'Monthly Reports and Violations'
-      }
-    }
-  };
-
-  const myChart = new Chart(ctx, config);
-
-
-</script>
-
 <script>   
     document.getElementById('logout-link').addEventListener('click', function(event) {                  
         event.preventDefault();                           
@@ -614,7 +620,82 @@ height: 92vh;
         }
     }
 </script>
+<script>
+    var searchData = <?php echo $jsonified; ?>;  // Assuming both searchData use the same data
 
+    // Extract the two groups from the searchData object
+    var searchData1 = searchData.group1;  // For StudentName input box
+    var searchData2 = searchData.group2;  // For SupportingDetail input box
+    console.log(searchData2);
+    const inputBox1 = document.getElementById("StudentName");
+    const resultsBox1 = document.getElementById("resultsBox1");
+
+    const inputBox2 = document.getElementById("SupportingDetail");
+    const resultsBox2 = document.getElementById("resultsBox2");
+
+    // Function to handle input for the first search box (using searchData1)
+    inputBox1.onkeyup = function() {
+        handleSearch(inputBox1, resultsBox1, searchData1);
+    };
+
+    // Function to handle input for the second search box (using searchData2)
+    inputBox2.onkeyup = function() {
+        handleSearch(inputBox2, resultsBox2, searchData2);
+    };
+
+    // Generic search function to filter and display results
+    function handleSearch(inputBox, resultsBox, searchData) {
+        let keyword = inputBox.value;
+
+        // Ensure that the keyword is a string and is not empty
+        if (typeof keyword === "string" && keyword.trim() !== "") {
+            keyword = keyword.toLowerCase();  // Convert the keyword to lowercase
+
+            // Filter the students array based on the 'name' property
+            const filteredStudents = searchData.filter(function(student) {
+                return student && student.name && student.name.toLowerCase().includes(keyword);
+            });
+
+            // Display the filtered students in the correct results box
+            display(filteredStudents, resultsBox);
+            resultsBox.style.display = "block";
+        } else {
+            resultsBox.innerHTML = "";
+            resultsBox.style.display = "none";
+        }
+    }
+
+    // Function to display results in the corresponding result box
+    function display(result, resultsBox) {
+        if (result.length > 0) {
+            // If there are matching students, display them
+            const content = result.map((student) => {
+                return "<li onclick=selectInput(this)>" + "(ID: " +student.id + ") "+student.name  + "</li>";
+            }).join(''); // Join without commas
+
+            resultsBox.innerHTML = "<ul>" + content + "</ul>";
+        } else {
+            // If no students are found, display a "No students found" message
+            resultsBox.innerHTML = "<p>No students found</p>";
+        }
+    }
+
+    // Function to handle when a student name is clicked from the result list
+    function selectInput(list){
+        // Find which input box the user clicked
+        const parentResultsBox = list.closest('.result-box');
+        
+        if (parentResultsBox.id === 'resultsBox1') {
+            inputBox1.value = list.innerHTML;
+        } else if (parentResultsBox.id === 'resultsBox2') {
+            inputBox2.value = list.innerHTML;
+        }
+
+        // Clear the respective results box
+        parentResultsBox.innerHTML = '';
+    }
+
+</script>
 
 
 </html>
