@@ -22,7 +22,7 @@
                             $studentName = $row1['last_name'] . ", " . $row1['first_name'];        
                         }
                     }
-                     $array[] = ["id" => $row["user_ID"], "name" => $studentName];
+                    $array[] = ["id" => $row["user_ID"], "name" => $studentName];
                 }
             }
         }

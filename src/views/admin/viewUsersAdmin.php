@@ -2,6 +2,74 @@
 <?php
     include "../../connection/db_conn.php";
     session_start();
+    function fetchRole($conn, $roleID){
+        $stmt = $conn->prepare("SELECT rolename FROM roles WHERE role_ID = ?");
+        $stmt->bind_param("i", $roleID);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result && $result->num_rows > 0){
+            while($row = $result->fetch_assoc()){
+                return $row["rolename"];
+            }
+        }
+        $result->free();
+        $stmt->close(); 
+    }
+    function fetchName($conn, $userID){
+        $fetchName = $conn->prepare("SELECT * FROM userdetails WHERE userID=?");
+        $fetchName->bind_param("i", $userID);
+        $fetchName->execute();
+        $fnRes = $fetchName->get_result();
+        if($fnRes){
+            if($fnRes->num_rows > 0){
+               $row1 = $fnRes->fetch_assoc();
+                return $row1['last_name'] . ", " . $row1['first_name'];
+            }
+        }
+        $fnRes->free();
+        $fetchName->close(); 
+    }
+    function displayData($conn){
+        $stmt = $conn->prepare("SELECT * FROM user");
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result && $result->num_rows > 0){
+            while($row = $result->fetch_assoc()){
+                $email = $row["email"];
+                $role = fetchRole($conn, $row["role_ID"]);
+                $name = fetchName($conn, $row["user_ID"]);
+                echo "
+                    <tr>
+                        <td>$row[user_ID]</td>
+                        <td>$name</td>
+                        <td>$email</td>
+                        <td>$role</td>
+                        <td class='actions'>
+                            <a href='#' class='btn btn-edit' onClick='openViewModal(". json_encode($row["user_ID"]) .", " . json_encode($name) . ", " . json_encode($email) . ", " . json_encode($role) . ")'>Edit</a>
+                        </td>
+                    </tr>
+                ";
+
+
+            }
+        }
+        $result->free();
+        $stmt->close(); 
+    }
+    function fetchRoleSelect($conn){
+        $stmt = $conn->prepare("SELECT * FROM roles");
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result && $result->num_rows > 0){
+            while($row = $result->fetch_assoc()){
+                echo "
+                    <option id='" . htmlspecialchars($row['role_ID'], ENT_QUOTES) . "' value='" . htmlspecialchars($row['role_ID'], ENT_QUOTES) . "'>". htmlspecialchars($row['rolename'], ENT_QUOTES) ."</option>
+                    ";
+            }
+        }
+        $result->free();
+        $stmt->close(); 
+    }
 ?>
 <html lang="en">
 <head>
@@ -387,12 +455,79 @@ h2 {
             background-color: #f44336;
         }
 
- 
-</style>
+ /* Modal Overlay */
+.modal {
+    display: none; /* Initially hidden */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5); /* Semi-transparent black */
+    transition: opacity 0.3s ease;
+}
 
+.modal.show {
+    display: block; /* Display modal */
+    opacity: 1; /* Fade in */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #888;
+    border-top: 30px solid #2b3377;
+    width: 60%;
+    max-width: 600px; /* Max width for larger screens */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+    text-align: center;
+}
+
+.modal-content input {
+    width: 80%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.modal-content #closeBtn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 20px;
+    background: none;
+    border: none;
+    color: #888;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.modal-content #closeBtn:hover {
+    color: #333; /* Darker color on hover */
+}
+</style>
 <body>
     <div class="container">
-
+        <div class="modal hidden" id="view-modal">
+            <div class="modal-content">
+                <form action="../../config/updateUser.php" method="post">
+                    <input type="hidden" name="userID" id="userID_upd">
+                    <input type="text" name="FirstName" id="FirstName_upd">
+                    <input type="text" name="LastName" id="LastName_upd">
+                    <input type="text" name="Email" id="Email_upd">
+                    <select name="Role" id="Role_upd" required><?php fetchRoleSelect($conn); ?></select>
+                    <input type="submit" value="Submit" name="updateUser">
+                </form>
+                <button id="closeBtn" onclick="closeModal()">&times;</button>
+            </div>
+        </div>
         <!-- --------------<p>topbar</p>-------------------- -->
         <div class="student">
             <div class="inf1">
@@ -454,7 +589,6 @@ h2 {
             </div>
     </line>
     </div>
-
         <div class="LO">
                 <a id="logout-link">
                     <img src="../../../public/assets/images/logout.png" class="dashPIC" alt="Logout">
@@ -513,7 +647,8 @@ h2 {
                     </thead>
                     <tbody>
                         <!-- Sample data -->
-                        <tr>
+                        <?php displayData($conn); ?>
+                        <!-- <tr>
                             <td>1</td>
                             <td>John Doe</td>
                             <td>johndoe@example.com</td>
@@ -522,17 +657,7 @@ h2 {
                                 <a href="#" class="btn btn-edit">Edit</a>
                                 <a href="#" class="btn btn-delete">Delete</a>
                             </td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Jane Smith</td>
-                            <td>janesmith@example.com</td>
-                            <td>User</td>
-                            <td class="actions">
-                                <a href="#" class="btn btn-edit">Edit</a>
-                                <a href="#" class="btn btn-delete">Delete</a>
-                            </td>
-                        </tr>
+                        </tr> -->
                         <!-- Add more rows as needed -->
                     </tbody>
                 </table>
@@ -564,7 +689,7 @@ h2 {
         }
     });
 </script>
-
+<script src="../../../public/assets/js/viewUsersAdmin.js"></script>
 <script>
     
     function toggleDropdown() {
