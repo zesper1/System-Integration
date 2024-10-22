@@ -123,6 +123,7 @@
         width: 100%;
         background-color: #E9EAF6;
         height: 100vh;
+        overflow: hidden;
     }
 
     .container{

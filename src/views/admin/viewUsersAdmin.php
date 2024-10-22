@@ -335,38 +335,7 @@ height: 92vh;
         display: flex;
     }
 
-    .input-box1{
-    width: 130px;
-    border-radius: 10px;
-    color: #34408D;
-    margin-top: 10px;
-} 
-
-.input-box1 select {
-    display: flex;
-    align-items: center;
-  width: 100%;
-  height: 35px;
-  cursor: pointer;
-  font-size: 15px;
-  font-family: 'pop';
-  color: black;
-  background-color: white;
-}
-
-.input-box1 select::after {
-  content: '\25BC'; 
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 12px;
-  color: #999;
-}
-
-.input-box1 select option {
-  text-align: center; 
-}
+  
 
 .glass {
   width: 250px; 
@@ -397,18 +366,31 @@ height: 92vh;
     display: flex;
     justify-content: center;
     height: 80%;
+    background-color: white;
+    width: 70%;
+    overflow: auto;
 }
 
+.wrapper{
+    display: flex;
+    justify-content: center;
+    height: 80%;
+}
+
+
 h2 {
-            text-align: center;
+            text-align: start;
             color: #333;
             margin-bottom: 20px;
+            color: #2b3377;
+            margin-top: 2%;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 20px;
+            overflow: scroll;
         }
 
         table, th, td {
@@ -618,13 +600,7 @@ h2 {
             </div>
 
             <div class="rep">
-                <div class="input-box1">
-                    <select name="role" placeholder="Select a role">             
-                        <option value=""disabled selected>Select Filter</option >   
-                      <option value="admin">Pending</option >
-                      <option value="user">Solved</option>
-                    </select>
-                  </div>
+
 
                   <div class="glass">
                     <input type="text" placeholder="Search">
@@ -632,9 +608,11 @@ h2 {
             </div>
             </div>
 
+
+            <div class="wrapper">
             <div class="tablecon">
             <div class="table">
-                <h2>User List</h2>
+                <h2>USERS LIST</h2>
                 <table>
                     <thead>
                         <tr>
@@ -663,7 +641,7 @@ h2 {
                 </table>
             </div>
         </div>
-
+        </div>
     </div>
     </div>
 

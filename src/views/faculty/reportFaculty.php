@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>writeReportStudent</title>
+    <title>reportFaculty</title>
 </head>
 
 <style>
@@ -29,7 +29,6 @@
         background-color: #E9EAF6;
         font-family: 'pop';
         height: 100vh;
-        overflow: hidden;
     }
 
     .container{
@@ -196,13 +195,29 @@ height: 92vh;
 /* mainbar */
 
 .content{
-        width: 100%;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-    }
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
 
-    .content1{
+/* Table Section Container */
+.table-section {
+    margin-bottom: 30px;
+    padding: 0 20px;
+}
+
+/* Table Section Header */
+.table-section h2 {
+    font-size: 24px;
+    color: #35408E;
+    margin-bottom: 15px;
+margin-left: 55px;
+    font-family: 'pop';
+}
+
+.content1{
         display: flex;
         width: 100%;
         height: 15%;
@@ -229,87 +244,155 @@ height: 92vh;
     margin-top: 10px;
     }
 
-    .content{
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            padding: 20px;
-        }
+.table-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
 
-        .col{
-            width: 100%;
-            display: flex;
-            justify-content: start;
-            color: #35408E;
-            font-family: 'pop';
-        }
+table {
+    width: 90%;
+    border-collapse: collapse;
+    font-family: 'pop';
+    background-color: #ffffff;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+}
 
-        .text{
-            color: #35408E;
-            display: flex;
-            align-items: center;
-            justify-content: start;
-            height: 100%;
-            width: 50%;
-            font-size: 30px;
-            margin-left: 60px;
-            margin-top: 10px;
-        }
+table thead {
+    background-color: #34408D;
+    color: white;
+    font-size: 18px;
+}
 
-        /* Form Styling */
-        .report-form {
-            width: 80%;
-            margin: 20px auto;
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
+table th, table td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
 
-        .report-form label {
-            display: block;
-            font-size: 18px;
-            margin-bottom: 10px;
-            color: #34408D;
-        }
+table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
 
-        .report-form input, .report-form select, .report-form textarea {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 20px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 16px;
-        }
+table tbody tr:hover {
+    background-color: #e0e0e0;
+}
 
-        .report-form textarea {
-            height: 100px;
-        }
+table tbody td {
+    font-size: 16px;
+    color: #333;
+}
 
-        .report-form button {
-            padding: 10px 20px;
-            background-color: #34408D;
-            color: white;
-            font-size: 18px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+.tableBtn{
+    width: 100px;
+    padding: 5px 10px;
+    font-family: 'pop';
+    border: none;
+    color: white;
+    background-color: #34408D;
+    margin-inline: 5px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+} 
 
-        .report-form button:hover {
-            background-color: #2b357a;
-        }
+.tableBtn:hover {
+    background-color: #2b3377; /* Darker background on hover */
+}
+/* Modal Overlay */
+.modal {
+    display: none; /* Initially hidden */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5); /* Semi-transparent black */
+    transition: opacity 0.3s ease;
+}
 
-        .session-name{
-            color: #E6C213;
-        }
+.modal.show {
+    display: block; /* Display modal */
+    opacity: 1; /* Fade in */
+}
 
-   
+.modal-content {
+    background-color: #fefefe;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #888;
+    border-top: 30px solid #2b3377;
+    width: 60%;
+    max-width: 600px; /* Max width for larger screens */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+    text-align: center;
+}
+
+.modal-content input {
+    width: 80%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.modal-content #closeBtn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 20px;
+    background: none;
+    border: none;
+    color: #888;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.modal-content #closeBtn:hover {
+    color: #333; /* Darker color on hover */
+}
+
+.session-name{
+    color: #E6C213;
+}
+
+a.dashB {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
+a.dashB img.dashPIC {
+    margin-right: 10px;
+}
 </style>
 
 <body>
     <div class="container">
-
+    <div class="modal hidden" id="view-modal">
+            <div class="modal-content">
+                <div class="mc-header">
+                    You have been found guilty for doing: <input id="violationName" type="text" readonly>
+                </div>
+                <div class="mc-date">
+                    Submitted on: <input id="violationDate" type="text" readonly>
+                </div>
+                <div class="mcr-details" id="mc-repdet">
+                    Report Description: <span id="mcrepdet"></span>
+                </div>
+                <div class="mcr-attachment">
+                    Attachment to support the claim: <img src="" alt="" id="mc-attch" width="100px" height="100px">
+                </div>
+                <button id="closeBtn" onclick="closeModal()">&times;</button>
+            </div>
+        </div>
         <!-- --------------<p>topbar</p>-------------------- -->
         <div class="student">
             <div class="inf1">
@@ -336,8 +419,8 @@ height: 92vh;
             <div class="overview">OVERVIEW</div>
             
             <div class="dashboard">
-        
-                <line onclick="navigateTo('dashboardfaculty.php')" class="dashB">
+
+            <line onclick="navigateTo('dashboardfaculty.php')" class="dashB">
                     <img src="../../../public/assets/images/report.png" class="dashPIC">
                     <label class="txtR"> WRITE A REPORT</label>
                 </line>
@@ -346,7 +429,8 @@ height: 92vh;
                     <img src="../../../public/assets/images/bar.png" class="dashPIC">
                     <label class="txtR"> REPORT INFO</label>
                 </line>
-                
+
+
     </div>
 
         <div class="LO">
@@ -361,42 +445,59 @@ height: 92vh;
         <!-- --------------<p>mainbar</p>-------------------- -->
 
         <div class="content">
-            <div class="content1">
-                <div class="col">
-                    <div class="text">
-                        <label class="hello"> FILE A REPORT 
-                        <span class="session-name">
+    <div class="content1">
+        <div class="col">
+            <div class="text">
+                <label class="hello"> VIEW VIOLATIONS
+                <span class="session-name">
         <?php 
         // Display the session variable 'name'
         echo $_SESSION["name"]; 
         ?>
     </span>
-                        </label>
-                    </div>
-                </div>
+                </label>
             </div>
-
-            <!-- Report Form -->
-            <form class="report-form" action="submitReport.php" method="POST">
-                <label for="title">Report Title:</label>
-                <input type="text" id="title" name="title" placeholder="Enter the report title" required>
-
-                <label for="type">Report Type:</label>
-                <select id="type" name="type" required>
-                    <option value="violation">Violation</option>
-                    <option value="complaint">Complaint</option>
-                </select>
-
-                <label for="description">Description:</label>
-                <textarea id="description" name="description" placeholder="Describe the issue..." required></textarea>
-
-                <label for="image">Attach Image (optional):</label>
-                <input type="file" id="image" name="image" accept="image/*">
-
-                <button type="submit">Submit Report</button>
-            </form>
-
         </div>
+    </div>
+    
+
+    <!-- Filed Reports Table -->
+    <div class="table-section">
+        <h2>Filed Reports</h2>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Report ID</th>
+                        <th>Report Date</th>
+                        <th>Student Name</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>2</td>
+                        <td>2024-10-05</td>
+                        <td>Jane Smith</td>
+                        <td>Plagiarism in assignment</td>
+                        <td>Resolved</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>2024-09-29</td>
+                        <td>Sam Brown</td>
+                        <td>Late submission</td>
+                        <td>Pending</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+    </div>
     </div>
 
      <!-- --------------<p>mainbar</p>-------------------- -->
@@ -421,5 +522,5 @@ height: 92vh;
         }
     });
 </script>
-
+<script src="../../../public/assets/js/dashBoardStudent.js"></script>
 </html>
