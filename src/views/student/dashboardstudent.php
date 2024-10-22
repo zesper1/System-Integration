@@ -362,6 +362,16 @@ table tbody td {
     color: #E6C213;
 }
 
+a.dashB {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
+a.dashB img.dashPIC {
+    margin-right: 10px;
+}
 </style>
 
 <body>
@@ -410,20 +420,20 @@ table tbody td {
             
             <div class="dashboard">
 
-                <line onclick="navigateTo('dashboardstudent.php')" class="dashB">
-                    <img src="../../../public/assets/images/dashboard.png" class="dashPIC">
-                    <label class="txtR"> VIEW VIOALTIONS</label>
-                </line>
-        
-                <line onclick="navigateTo('reportstudent.php')" class="dashB">
-                    <img src="../../../public/assets/images/report.png" class="dashPIC">
-                    <label class="txtR"> WRITE A REPORT</label>
-                </line>
-                
-                <line onclick="navigateTo('appealStudent.php')" class="dashB">
-                    <img src="../../../public/assets/images/report.png" class="dashPIC">
-                    <label class="txtR"> WRITE AN APPEAL</label>
-                </line>
+            <a href="dashboardstudent.php" class="dashB">
+            <img src="../../../public/assets/images/dashboard.png" class="dashPIC">
+            <label class="txtR"> VIEW VIOLATIONS</label>
+        </a>
+
+        <a href="reportstudent.php" class="dashB">
+            <img src="../../../public/assets/images/report.png" class="dashPIC">
+            <label class="txtR"> WRITE A REPORT</label>
+        </a>
+
+        <a href="appealStudent.php" class="dashB">
+            <img src="../../../public/assets/images/report.png" class="dashPIC">
+            <label class="txtR"> WRITE AN APPEAL</label>
+        </a>
     </div>
 
         <div class="LO">
