@@ -447,39 +447,73 @@ h2 {
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(0,0,0,0.5); /* Semi-transparent black */
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
     transition: opacity 0.3s ease;
 }
 
 .modal.show {
-    display: block; /* Display modal */
-    opacity: 1; /* Fade in */
+    display: block; /* Display modal when active */
+    opacity: 1; /* Smooth fade-in effect */
 }
 
 .modal-content {
-    background-color: #fefefe;
-    margin: 10% auto;
+    background-color: #fff;
+    margin: 5% auto;
     padding: 20px;
     border-radius: 8px;
-    border: 1px solid #888;
-    border-top: 30px solid #2b3377;
-    width: 60%;
-    max-width: 600px; /* Max width for larger screens */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border: 1px solid #34408D;
+    border-top: 40px solid #2b3377;
+    width: 40%;
+    max-width: 500px; /* Max width for larger screens */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
     position: relative;
-    text-align: center;
+    font-family: 'Arial', sans-serif; /* Consistent font */
 }
 
-.modal-content input {
-    width: 80%;
+/* Labels for form fields */
+.modal-content label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-size: 14px;
+    color: #333; /* Dark text color */
+}
+
+/* Inputs for form fields */
+.modal-content input[type="text"], .modal-content select {
+    width: 100%;
     padding: 10px;
-    margin: 10px 0;
+    margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 16px;
+    box-sizing: border-box;
 }
 
-.modal-content #closeBtn {
+.modal-content input[type="text"]:focus, .modal-content select:focus {
+    outline: none;
+    border-color: #34408D; /* Highlight input border on focus */
+}
+
+/* Submit button styling */
+.modal-content input[type="submit"] {
+    background-color: #34408D;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.modal-content input[type="submit"]:hover {
+    background-color: #2b3377; /* Darken on hover */
+}
+
+/* Close button styling */
+#closeBtn {
     position: absolute;
     top: 10px;
     right: 15px;
@@ -491,9 +525,18 @@ h2 {
     transition: color 0.3s ease;
 }
 
-.modal-content #closeBtn:hover {
+#closeBtn:hover {
     color: #333; /* Darker color on hover */
 }
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .modal-content {
+        width: 90%;
+    }
+}
+
+
 </style>
 <body>
     <div class="container">
@@ -501,10 +544,19 @@ h2 {
             <div class="modal-content">
                 <form action="../../config/updateUser.php" method="post">
                     <input type="hidden" name="userID" id="userID_upd">
+
+                    <label for="first_name">First Name:</label>
                     <input type="text" name="FirstName" id="FirstName_upd">
+
+                    <label for="last_name">Last Name:</label>
                     <input type="text" name="LastName" id="LastName_upd">
+
+                    <label for="email">Email:</label>
                     <input type="text" name="Email" id="Email_upd">
+
+                    <label for="role">Role:</label>
                     <select name="Role" id="Role_upd" required><?php fetchRoleSelect($conn); ?></select>
+
                     <input type="submit" value="Submit" name="updateUser">
                 </form>
                 <button id="closeBtn" onclick="closeModal()">&times;</button>
