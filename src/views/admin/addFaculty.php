@@ -2,6 +2,53 @@
 <?php
     include "../../connection/db_conn.php";
     session_start();
+
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        // Get faculty email
+        $email = $_POST['Email'];
+        $password = $_POST['Password'];
+        $role_id = 2; // Fixed role_id
+    
+        // Hash the password for security
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+    
+        // Prepare SQL statement for inserting faculty
+        $stmt = $conn->prepare("INSERT INTO user (email, password, role_id) VALUES (?, ?, ?)");
+        $stmt->bind_param("ssi", $email, $hashed_password, $role_id);
+    
+        // Execute the statement for faculty
+        if ($stmt->execute()) {
+    
+            // Get user details from the POST request
+            $employeeID = $conn->real_escape_string($_POST['EmployeeID']);
+            $lastName = $conn->real_escape_string($_POST['lastName']);
+            $firstName = $conn->real_escape_string($_POST['firstName']);
+            $middleName = $conn->real_escape_string($_POST['middleName']);
+            $department = $conn->real_escape_string($_POST['school']);
+    
+            // Prepare SQL statement for inserting user details
+            $stmtDetails = $conn->prepare("INSERT INTO faculty (fac_id, last_name, first_name, middle_name, dept) VALUES (?, ?, ?, ?, ?)");
+            $stmtDetails->bind_param("sssss", $employeeID, $lastName, $firstName, $middleName, $department); // Bind the user ID as fac_id
+    
+            // Execute the statement for user details
+            if ($stmtDetails->execute()) {
+                echo "<script>alert('Faculty added successfully!');</script>";
+            } else {
+                echo "<script>alert('Error adding user details: " . $stmtDetails->error . "');</script>";
+            }
+    
+            // Close the details statement
+            $stmtDetails->close();
+        } else {
+            echo "<script>alert('Error adding admin: " . $stmt->error . "');</script>";
+        }
+    
+        // Close the admin statement
+        $stmt->close();
+    }
+    
+    // Close the database connection
+    $conn->close();
 ?>
 <html lang="en">
 <head>
@@ -619,15 +666,15 @@ font-family: 'pop';
                         </div>
                         <div>
                             <label for="facultyEmail">Email:</label>
-                            <input type="email" id="facultyEmail" name="facultyEmail" required>
+                            <input type="email" id="facultyEmail" name="Email" required>
                         </div>
                         <div>
                             <label for="adminPassword">Password:</label>
-                            <input type="password" id="adminPassword" name="adminPassword" required>
+                            <input type="password" id="adminPassword" name="Password" required>
                         </div>
                         <div>
                             <label for="role">Employee ID:</label>
-                            <input type="text" id="Employee ID" name="Employee ID"  required>
+                            <input type="text" id="EmployeeID" name="Employee ID"  required>
                         </div>
                         <div class="input-box1">
     <label for="school">School:</label>
