@@ -152,7 +152,7 @@ height: 92vh;
 .dashboard .txtR{
     font-size: 20px;
     color: #595959;
-    margin-left: 30px;
+    margin-left: 10px;
 }
 
 .dashboard .txtA{
@@ -431,7 +431,7 @@ a.dashB img.dashPIC {
         </a>
 
         <a href="appealStudent.php" class="dashB">
-            <img src="../../../public/assets/images/report.png" class="dashPIC">
+            <img src="../../../public/assets/images/gavel-xl.png" class="dashPIC">
             <label class="txtR"> WRITE AN APPEAL</label>
         </a>
     </div>
