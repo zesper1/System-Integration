@@ -2,12 +2,14 @@
 <?php
     include "../../connection/db_conn.php";
     session_start();
+
 ?>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>admindb</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <style>
@@ -281,7 +283,7 @@ height: 92vh;
       margin-top: 5%;
     }
   
-    #myChart {
+    #weeklyReportChart {
       width: 100%;
       height: 100%;
     }
@@ -469,7 +471,7 @@ height: 92vh;
 
             <div class="graph">
                 <div id="chart-container">
-                    <canvas id="myChart"></canvas>
+                    <canvas id="weeklyReportChart"></canvas>
                   </div>
             
                   <div class="txt">
@@ -526,8 +528,6 @@ height: 92vh;
                 </div>
     
             </div> 
-
-            
         </div> 
         <!-- --------------<p>mainbar</p>-------------------- --> 
 
@@ -544,46 +544,57 @@ height: 92vh;
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-  const ctx = document.getElementById('myChart').getContext('2d');
+   // Fetch the data from your PHP script (Assume it's being served at /chart-data)
+   fetch('../../config/graphModel.php')
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            // Extract the weeks and totals from the JSON response
+            const weeks = data.weeks;
+            const totalReport = data.totalReports;
+            const totalViolation = data.totalViolations;
 
-  const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-
-  const reportData = [20, 39, 57, 23, 43, 45, 16, 32, 18, 28, 3, 61];
-  const violationData = [3, 7, 6, 10, 13, 24, 15, 19, 30, 70, 25, 31];
-
-  const data = {
-    labels: labels,
-    datasets: [{
-      label: 'Reports',
-      data: reportData,
-      borderColor: 'blue',
-      fill: false
-    }, {
-      label: 'Violations',
-      data: violationData,
-      borderColor: 'red',
-      fill: false
-    }]
-  };
-
-  const config = {
-    type: 'line',
-    data: data,
-    options: {
-        responsive: true, 
-    maintainAspectRatio: false, 
-      responsive: true,
-      maintainAspectRatio: false,
-      title: {
-        display: true,
-        text: 'Monthly Reports and Violations'
-      }
-    }
-  };
-
-  const myChart = new Chart(ctx, config);
-
-
+            // Create a Chart.js chart
+            const ctx = document.getElementById('weeklyReportChart').getContext('2d');
+            const chart = new Chart(ctx, {
+                type: 'line', // You can change this to 'bar', 'pie', etc.
+                data: {
+                    labels: weeks, // The weeks will appear on the X-axis
+                    datasets: [{
+                        label: 'Reports',
+                        data: totalReport, // The totals will be plotted on the Y-axis
+                        backgroundColor: 'none',
+                        borderColor: 'blue',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Violations',
+                        data: totalViolation, // The totals will be plotted on the Y-axis
+                        backgroundColor: 'none',
+                        borderColor: 'red',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Week'
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Total Reports'
+                            }
+                        }
+                    }
+                }
+            });
+        })
+        .catch(error => console.error('Error fetching the chart data:', error));
 </script>
 
 <script>   
