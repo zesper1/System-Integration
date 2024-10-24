@@ -37,10 +37,11 @@
                 violationreport.accusedID,
                 violationreport.violationTypeID,
                 attachment.fileName,
-                reportstatus.status_DETAILS
+                reportstatus.status_DETAILS,
+                reportstatus.status
             FROM 
                 report 
-            JOIN 
+            LEFT JOIN 
                 attachment ON report.report_ID = attachment.reportID 
             JOIN 
                 reportstatus ON report.report_ID = reportstatus.reportID
@@ -58,9 +59,11 @@
                     $array[] = [
                         "name" => $name,
                         "id" => $row["accusedID"],
+                        "reportID" => $row["report_ID"],
                         "violation" => $violation,
                         "attachment" => $row["fileName"],
                         "details" => $row["status_DETAILS"],
+                        "status" => $row["status"]
                     ];
                 }
             }
@@ -624,11 +627,15 @@ height: 92vh;
      $reportslist = fetchViolationReport($conn, $tempdump);
      $index = 0;
      foreach ($reportslist as $item) {
+        $reportClass = ($item['status'] != 'Read') ? 'unread' : 'read';
         echo "
-        <div class='report-item active' onclick='showDetails($index)'>
+        <div data-id = 'report-$item[reportID]' id='report-$item[reportID]' class='report-item active $reportClass' onclick='showDetails($index)'>
             <img src='student-photo.jpg' alt='Student Photo' class='student-photo'>
             <div class='report-info'>
-                <p>$item[name]</p>
+                <div class='mc-header' style='display: flex;'>
+                    <div class='mch-left'><p>$item[name]</p></div>
+                    <div class='mch-right'><p>$item[status]</p></div>
+                </div>
                 <small>Wed 2:11 PM</small>
                 <p class='violation'>$item[violation]</p>
             </div>

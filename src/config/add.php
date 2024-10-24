@@ -179,6 +179,7 @@ if (isset($_POST['submitReport']) && isset($_FILES['my_image'])) {
     $rTitle = $_POST['title'];
     $rType = $_POST['type'];
     $rDesc = $_POST['description'];
+    $image = $_POST['my_image'];
     if($rType == 'Violation'){
         $violatorID = $_POST['violator'];
         $violationID = $_POST['vType'];
@@ -197,7 +198,11 @@ if (isset($_POST['submitReport']) && isset($_FILES['my_image'])) {
                 $vReportQuery = $conn->prepare("INSERT INTO violationreport (reportID, violationTypeID, accusedID) VALUES (?,?,?)");
                 $vReportQuery->bind_param("iii", $report_id, $violationID, $id);
                 if($vReportQuery->execute()){
-                    include_once "upload.php";
+                    if(empty($image)){
+                        header("Location: ../views/student/reportStudent.php?success=Report added successfully");
+                    } else {
+                        include_once "upload.php";
+                    }
                 }
             }
         }
@@ -214,7 +219,11 @@ if (isset($_POST['submitReport']) && isset($_FILES['my_image'])) {
                 $cReportQuery = $conn->prepare("INSERT INTO complainsreport (reportID, cr_Category) VALUES (?,?)");
                 $cReportQuery->bind_param("ii", $report_id, $complaintID);
                 if($cReportQuery->execute()){
-                    include_once "upload.php";
+                    if(empty($image)){
+                        header("Location: ../views/student/reportStudent.php?success=Report added successfully");
+                    } else {
+                        include_once "upload.php";
+                    }
                 }
             }
         }

@@ -587,7 +587,7 @@ height: 92vh;
                             beginAtZero: true,
                             title: {
                                 display: true,
-                                text: 'Total Reports'
+                                text: 'Total Reports and Violations'
                             }
                         }
                     }

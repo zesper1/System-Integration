@@ -59,7 +59,7 @@ if ($error === 0) {
         }
     }
 } else {
-    $em = "Unknown error occurred!";
+    $em = "Image required";
     header("Location: ../views/student/reportStudent.php?error=$em");
 }
 ?>
