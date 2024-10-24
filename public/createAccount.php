@@ -7,38 +7,53 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Get admin email and password
     $email = $_POST['Email'];
     $password = $_POST['Password'];
-    $role_id = 2; // Fixed role_id
+    $role_id = 3; // Fixed role_id
 
     // Hash the password for security
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-    // Prepare SQL statement for inserting admin
+    // Prepare SQL statement for inserting admin (user) information
     $stmt = $conn->prepare("INSERT INTO user (email, password, role_id) VALUES (?, ?, ?)");
     $stmt->bind_param("ssi", $email, $hashed_password, $role_id);
 
-    // Execute the statement for admin
+    // Execute the statement for admin (user)
     if ($stmt->execute()) {
-        // Successfully added admin, now get the last inserted ID
-        $userId = $stmt->insert_id; // Get the last inserted ID
+        // Get the generated user ID (assuming user_ID is auto-increment)
+        $userID = $conn->insert_id;
 
-        // Get user details from the POST request
+        // Get additional user details from the POST request
+        $studentID = $conn->real_escape_string($_POST['studentID']);  // Optional if studentID is manual
         $lastName = $conn->real_escape_string($_POST['lastName']);
         $firstName = $conn->real_escape_string($_POST['firstName']);
         $middleName = $conn->real_escape_string($_POST['middleName']);
-        $department = $conn->real_escape_string($_POST['department']);
+        $program = $conn->real_escape_string($_POST['program']);
+        $yearLevel = $conn->real_escape_string($_POST['yearLevel']);
+        $section = $conn->real_escape_string($_POST['section']);
 
-        // Prepare SQL statement for inserting user details
-        $stmtDetails = $conn->prepare("INSERT INTO faculty (fac_id, last_name, first_name, middle_name, dept) VALUES (?, ?, ?, ?, ?)");
-        $stmtDetails->bind_param("sssss", $userId, $lastName, $firstName, $middleName, $department); // Bind the user ID as fac_id
+        // Insert into `userdetails` using the retrieved $userID
+        $stmtDetails = $conn->prepare("INSERT INTO userdetails (userID, last_name, first_name, middle_name) VALUES (?, ?, ?, ?)");
+        $stmtDetails->bind_param("isss", $userID, $lastName, $firstName, $middleName);
 
         // Execute the statement for user details
         if ($stmtDetails->execute()) {
-            echo "<script>alert('Faculty added successfully!');</script>";
+            // Insert into `student` using the same $userID
+            $stmtStudent = $conn->prepare("INSERT INTO student (stud_id, program, yearlevel, section) VALUES (?, ?, ?, ?)");
+            $stmtStudent->bind_param("ssss", $userID, $program, $yearLevel, $section);
+
+            // Execute the statement for student details
+            if ($stmtStudent->execute()) {
+                echo "<script>alert('Student added successfully!');</script>";
+            } else {
+                echo "<script>alert('Error adding student details: " . $stmtStudent->error . "');</script>";
+            }
+
+            // Close the student statement
+            $stmtStudent->close();
         } else {
             echo "<script>alert('Error adding user details: " . $stmtDetails->error . "');</script>";
         }
 
-        // Close the details statement
+        // Close the user details statement
         $stmtDetails->close();
     } else {
         echo "<script>alert('Error adding admin: " . $stmt->error . "');</script>";
@@ -401,11 +416,11 @@ $conn->close();
                         </div>
                         <div>
                             <label for="adminEmail">Email:</label>
-                            <input type="email" id="adminEmail" name="Email" required>
+                            <input type="email" id="Email" name="Email" required>
                         </div>
                         <div>
                             <label for="adminPassword">Password:</label>
-                            <input type="password" id="adminPassword" name="Password" required>
+                            <input type="password" id="Password" name="Password" required>
                         </div>
                         <div>
                             <label for="studentID">Student-ID:</label>
