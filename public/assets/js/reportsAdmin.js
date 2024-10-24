@@ -4,7 +4,7 @@
         message.addEventListener('click', function() {
             const messageId = this.dataset.id;
             const spliced = SpliceId(messageId);
-            console.log(spliced);
+            console.log("id: "+ spliced);
             // Check if the message is already read
             if (!this.classList.contains('Read')) {
                 markMessageAsRead(spliced);
@@ -51,33 +51,55 @@
     }
     
 
-    function showDetails(reportIndex) {
-        const report = reports[reportIndex];
-        const attachment = report.attachment;
-        
-        var filedirec = "../../../public/assets/images/violations/" + report.attachment;
-        // Update the details on the right side
-        document.querySelector('.details-photo').src = report.photo;
-        document.querySelector('.details-info').innerHTML = `
-            <p><strong>Student Name:</strong> ${report.name}</p>
-            <p><strong>Student ID:</strong> ${report.id}</p>
-            <p><strong>Violation:</strong> ${report.violation}</p>
-        `;
-        document.querySelector('.violation-details p').textContent = report.details;
-
-        if(attachment == null){
-            document.querySelector('.rep-attachment').setAttribute('href', '#');
-            document.querySelector('.rep-attachment').setAttribute('style', 'pointer-events: none; color: grey;');
-            document.querySelector('.rep-attachment').setAttribute('title', 'No attachment available');
-        } else {
-            document.querySelector('.rep-attachment').setAttribute('href', filedirec);
-            document.querySelector('.rep-attachment').setAttribute('style', 'color: blue;');
-            document.querySelector('.rep-attachment').setAttribute('title', '');
+    function showDetails(category, reportIndex) {
+        if(category == "violations"){
+            var report = reports.violations[reportIndex];
+            var attachment = report.attachment;
+            var filedirec = "../../../public/assets/images/violations/" + report.attachment;
+            // Update the details on the right side
+            document.querySelector('.details-photo').src = report.photo;
+            document.querySelector('.details-info').innerHTML = `
+                <p><strong>Student Name:</strong> ${report.name}</p>
+                <p><strong>Student ID:</strong> ${report.id}</p>
+                <p><strong>Violation:</strong> ${report.violation}</p>
+            `;
+            document.querySelector('.violation-details p').textContent = report.details;
+    
+            if(attachment == null){
+                document.querySelector('.rep-attachment').setAttribute('href', '#');
+                document.querySelector('.rep-attachment').setAttribute('style', 'pointer-events: none; color: grey;');
+                document.querySelector('.rep-attachment').setAttribute('title', 'No attachment available');
+            } else {
+                document.querySelector('.rep-attachment').setAttribute('href', filedirec);
+                document.querySelector('.rep-attachment').setAttribute('style', 'color: blue;');
+                document.querySelector('.rep-attachment').setAttribute('title', '');
+            }
+            // Show the main content section if hidden
+            document.querySelector('.main-content').style.display = 'block';
+        } else if (category == "complaints") {
+            var report = reports.complaints[reportIndex];
+            var filedirec = "../../../public/assets/images/complains/" + report.attachment;
+            // Update the details on the right side
+            document.querySelector('.details-photo').src = report.photo;
+            document.querySelector('.details-info').innerHTML = `
+                <p><strong></strong></p>
+                <p><strong>Report Name: </strong>${report.reportName}</p>
+                <p><strong>Complaint: </strong>${report.complaint}</p>
+            `;
+            document.querySelector('.violation-details p').textContent = report.details;
+            if(attachment == null){
+                document.querySelector('.rep-attachment').setAttribute('href', '#');
+                document.querySelector('.rep-attachment').setAttribute('style', 'pointer-events: none; color: grey;');
+                document.querySelector('.rep-attachment').setAttribute('title', 'No attachment available');
+            } else {
+                document.querySelector('.rep-attachment').setAttribute('href', filedirec);
+                document.querySelector('.rep-attachment').setAttribute('style', 'color: blue;');
+                document.querySelector('.rep-attachment').setAttribute('title', '');
+            }
+            // Show the main content section if hidden
+            document.querySelector('.main-content').style.display = 'block';
         }
-        // Show the main content section if hidden
-        document.querySelector('.main-content').style.display = 'block';
     }
-
     // Add click event listeners to each report item
     document.querySelectorAll('.report-item').forEach((item, index) => {
         item.addEventListener('click', () => {
@@ -89,4 +111,3 @@
             showDetails(index);
         });
     });
-    console.log(reports);

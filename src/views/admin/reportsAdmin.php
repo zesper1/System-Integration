@@ -2,19 +2,21 @@
 <?php
     include "../../connection/db_conn.php";
     session_start();
-    function fetchViolationType($conn, $id){
-        $stmt = $conn->prepare("SELECT * FROM violationtype WHERE violationType_ID = ?");
+    function fetchType($conn, $attribute, $table, $condition,$id){
+        $query = "SELECT $attribute FROM $table WHERE $condition = ?";
+        $type = "";
+        $stmt = $conn->prepare($query);
         $stmt->bind_param("i", $id);
         $stmt->execute();
         $result = $stmt->get_result();
         if($result){
             if($result->num_rows > 0){
                 while($row = $result->fetch_assoc()){
-                    $violationName = $row["violationTypeName"];
+                    $type = $row[$attribute];
                 }
             }
         }
-        return $violationName;
+        return $type;
     }
     function fetchName($conn, $id){
         $stmt = $conn->prepare("SELECT * FROM userdetails WHERE userID = ?");
@@ -33,7 +35,9 @@
     function fetchViolationReport($conn, array $array){
         $stmt = $conn->prepare("
             SELECT 
+                report.reportName,
                 report.report_ID,
+                report.reportOwnerID,
                 violationreport.accusedID,
                 violationreport.violationTypeID,
                 attachment.fileName,
@@ -55,9 +59,12 @@
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                     $name = fetchName($conn, $row["accusedID"]);
-                    $violation = fetchViolationType($conn, $row["violationTypeID"]);
+                    $complainant = fetchName($conn, $row["reportOwnerID"]);
+                    $violation = fetchType($conn, "violationTypeName", "violationtype", "violationType_ID", $row["violationTypeID"]);
                     $array[] = [
+                        "reportName" => $row["reportName"],
                         "name" => $name,
+                        "complainant" => $complainant,
                         "id" => $row["accusedID"],
                         "reportID" => $row["report_ID"],
                         "violation" => $violation,
@@ -69,6 +76,59 @@
             }
         }
         return $array;
+    }
+    function fetchComplaintReport($conn, array $array){
+        $query = "
+        SELECT
+            report.reportName,
+            report.report_ID,
+            report.reportOwnerID,
+            complainsreport.cr_Category,
+            attachment.fileName,
+            reportstatus.status_DETAILS,
+            reportstatus.status
+        FROM 
+            report 
+        LEFT JOIN 
+            attachment ON report.report_ID = attachment.reportID 
+        JOIN 
+            reportstatus ON report.report_ID = reportstatus.reportID
+        JOIN 
+            complainsreport ON report.report_ID = complainsreport.reportID;
+        ";
+        $stmt = $conn->prepare($query);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $array = [];
+        if ($result) {
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    $name = fetchName($conn, $row["reportOwnerID"]);
+                    $complaint = fetchType($conn, "ccName", "complains_category", "ccID", $row["cr_Category"]);
+                    $array[] = [
+                        "reportName" => $row["reportName"],
+                        "complainant" => $name,
+                        "reportID" => $row["report_ID"],
+                        "complaint" => $complaint,
+                        "attachment" => $row["fileName"],
+                        "details" => $row["status_DETAILS"],
+                        "status" => $row["status"]
+                    ];
+                }
+            }
+        }
+        return $array;
+    }
+    function fetchData($conn, array $merged){
+        $tempArr1 = [];
+        $tempArr2 = [];
+        $vArray = fetchViolationReport($conn, $tempArr1);
+        $cArray = fetchComplaintReport($conn, $tempArr2);
+        $merged = [
+            "violations" => $vArray,
+            "complaints" => $cArray
+        ];
+        return $merged;
     }
 ?>
 <html lang="en">
@@ -306,7 +366,7 @@ height: 92vh;
     .content1{
         display: flex;
         width: 100%;
-        height: 15%;
+        height: 5%;
     }
 
     .col{
@@ -399,6 +459,7 @@ height: 92vh;
     display: flex;
     justify-content: center;
     height: 80%;
+    overflow-y: scroll;
 }
 .table {
     display: flex;
@@ -422,6 +483,7 @@ height: 92vh;
 .report-list {
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
 }
 
 .report-item {
@@ -623,26 +685,80 @@ height: 92vh;
                 <div class="report-list">
     <!-- Repeat this block for each report item, updating the index -->
      <?php
+     $tempTest = [];
+     $merged = fetchData($conn, $tempTest);
      $tempdump = array();
      $reportslist = fetchViolationReport($conn, $tempdump);
      $index = 0;
-     foreach ($reportslist as $item) {
-        $reportClass = ($item['status'] != 'Read') ? 'unread' : 'read';
-        echo "
-        <div data-id = 'report-$item[reportID]' id='report-$item[reportID]' class='report-item active $reportClass' onclick='showDetails($index)'>
-            <img src='student-photo.jpg' alt='Student Photo' class='student-photo'>
-            <div class='report-info'>
-                <div class='mc-header' style='display: flex;'>
-                    <div class='mch-left'><p>$item[name]</p></div>
-                    <div class='mch-right'><p>$item[status]</p></div>
+     // Loop through each category
+    foreach ($merged as $category => $items) {
+        // echo "Category: " . ucfirst($category) . "\n"; // Display the category name
+
+        // Loop through each item in the category
+        foreach ($items as $item) {
+            // Check if the category is violations
+            if ($category === 'violations') {
+                $reportClass = ($item['status'] != 'Read') ? 'unread' : 'read';
+                echo "
+                <div 
+                data-id = 'report-$item[reportID]' 
+                id='report-$item[reportID]' 
+                class='report-item active $reportClass' 
+                onclick='showDetails(\"$category\" ,$index)'>
+                    <img src='student-photo.jpg' alt='Student Photo' class='student-photo'>
+                    <div class='report-info'>
+                        <div class='mc-header' style='display: flex;'>
+                            <div class='mch-left'><p>$item[complainant]</p></div>
+                            <div class='mch-right'><p>$item[status]</p></div>
+                        </div>
+                        <small>Wed 2:11 PM</small>
+                        <p class='violation'>$item[violation]</p>
+                    </div>
                 </div>
-                <small>Wed 2:11 PM</small>
-                <p class='violation'>$item[violation]</p>
-            </div>
-        </div>
-        ";
-        $index++;
+                ";
+                $index++;
+            } 
+            // Check if the category is complaints
+            else if ($category === 'complaints') {
+                $reportClass = ($item['status'] != 'Read') ? 'unread' : 'read';
+                echo "
+                <div 
+                data-id = 'report-$item[reportID]' 
+                id='report-$item[reportID]' 
+                class='report-item active $reportClass' 
+                onclick='showDetails(\"$category\" ,$index)'>
+                    <img src='student-photo.jpg' alt='Student Photo' class='student-photo'>
+                    <div class='report-info'>
+                        <div class='mc-header' style='display: flex;'>
+                            <div class='mch-left'><p>$item[complainant]</p></div>
+                            <div class='mch-right'><p>$item[status]</p></div>
+                        </div>
+                        <small>Wed 2:11 PM</small>
+                        <p class='violation'>$item[complaint]</p>
+                    </div>
+                </div>
+                ";
+                $index++;
+            }
+        }
     }
+    //  foreach ($reportslist as $item) {
+    //     $reportClass = ($item['status'] != 'Read') ? 'unread' : 'read';
+    //     echo "
+    //     <div data-id = 'report-$item[reportID]' id='report-$item[reportID]' class='report-item active $reportClass' onclick='showDetails($index)'>
+    //         <img src='student-photo.jpg' alt='Student Photo' class='student-photo'>
+    //         <div class='report-info'>
+    //             <div class='mc-header' style='display: flex;'>
+    //                 <div class='mch-left'><p>$item[name]</p></div>
+    //                 <div class='mch-right'><p>$item[status]</p></div>
+    //             </div>
+    //             <small>Wed 2:11 PM</small>
+    //             <p class='violation'>$item[violation]</p>
+    //         </div>
+    //     </div>
+    //     ";
+    //     $index++;
+    // }
      ?>
     <!-- <div class="report-item active" onclick="showDetails(0)">
         <img src="student-photo.jpg" alt="Student Photo" class="student-photo">
@@ -726,7 +842,7 @@ height: 92vh;
 </script>
 <?php
     $temp = array();
-    $violationReports = fetchViolationReport($conn, $temp);
+    $violationReports = fetchData($conn, $temp);
     $jsonified = json_encode($violationReports);
 ?>
 <script> var reports = <?php echo $jsonified; ?> </script>
