@@ -52,54 +52,71 @@
     
 
     function showDetails(category, reportIndex) {
-        if(category == "violations"){
-            var report = reports.violations[reportIndex];
-            var attachment = report.attachment;
-            var filedirec = "../../../public/assets/images/violations/" + report.attachment;
-            // Update the details on the right side
+        var report = getReport(category, reportIndex);
+        var attachmentPath = getAttachmentPath(category, report.attachment);
+        
+        // Update the details on the right side
+        updateDetailsInfo(report);
+        updateDetailsAttachment(report.attachment, attachmentPath);
+    
+        // Show the main content section if hidden
+        document.querySelector('.main-content').style.display = 'block';
+    }
+    
+    // Get the report based on category and index
+    function getReport(category, reportIndex) {
+        if (category === "violations") {
+            return reports.violations[reportIndex];
+        } else if (category === "complaints") {
+            return reports.complaints[reportIndex];
+        }
+    }
+    
+    // Get the correct attachment path based on category
+    function getAttachmentPath(category, attachment) {
+        var baseDir;
+        if (category === "violations") {
+            baseDir = "../../../public/assets/images/violations/";
+        } else if (category === "complaints") {
+            baseDir = "../../../public/assets/images/complains/";
+        }
+        return baseDir + attachment;
+    }
+    
+    // Update the details information (student info or report details)
+    function updateDetailsInfo(report) {
+        if (report.violation) {
             document.querySelector('.details-photo').src = report.photo;
             document.querySelector('.details-info').innerHTML = `
                 <p><strong>Student Name:</strong> ${report.name}</p>
                 <p><strong>Student ID:</strong> ${report.id}</p>
                 <p><strong>Violation:</strong> ${report.violation}</p>
             `;
-            document.querySelector('.violation-details p').textContent = report.details;
-    
-            if(attachment == null){
-                document.querySelector('.rep-attachment').setAttribute('href', '#');
-                document.querySelector('.rep-attachment').setAttribute('style', 'pointer-events: none; color: grey;');
-                document.querySelector('.rep-attachment').setAttribute('title', 'No attachment available');
-            } else {
-                document.querySelector('.rep-attachment').setAttribute('href', filedirec);
-                document.querySelector('.rep-attachment').setAttribute('style', 'color: blue;');
-                document.querySelector('.rep-attachment').setAttribute('title', '');
-            }
-            // Show the main content section if hidden
-            document.querySelector('.main-content').style.display = 'block';
-        } else if (category == "complaints") {
-            var report = reports.complaints[reportIndex];
-            var filedirec = "../../../public/assets/images/complains/" + report.attachment;
-            // Update the details on the right side
+        } else {
             document.querySelector('.details-photo').src = report.photo;
             document.querySelector('.details-info').innerHTML = `
-                <p><strong></strong></p>
                 <p><strong>Report Name: </strong>${report.reportName}</p>
                 <p><strong>Complaint: </strong>${report.complaint}</p>
             `;
-            document.querySelector('.violation-details p').textContent = report.details;
-            if(attachment == null){
-                document.querySelector('.rep-attachment').setAttribute('href', '#');
-                document.querySelector('.rep-attachment').setAttribute('style', 'pointer-events: none; color: grey;');
-                document.querySelector('.rep-attachment').setAttribute('title', 'No attachment available');
-            } else {
-                document.querySelector('.rep-attachment').setAttribute('href', filedirec);
-                document.querySelector('.rep-attachment').setAttribute('style', 'color: blue;');
-                document.querySelector('.rep-attachment').setAttribute('title', '');
-            }
-            // Show the main content section if hidden
-            document.querySelector('.main-content').style.display = 'block';
+        }
+        document.querySelector('.violation-details p').textContent = report.details;
+    }
+    
+    // Update the attachment link and styles
+    function updateDetailsAttachment(attachment, attachmentPath) {
+        var attachmentElement = document.querySelector('.rep-attachment');
+        if (attachment == null) {
+            attachmentElement.setAttribute('href', '#');
+            attachmentElement.setAttribute('style', 'pointer-events: none; color: grey;');
+            attachmentElement.setAttribute('title', 'No attachment available');
+        } else {
+            attachmentElement.setAttribute('href', attachmentPath);
+            attachmentElement.setAttribute('style', 'color: blue;');
+            attachmentElement.setAttribute('title', '');
         }
     }
+    
+
     // Add click event listeners to each report item
     document.querySelectorAll('.report-item').forEach((item, index) => {
         item.addEventListener('click', () => {
