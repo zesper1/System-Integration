@@ -199,7 +199,12 @@ if (isset($_POST['submitReport'])) {
                 $vReportQuery->bind_param("iii", $report_id, $violationID, $id);
                 if($vReportQuery->execute()){
                     if(isset($_FILES['my_image']) && $_FILES['my_image']['error'] === UPLOAD_ERR_NO_FILE){
-                        header("Location: ../views/faulty/reportFaculty.php?success=Report added successfully");
+                        if($_SESSION['role'] == 2){
+                            header("Location: ../views/faculty/reportFaculty.php?success=Report added successfully");
+                        }
+                        else {
+                            header("Location: ../views/faculty/reportFaculty.php?success=Report added successfully");
+                        }
                     } else {
                         include_once "upload.php";
                     }
@@ -220,7 +225,7 @@ if (isset($_POST['submitReport'])) {
                 $cReportQuery->bind_param("ii", $report_id, $complaintID);
                 if($cReportQuery->execute()){
                     if(isset($_FILES['my_image']) && $_FILES['my_image']['error'] === UPLOAD_ERR_NO_FILE){
-                        header("Location: ../views/faulty/reportFaculty.php?success=Report added successfully");
+                        header("Location: ../views/faculty/reportFaculty.php?success=Report added successfully");
                     } else {
                         include_once "upload.php";
                     }
@@ -232,64 +237,5 @@ if (isset($_POST['submitReport'])) {
     
 }
 
-///////////////////////
-// FACULTY PROMPTS ////
-///////////////////////
-if (isset($_POST['submitReport'])) {
-    // REPORT DETAILS FUNCTION
-    $rTitle = $_POST['title'];
-    $rType = $_POST['type'];
-    $rDesc = $_POST['description'];
 
-    if($rType == 'Violation'){
-        $violatorID = $_POST['violator'];
-        $violationID = $_POST['vType'];
-        echo $violationID;
-        // Use regex to match the ID
-        if (preg_match('/\d+/', $violatorID, $matches)) {
-            $id = $matches[0]; // Get the first match
-        }
-        $stmt = $conn->prepare("INSERT INTO report (reportName, reportOwnerID, reportType) VALUES (?, ?, ?)");
-        $stmt->bind_param("sis", $rTitle, $_SESSION['id'], $rType);
-        if($stmt->execute()){
-            $report_id = $stmt->insert_id;
-            $stmt1 = $conn->prepare("INSERT INTO reportstatus (reportID, status_DETAILS) VALUES (?, ?)");
-            $stmt1->bind_param("is", $report_id, $rDesc);
-            if($stmt1 -> execute()){
-                $vReportQuery = $conn->prepare("INSERT INTO violationreport (reportID, violationTypeID, accusedID) VALUES (?,?,?)");
-                $vReportQuery->bind_param("iii", $report_id, $violationID, $id);
-                if($vReportQuery->execute()){
-                    if(isset($_FILES['my_image']) && $_FILES['my_image']['error'] === UPLOAD_ERR_NO_FILE){
-                        header("Location: ../views/student/reportStudent.php?success=Report added successfully");
-                    } else {
-                        include_once "upload.php";
-                    }
-                }
-            }
-        }
-
-    } else {
-        $complaintID = $_POST['cType'];
-        $stmt = $conn->prepare("INSERT INTO report (reportName, reportOwnerID, reportType) VALUES (?, ?, ?)");
-        $stmt->bind_param("sis", $rTitle, $_SESSION['id'], $rType);
-        if($stmt->execute()){
-            $report_id = $stmt->insert_id;
-            $stmt1 = $conn->prepare("INSERT INTO reportstatus (reportID, status_DETAILS) VALUES (?, ?)");
-            $stmt1->bind_param("is", $report_id, $rDesc);
-            if($stmt1 -> execute()){
-                $cReportQuery = $conn->prepare("INSERT INTO complainsreport (reportID, cr_Category) VALUES (?,?)");
-                $cReportQuery->bind_param("ii", $report_id, $complaintID);
-                if($cReportQuery->execute()){
-                    if(isset($_FILES['my_image']) && $_FILES['my_image']['error'] === UPLOAD_ERR_NO_FILE){
-                        header("Location: ../views/student/reportStudent.php?success=Report added successfully");
-                    } else {
-                        include_once "upload.php";
-                    }
-                }
-            }
-        }
-    }
-    //prepare statement
-    
-}
 ?>

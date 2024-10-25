@@ -3,38 +3,6 @@
     include "../../connection/db_conn.php";
     session_start();
 
-    if (isset($_POST['submitReport'])) {
-        // Get the form data
-        $title = $_POST['title'];
-        $type = $_POST['type'];
-        $cType = isset($_POST['cType']) ? $_POST['cType'] : null;
-        $vType = isset($_POST['vType']) ? $_POST['vType'] : null;
-        $course = $_POST['courseSelect'];
-        $violator = $_POST['violator'];
-        $description = $_POST['description'];
-        $status = "Pending"; // Default status
-    
-        // Handle the uploaded image if present
-        $image = "";
-        if (isset($_FILES['my_image']) && $_FILES['my_image']['error'] == 0) {
-            $image = basename($_FILES['my_image']['name']);
-            $target_dir = "../../uploads/";
-            $target_file = $target_dir . $image;
-            move_uploaded_file($_FILES["my_image"]["tmp_name"], $target_file);
-        }
-    
-        // Insert the report into the database
-        $stmt = $conn->prepare("INSERT INTO reports (title, report_type, complaint_type, violation_type, course, violator, description, status, image, report_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())");
-        $stmt->bind_param("sssssssss", $title, $type, $cType, $vType, $course, $violator, $description, $status, $image);
-    
-        if ($stmt->execute()) {
-            // Redirect back to the page that shows the table of reports after successful submission
-            header("Location: ../views/student/dashboardstudent.php");
-        } else {
-            echo "Error: " . $conn->error;
-        }
-    }
-
 ?>
 <html lang="en">
 <head>
@@ -531,7 +499,7 @@ a.dashB img.dashPIC {
                 <tr>
                     <th>Report ID</th>
                     <th>Report Date</th>
-                    <th>Details</th>
+                    <th>Name</th>
                     <th>Details</th>
                     <th>Status</th>
                 </tr>
@@ -540,21 +508,24 @@ a.dashB img.dashPIC {
             <?php
     // Fetch all reports from the database
     $fetchReports = $conn->prepare("
-SELECT 
-    report.report_ID, 
-    reportstatus.status_DATE, 
-    reportstatus.status_DETAILS, 
-    reportstatus.status, 
-    user.role_ID,
-    CONCAT(userdetails.last_name, ', ', userdetails.first_name) AS violator_name
-FROM report
-    LEFT JOIN  user ON report.reportOwnerID = user.user_ID
-    LEFT JOIN userdetails ON report.reportOwnerID = userdetails.userID
-    LEFT JOIN reportstatus ON report.report_ID = reportstatus.reportID
-WHERE 
-    user.role_ID = 3 AND
-    report.reportType IN ('Violation', 'Complaint');
+    SELECT 
+        report.report_ID, 
+        reportstatus.status_DATE, 
+        reportstatus.status_DETAILS, 
+        reportstatus.status, 
+        user.role_ID,
+        CONCAT(userdetails.last_name, ', ', userdetails.first_name) AS violator_name
+    FROM report
+        LEFT JOIN user ON report.reportOwnerID = user.user_ID
+        LEFT JOIN userdetails ON report.reportOwnerID = userdetails.userID
+        LEFT JOIN reportstatus ON report.report_ID = reportstatus.reportID
+    WHERE 
+        user.role_ID = 2 AND  -- Fetch only reports submitted by admins (role_ID = 2)
+        report.reportType IN ('Violation', 'Complaint')
+    ORDER BY 
+        reportstatus.status_DATE DESC;
     ");
+    
 
     // Check if the SQL statement was prepared successfully
     if ($fetchReports === false) {
