@@ -238,6 +238,34 @@ height: 92vh;
 
 /* Table Section Container */
 
+.table-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    height: 300px; /* Set a fixed height */
+    overflow-y: auto; /* Enable vertical scrolling */
+    border: 1px solid #ddd; /* Optional: Add border for clarity */
+}
+
+.table-container::-webkit-scrollbar-thumb {
+    background-color: #34408D; /* Color of the scrollbar */
+    border-radius: 10px; /* Rounded edges */
+}
+
+.table-container::-webkit-scrollbar-track {
+    background-color: #f2f2f2; /* Background of the track */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'pop';
+    background-color: #ffffff;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+    table-layout: fixed; /* Prevent the table from resizing beyond the container */
+}
+
 .table-section {
     margin-bottom: 30px;
     padding: 0 20px;

@@ -456,10 +456,10 @@ a.dashB img.dashPIC {
                     </select>
                     <label for="courseSelect">Course:</label>
                     <select type="text" id="inputcourse" class="violator" name="courseSelect" placeholder="Enter course">
-                        <option value="Default" default>Course</option>
-                        <option value="v1">BSIT</option>
-                        <option value="v2">BSCS</option>
-                        <option value="v3">BSCE</option>
+                        <option value="Default" default>School</option>
+                        <option value="v1">SECA</option>
+                        <option value="v2">SASE</option>
+                        <option value="v3">SBMA</option>
                     </select>    
                     <label for="vName">Name:</label>
                     <input type="text" id="inputname" class="violator" name="violator" placeholder="Enter student name" autocomplete = "off">
