@@ -273,7 +273,7 @@
                         <i class="fa-solid fa-eye" id="showpass"></i>  
 
                         <div class="createacc">
-                        <a href="../public/createAccount.php">Create Account</a>
+                        <a href="../public/emailVerification.php">Create Account</a>
                         </div>                 
                     </div>   
 

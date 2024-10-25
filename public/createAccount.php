@@ -6,6 +6,7 @@ session_start();
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Get admin email and password
     $email = $_POST['Email'];
+    $password = $_POST['Password'];
     $role_id = 3; // Fixed role_id
 
     //email verification security
@@ -415,12 +416,15 @@ $conn->close();
                             <input type="text" id="middleName" name="middleName">
                         </div>
                         <div>
+                            <?php if(isset($_GET['email'])): ?>
                             <label for="adminEmail">Email:</label>
-                            <input type="email" id="Email" name="Email"  
+                            <input type="email" id="Email" name="Email" 
+                            readonly 
                             pattern="[a-zA-Z0-9._%+-]+@gmail\.com" 
                             title="Please enter a valid Gmail address"
                             placeholder="example@gmail.com"
-                            required>
+                            required value="<?php echo htmlspecialchars($_GET['email'])?>">
+                            <?php endif;?>
                         </div>
                         <div>
                             <label for="adminPassword">Password:</label>
@@ -451,12 +455,11 @@ $conn->close();
                             <input type="text" id="section" name="section" required>
                         </div>
                         <div>
-    <label for="role">Role:</label>
-    <select id="role" name="role" required>
-        <option value="student" selected>Student</option>
-    </select>
-</div>
-
+                            <label for="role">Role:</label>
+                            <select id="role" name="role" required>
+                                <option value="student" selected>Student</option>
+                            </select>
+                        </div>
                         <div>
                             <label for="school">School:</label>
                             <select id="school" name="school" required>

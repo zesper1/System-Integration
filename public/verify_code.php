@@ -1,4 +1,10 @@
 <!DOCTYPE html>
+<?php
+include "../src/connection/db_conn.php";
+session_start();
+
+
+?>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,7 +14,7 @@
 <body>
 <div class= "conent">
     <div class="form">
-        
+
     <form action="check_code.php" method="POST">
     <input type="hidden" name="email" value="<?php echo htmlspecialchars($_GET['email']); ?>">
     <label for="code">Enter your verification code:</label>
@@ -16,7 +22,7 @@
     <button type="submit">Verify</button>
 </form>
 
-    </div>
+</div>
 
 </div>
 
