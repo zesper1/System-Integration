@@ -1,0 +1,26 @@
+import niyo sa phpmyadmin ung sdao.sql na file
+
+DELIMITER //
+
+CREATE PROCEDURE update_user_and_profile(
+    IN p_user_id INT, 
+    IN p_fname VARCHAR(255), 
+    IN p_Lname VARCHAR(255),
+    IN p_email VARCHAR(255), 
+    IN p_role int
+)
+BEGIN
+    -- Update users table
+    UPDATE users 
+    SET email = p_email, role_ID = p_role
+    WHERE user_ID = p_user_id;
+
+    -- Update profiles table
+    UPDATE userdetails 
+    SET first_name = p_fname, last_name = p_Lname 
+    WHERE userID = p_user_id;
+END //
+
+DELIMITER ;
+
+CALL update_user_and_profile(1, 'Rico', 'Dimayuga', 'admin3@gmail.com', 1);
