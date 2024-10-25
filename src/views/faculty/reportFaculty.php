@@ -213,7 +213,6 @@ height: 92vh;
     margin-top: 20px;
     height: 300px; /* Set a fixed height */
     overflow-y: auto; /* Enable vertical scrolling */
-    border: 1px solid #ddd; /* Optional: Add border for clarity */
 }
 
 .table-container::-webkit-scrollbar-thumb {

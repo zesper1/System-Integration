@@ -29,6 +29,7 @@
         background-color: #E9EAF6;
         font-family: 'pop';
         height: 100vh;
+        overflow: hidden;
     }
 
     .container{
@@ -203,6 +204,41 @@ height: 92vh;
 }
 
 /* Table Section Container */
+.table-container1 {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    height: auto; /* Set a fixed height */
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+
+.table-container2 {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    height: auto; /* Set a fixed height */
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+
+.table-container::-webkit-scrollbar-thumb {
+    background-color: #34408D; /* Color of the scrollbar */
+    border-radius: 10px; /* Rounded edges */
+}
+
+.table-container::-webkit-scrollbar-track {
+    background-color: #f2f2f2; /* Background of the track */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'pop';
+    background-color: #ffffff;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+    table-layout: fixed; /* Prevent the table from resizing beyond the container */
+}
 .table-section {
     margin-bottom: 30px;
     padding: 0 20px;
@@ -373,7 +409,35 @@ a.dashB img.dashPIC {
     margin-right: 10px;
 }
 </style>
+<?php
+    //include "../../connection/db_conn.php";
+    //session_start();
+    $userID = $_SESSION["id"]; 
 
+
+    $violationQuery = "SELECT v.violation_ID, vt.violationTypeName, s.severity_LEVEL, v.violation_Date 
+                    FROM violation v 
+                    JOIN violationtype vt ON v.violationType_ID = vt.violationType_ID 
+                    JOIN severity s ON v.severity_ID = s.severity_ID 
+                    WHERE v.violationDetail_ID = ?";
+    $stmt = $conn->prepare($violationQuery);
+    $stmt->bind_param("i", $userID); 
+    $stmt->execute();
+    $violationsResult = $stmt->get_result();
+    $violations = $violationsResult->fetch_all(MYSQLI_ASSOC);
+
+
+    $reportQuery = "SELECT r.report_ID, CONCAT(ud.first_name, ' ', ud.last_name) AS student_name, r.reportName, rs.status 
+                    FROM report r 
+                    JOIN userdetails ud ON r.reportOwnerID = ud.userID 
+                    JOIN reportstatus rs ON r.report_ID = rs.reportID 
+                    WHERE r.reportOwnerID = ?";
+    $stmt = $conn->prepare($reportQuery);
+    $stmt->bind_param("i", $userID);
+    $stmt->execute();
+    $reportsResult = $stmt->get_result();
+    $reports = $reportsResult->fetch_all(MYSQLI_ASSOC);
+?>
 <body>
     <div class="container">
     <div class="modal hidden" id="view-modal">
@@ -462,58 +526,78 @@ a.dashB img.dashPIC {
             </div>
         </div>
     </div>
-
-    <!-- Received Violations Table -->
-    <div class="table-section">
-        <h2>Received Violations</h2>
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Violation ID</th>
-                        <th>Violation Type</th>
-                        <th>Violation Severity</th>
-                        <th>Date</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>2</td>
-                        <td id="title">Nakabusangot</td>
-                        <td id="name">3rd Offense</td>
-                        <td id="date">12/10/2024</td>
-                        <td>
-                            <a class="tableBtn" href="appealStudent.php?violationID=2"> Appeal </a>
-                            <a class="tableBtn" onclick="openViewModal('Nakabusangot', 'tite', 'sample.png', '12/10/24')"> View </a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <!-- Filed Reports Table -->
-    <div class="table-section">
-    <h2>Filed Reports</h2>
-    <div class="table-container">
+    
+<!-- Received Violations Table -->
+<div class="table-section">
+    <h2>Received Violations</h2>
+    <div class="table-container1">
         <table>
             <thead>
                 <tr>
-                    <th>Report ID</th>
-                    <th>Report Date</th>
-                    <th>Student Name</th>
-                    <th>Description</th>
-                    <th>Status</th>
+                    <th>Violation ID</th>
+                    <th>Violation Type</th>
+                    <th>Violation Severity</th>
+                    <th>Date</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
+                <?php if (!empty($violations)) : ?>
+                    <?php foreach ($violations as $violation) : ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($violation['violation_ID']); ?></td>
+                            <td><?php echo htmlspecialchars($violation['violationTypeName']); ?></td>
+                            <td><?php echo htmlspecialchars($violation['severity_LEVEL']); ?></td>
+                            <td><?php echo htmlspecialchars($violation['violation_Date']); ?></td>
+                            <td>
+                                <a class="tableBtn" href="appealStudent.php?violationID=<?php echo htmlspecialchars($violation['violation_ID']); ?>"> Appeal </a>
+                                <a class="tableBtn" onclick="openViewModal('<?php echo addslashes(htmlspecialchars($violation['violationTypeName'])); ?>', 'Report details here...', 'sample.png', '<?php echo htmlspecialchars($violation['violation_Date']); ?>')"> View </a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php else : ?>
+                    <tr>
+                        <td colspan="5">No violations found.</td>
+                    </tr>
+                <?php endif; ?>
             </tbody>
         </table>
     </div>
 </div>
 
 
+                <!-- Filed Reports Table -->
+                <div class="table-section">
+                    <h2>Filed Reports</h2>
+                    <div class="table-container2">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Report ID</th>
+                                    <th>Student Name</th>
+                                    <th>Description</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php if (!empty($reports)) : ?>
+                                    <?php foreach ($reports as $report) : ?>
+                                        <tr>
+                                            <td><?php echo htmlspecialchars($report['report_ID']); ?></td>
+                                            <td><?php echo htmlspecialchars($report['student_name']); ?></td>
+                                            <td><?php echo htmlspecialchars($report['reportName']); ?></td>
+                                            <td><?php echo htmlspecialchars($report['status']); ?></td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                <?php else : ?>
+                                    <tr>
+                                        <td colspan="4">No filed reports found.</td>
+                                    </tr>
+                                <?php endif; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
 </div>
 
 

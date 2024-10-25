@@ -454,12 +454,13 @@ a.dashB img.dashPIC {
                         <option value="Default" default>Choose a violation type.</option>
                         <?php fetchViolationtypes($conn); ?>
                     </select>
-                    <label for="courseSelect">Course:</label>
+                    <label for="courseSelect">School:</label>
                     <select type="text" id="inputcourse" class="violator" name="courseSelect" placeholder="Enter course">
                         <option value="Default" default>School</option>
                         <option value="v1">SECA</option>
                         <option value="v2">SASE</option>
                         <option value="v3">SBMA</option>
+                        <option value="v4">SHS</option>
                     </select>    
                     <label for="vName">Name:</label>
                     <input type="text" id="inputname" class="violator" name="violator" placeholder="Enter student name" autocomplete = "off">
