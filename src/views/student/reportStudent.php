@@ -493,6 +493,7 @@ a.dashB img.dashPIC {
                                 }
                             }
                         }
+                        $jsonData = json_encode($studentArray);
                         ?>
                     </div>
                 </div>

@@ -203,7 +203,7 @@ if (isset($_POST['submitReport'])) {
                             header("Location: ../views/faculty/reportFaculty.php?success=Report added successfully");
                         }
                         else {
-                            header("Location: ../views/faculty/reportFaculty.php?success=Report added successfully");
+                            header("Location: ../views/student/reportStudent.php?success=Report added successfully");
                         }
                     } else {
                         include_once "upload.php";
@@ -225,7 +225,12 @@ if (isset($_POST['submitReport'])) {
                 $cReportQuery->bind_param("ii", $report_id, $complaintID);
                 if($cReportQuery->execute()){
                     if(isset($_FILES['my_image']) && $_FILES['my_image']['error'] === UPLOAD_ERR_NO_FILE){
-                        header("Location: ../views/faculty/reportFaculty.php?success=Report added successfully");
+                        if($_SESSION['role'] == 2){
+                            header("Location: ../views/faculty/reportFaculty.php?success=Report added successfully");
+                        }
+                        else {
+                            header("Location: ../views/student/reportStudent.php?success=Report added successfully");
+                        }                    
                     } else {
                         include_once "upload.php";
                     }
