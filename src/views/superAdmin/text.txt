@@ -1,0 +1,11 @@
+superAdmin functions
+
+*can manipulate pre-defined records in the database without phpmyadmin
+examples:
+-sections (no table yet)
+-departments (no table yet)
+-violationTypes
+-complaintTypes
+
+*add a co-superAdmin
+*add a sdao admin 

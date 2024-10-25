@@ -9,13 +9,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_GET['email'])) {
     $password = $_POST['Password'];
     $role_id = 3; // Fixed role_id
 
-    //email verification security
-    // if (isset($_POST['Email'])) {
-    //     $email = $_POST['Email'];
-    
-      
-    // }
-
     // Hash the password for security
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
