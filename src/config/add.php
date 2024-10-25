@@ -87,7 +87,7 @@ if (isset($_POST["add_faculty"])) {
     $password = $_POST["pass"]; // Hashing the password
     
     // Faculty details
-    $dept = $_POST["department"];
+    $dept = $_POST["school"];
     $emp_id = $_POST["employee_ID"];
     $role = 2; // Role for faculty
 

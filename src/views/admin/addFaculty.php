@@ -650,45 +650,45 @@ font-family: 'pop';
             <div class="formcon">
             <div class="form">
                 <h2>Add Faculty</h2>
-                <form action="addFaculty.php" method="post">
+                <form action="../../config/add.php" method="post">
                     <div class="form-table">
                         <div>
                             <label for="lastName">Last Name:</label>
-                            <input type="text" id="lastName" name="lastName" required>
+                            <input type="text" id="lastName" name="lname" required>
                         </div>
                         <div>
                             <label for="firstName">First Name:</label>
-                            <input type="text" id="firstName" name="firstName" required>
+                            <input type="text" id="firstName" name="fname" required>
                         </div>
                         <div>
                             <label for="middleName">Middle Name:</label>
-                            <input type="text" id="middleName" name="middleName">
+                            <input type="text" id="middleName" name="mname">
                         </div>
                         <div>
                             <label for="facultyEmail">Email:</label>
-                            <input type="email" id="facultyEmail" name="Email" required>
+                            <input type="email" id="facultyEmail" name="email" required>
                         </div>
                         <div>
                             <label for="adminPassword">Password:</label>
-                            <input type="password" id="adminPassword" name="Password" required>
+                            <input type="password" id="adminPassword" name="pass" required>
                         </div>
                         <div>
                             <label for="role">Employee ID:</label>
-                            <input type="text" id="EmployeeID" name="Employee ID"  required>
+                            <input type="text" id="EmployeeID" name="employee_ID"  required>
                         </div>
-                        <div class="input-box1">
-    <label for="school">School:</label>
-    <select id="school" name="school" required>
-        <option value="">Select school</option>
-        <option value="SECA">SECA</option>
-        <option value="SBMA">SBMA</option>
-        <option value="SASE">SASE</option>
-        <option value="SHS">SHS</option>
-    </select>
-</div>
+                            <div class="input-box1">
+                                <label for="school">School:</label>
+                                <select id="school" name="school" required>
+                                    <option value="">Select school</option>
+                                    <option value="SECA">SECA</option>
+                                    <option value="SBMA">SBMA</option>
+                                    <option value="SASE">SASE</option>
+                                    <option value="SHS">SHS</option>
+                                </select>
+                            </div>
 
                     </div>
-                    <button type="submit" class="submit-btn">Add</button>
+                    <button type="submit" class="submit-btn" name="add_faculty">Add</button>
                 </form>
             </div>
             </div>
