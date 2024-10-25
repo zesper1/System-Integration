@@ -319,19 +319,17 @@ height: 92vh;
             resize: none;
         }
 
-         button {
-            width: 15%;
-            height: 40px;
+        .report-form button {
             padding: 10px 20px;
             background-color: #34408D;
             color: white;
+            font-size: 18px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            margin-left: 85%;
         }
 
-         button:hover {
+        .report-form button:hover {
             background-color: #2b357a;
         }
     .select, .violator{
@@ -492,20 +490,7 @@ a.dashB img.dashPIC {
                                 }
                             }
                         }
-
-                        
-                        $dataFromPHP = [
-                            ["id" => 1, "name" => "John Doe"],
-                            ["id" => 2, "name" => "Jane Smith"],
-                            ["id" => 3, "name" => "Bob Johnson"]
-                        ];
-                        $jsonData = json_encode($studentArray);
                         ?>
-                        <!-- <ul>
-                            <li>HTML</li>
-                            <li>JAVA</li>
-                            <li>CSS</li> 
-                        </ul> -->
                     </div>
                 </div>
                 
@@ -516,7 +501,7 @@ a.dashB img.dashPIC {
                 <label for="image">Attach Image (optional):</label>
                 <input type="file" id="image" name="my_image">
 
-                <button type="submit" name="submitReport" value="Submit Report"> SUBMIT </button>
+                <input type="submit" name="submitReport" value="Submit Report">
             </form>
 
         </div>
