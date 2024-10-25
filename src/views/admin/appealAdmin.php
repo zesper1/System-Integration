@@ -467,6 +467,89 @@ height: 92vh;
 .action-btn:hover {
     background-color: #2b3670;
 }
+
+/* Modal styling */
+.modal {
+            display: none; /* Initially hidden */
+            position: fixed; /* Stay in place */
+            top: 0;
+            left: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+            z-index: 1000; /* High z-index to ensure it overlays */
+        }
+
+        .modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            width: 400px; /* Set a width for the modal */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transform: translate(-50%, -50%); /* Center the modal */
+            position: relative; /* Position relative to allow transform */
+            top: 50%; /* Move it down 50% */
+            left: 50%; /* Move it right 50% */
+        }
+
+        .modal-header {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .modal-body {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: none; /* Prevents resizing */
+            height: 100px; /* Fixed height for better layout */
+            text-align: justify; /* Justify text */
+            font-family: Arial, sans-serif; /* Consistent font */
+            font-size: 14px; /* Readable font size */
+        }
+
+        .modal-footer {
+            text-align: right;
+        }
+
+        .close-btn, .submit-btn {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            background-color: #007BFF;
+            color: white;
+            margin-left: 5px;
+        }
+
+        .close-btn {
+            background-color: #dc3545; /* Red for cancel button */
+        }
+
+        .close-btn:hover, .submit-btn:hover {
+            opacity: 0.9;
+        }
+
 </style>
 
 <body>
@@ -583,13 +666,53 @@ height: 92vh;
                                           <td>date</td>
                                           <td>violation</td>
                                           <td>details</td>
-                                          <td><a href='appealResponse.php?id={$appeal['id']}' class='action-btn'>Reply</a></td>
+                                          <td> 
+                                            <button class='action-btn' onclick="openModal('John Doe', 'Violation 1', '2024-10-20', 'Details of the appeal.')">Reply</button>
+                                        </td>
                                         </tr>
                       </tbody>
                   </table>
                 </div>
                 </div>
             </div>
+
+             <!-- Modal Structure -->
+             <div id="replyModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <div class="modal-header">Reply to Appeal</div>
+        <div class="modal-body">
+            <p><strong>Student Name:</strong> <span id="modalStudentName"></span></p>
+            <p><strong>Violation:</strong> <span id="modalViolation"></span></p>
+            <p><strong>Date:</strong> <span id="modalDate"></span></p>
+            <p><strong>Appeal Details:</strong> <span id="modalAppealDetails"></span></p>
+            
+            <!-- Dropdown for responses -->
+            <label for="responseSelect">Select Response:</label>
+            <select id="responseSelect" onchange="updateTextarea()">
+                <option value="">Custom Response</option>
+                <option value="Thank you for your appeal regarding the minor offense.We have received your request and will review the details promptly. You will be notified of our decision within the next days. If you have any additional information to provide, please feel free to reply to this email.
+                                                            Best regards,
+                                                         (Admin's Name)
+                                                      Disciplinary Office">Response 1</option>
+                <option value="Thank you for submitting your appeal concerning the major offense. Given the seriousness of the situation, we recommend scheduling a face-to-face meeting to discuss your case further. Please reply to this email with your availability so we can arrange a suitable time.
+                                                            Best regards,
+                                                         (Admin's Name)
+                                                      Disciplinary Office">Response 2</option>
+            </select>
+            
+            <textarea id="replyMessage" placeholder="Enter your reply here..."></textarea>
+        </div>
+        <div class="modal-footer">
+            <button class="close-btn" onclick="closeModal()">Cancel</button>
+            <button class="submit-btn" onclick="submitReply()">Send Reply</button>
+        </div>
+    </div>
+</div>
+
+
+            </div>
+        </div>
+    </div>
 
     </div>
     </div>
@@ -600,6 +723,83 @@ height: 92vh;
     </div>
     </div>
 </body>
+
+<script>
+    function updateTextarea() {
+        // Get the selected value from the dropdown
+        const selectedResponse = document.getElementById('responseSelect').value;
+        // Get the textarea element
+        const textarea = document.getElementById('replyMessage');
+        // Update the textarea with the selected response
+        textarea.value = selectedResponse;
+    }
+</script>
+
+<script>
+    // Open modal and populate it with appeal data
+    function openModal(studentName, violation, date, appealDetails) {
+        document.getElementById('modalStudentName').textContent = studentName;
+        document.getElementById('modalViolation').textContent = violation;
+        document.getElementById('modalDate').textContent = date;
+        document.getElementById('modalAppealDetails').textContent = appealDetails;
+        document.getElementById('replyModal').style.display = 'block';
+    }
+
+    // Close modal
+    function closeModal() {
+        document.getElementById('replyModal').style.display = 'none';
+    }
+
+    // Submit reply function (this should handle form submission logic, e.g., AJAX or form post)
+    function submitReply() {
+        let replyMessage = document.getElementById('replyMessage').value;
+        if (replyMessage) {
+            alert("Reply sent: " + replyMessage);
+            closeModal();
+            // You can add further logic to submit the reply to the backend.
+        } else {
+            alert("Please enter a reply.");
+        }
+    }
+
+    // Close the modal if the user clicks outside of it
+    window.onclick = function(event) {
+        let modal = document.getElementById('replyModal');
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    function navigateTo(pagename) {
+        window.location.href = pagename;
+    }
+
+    document.getElementById('logout-link').addEventListener('click', function(event) {                  
+        event.preventDefault();                           
+        var confirmation = confirm('Are you sure you want to log out?');                         
+        if (confirmation) {
+            window.location.href = "../../config/logout.php";
+        }
+    });
+
+    function toggleDropdown() {
+        var dropdown = document.getElementById("dropdown");
+        dropdown.style.display = (dropdown.style.display === "block") ? "none" : "block";
+    }
+
+    // Close the dropdown if the user clicks outside of it
+    window.onclick = function(event) {
+        if (!event.target.matches('.txtR')) {
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            for (var i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.style.display === "block") {
+                    openDropdown.style.display = "none";
+                }
+            }
+        }
+    }
+</script>
 
 <script>
     function navigateTo(pagename){

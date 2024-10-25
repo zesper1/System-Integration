@@ -488,10 +488,9 @@ height: 92vh;
                             <table class="report-table">
                                 <thead>
                                     <tr>
-                                        <th>Violation ID</th>
-                                        <th>Severity</th>
-                                        <th>Violation Type</th>
-                                        <th>Violation Date</th>
+                                        <th>Report ID</th>
+                                        <th>Report Type</th>
+                                        <th>Report Date</th>
                                         <th>Violation Detail</th>
                                         <th>Violator</th>
                                     </tr>
@@ -499,12 +498,6 @@ height: 92vh;
                                 <tbody>
                                     <!-- Example report rows -->
                                     <tr>
-                                        <td>001</td>
-                                        <td>kung gano ka severe</td>
-                                        <td>Violation type</td>
-                                        <td>DAte</td>
-                                        <td>detail</td>
-                                        <td>violator</td>
                                     </tr>
                                 </tbody>
                             </table>
