@@ -3,7 +3,7 @@
 include "../src/connection/db_conn.php";
 session_start();
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_GET['email'])) {
     // Get admin email and password
     $email = $_POST['Email'];
     $password = $_POST['Password'];
@@ -68,6 +68,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Close the admin statement
     $stmt->close();
+} else {
+    header("Location: emailVerification.php");
 }
 
 // Close the database connection
@@ -423,7 +425,8 @@ $conn->close();
                             pattern="[a-zA-Z0-9._%+-]+@gmail\.com" 
                             title="Please enter a valid Gmail address"
                             placeholder="example@gmail.com"
-                            required value="<?php echo htmlspecialchars($_GET['email'])?>">
+                            required 
+                            value="<?php echo htmlspecialchars($_GET['email'])?>">
                             <?php endif;?>
                         </div>
                         <div>
