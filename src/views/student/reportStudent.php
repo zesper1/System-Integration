@@ -319,17 +319,19 @@ height: 92vh;
             resize: none;
         }
 
-        .report-form button {
+        button {
+            width: 15%;
+            height: 40px;
             padding: 10px 20px;
             background-color: #34408D;
             color: white;
-            font-size: 18px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            margin-left: 85%;
         }
 
-        .report-form button:hover {
+         button:hover {
             background-color: #2b357a;
         }
     .select, .violator{
@@ -457,12 +459,13 @@ a.dashB img.dashPIC {
                         <option value="Default" default>Choose a violation type.</option>
                         <?php fetchViolationtypes($conn); ?>
                     </select>
-                    <label for="courseSelect">Course:</label>
+                    <label for="courseSelect">School:</label>
                     <select type="text" id="inputcourse" class="violator" name="courseSelect" placeholder="Enter course">
-                        <option value="Default" default>Course</option>
-                        <option value="v1">BSIT</option>
-                        <option value="v2">BSCS</option>
-                        <option value="v3">BSCE</option>
+                        <option value="Default" default>School</option>
+                        <option value="v1">SECA</option>
+                        <option value="v2">SASE</option>
+                        <option value="v3">SBMA</option>
+                        <option value="v4">SHS</option>
                     </select>    
                     <label for="vName">Name:</label>
                     <input type="text" id="inputname" class="violator" name="violator" placeholder="Enter student name" autocomplete = "off">
@@ -501,7 +504,7 @@ a.dashB img.dashPIC {
                 <label for="image">Attach Image (optional):</label>
                 <input type="file" id="image" name="my_image">
 
-                <input type="submit" name="submitReport" value="Submit Report">
+                <button type="submit" name="submitReport" value="Submit Report"> SUBMIT </button>
             </form>
 
         </div>

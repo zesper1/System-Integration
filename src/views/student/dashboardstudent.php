@@ -29,6 +29,7 @@
         background-color: #E9EAF6;
         font-family: 'pop';
         height: 100vh;
+        overflow: hidden;
     }
 
     .container{
@@ -152,7 +153,7 @@ height: 92vh;
 .dashboard .txtR{
     font-size: 20px;
     color: #595959;
-    margin-left: 30px;
+    margin-left: 10px;
 }
 
 .dashboard .txtA{
@@ -203,6 +204,41 @@ height: 92vh;
 }
 
 /* Table Section Container */
+.table-container1 {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    height: auto; /* Set a fixed height */
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+
+.table-container2 {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    height: auto; /* Set a fixed height */
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+
+.table-container::-webkit-scrollbar-thumb {
+    background-color: #34408D; /* Color of the scrollbar */
+    border-radius: 10px; /* Rounded edges */
+}
+
+.table-container::-webkit-scrollbar-track {
+    background-color: #f2f2f2; /* Background of the track */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'pop';
+    background-color: #ffffff;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+    table-layout: fixed; /* Prevent the table from resizing beyond the container */
+}
 .table-section {
     margin-bottom: 30px;
     padding: 0 20px;
@@ -494,7 +530,7 @@ a.dashB img.dashPIC {
 <!-- Received Violations Table -->
 <div class="table-section">
     <h2>Received Violations</h2>
-    <div class="table-container">
+    <div class="table-container1">
         <table>
             <thead>
                 <tr>
@@ -533,7 +569,7 @@ a.dashB img.dashPIC {
                 <!-- Filed Reports Table -->
                 <div class="table-section">
                     <h2>Filed Reports</h2>
-                    <div class="table-container">
+                    <div class="table-container2">
                         <table>
                             <thead>
                                 <tr>
