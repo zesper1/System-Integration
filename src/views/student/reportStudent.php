@@ -319,17 +319,19 @@ height: 92vh;
             resize: none;
         }
 
-        .report-form button {
+         button {
+            width: 15%;
+            height: 40px;
             padding: 10px 20px;
             background-color: #34408D;
             color: white;
-            font-size: 18px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            margin-left: 85%;
         }
 
-        .report-form button:hover {
+         button:hover {
             background-color: #2b357a;
         }
     .select, .violator{
@@ -514,7 +516,7 @@ a.dashB img.dashPIC {
                 <label for="image">Attach Image (optional):</label>
                 <input type="file" id="image" name="my_image">
 
-                <input type="submit" name="submitReport" value="Submit Report">
+                <button type="submit" name="submitReport" value="Submit Report"> SUBMIT </button>
             </form>
 
         </div>

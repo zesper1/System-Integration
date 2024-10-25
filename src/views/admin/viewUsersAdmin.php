@@ -654,9 +654,10 @@ h2 {
             <div class="rep">
 
 
-                  <div class="glass">
-                    <input type="text" placeholder="Search">
-                </div>
+            <div class="glass">
+    <input type="text" placeholder="Search" id="searchInput" onkeyup="filterTable()">
+</div>
+
             </div>
             </div>
 
@@ -740,5 +741,34 @@ h2 {
         }
     }
 </script>
+
+<script>
+function filterTable() {
+    // Get the value from the input field and convert it to uppercase for case-insensitive matching
+    let input = document.getElementById('searchInput').value.toUpperCase();
+    
+    // Get the table and its rows
+    let table = document.querySelector('table tbody');
+    let tr = table.getElementsByTagName('tr');              
+
+    // Loop through all table rows, and hide those that don't match the search query
+    for (let i = 0; i < tr.length; i++) {
+        let tdName = tr[i].getElementsByTagName('td')[1];  // Assuming Name is in the second column
+        let tdEmail = tr[i].getElementsByTagName('td')[2]; // Assuming Email is in the third column
+
+        if (tdName || tdEmail) {
+            let nameValue = tdName.textContent || tdName.innerText;
+            let emailValue = tdEmail.textContent || tdEmail.innerText;
+
+            if (nameValue.toUpperCase().indexOf(input) > -1 || emailValue.toUpperCase().indexOf(input) > -1) {
+                tr[i].style.display = "";  // Show the row
+            } else {
+                tr[i].style.display = "none";  // Hide the row
+            }
+        }
+    }
+}
+</script>
+
 
 </html>

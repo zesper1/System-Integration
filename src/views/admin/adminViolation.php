@@ -85,15 +85,14 @@
             }
         }
     }
-    if(isset($_SESSION["success"])){
-        if ($_SESSION["success"] == true){
+    if (isset($_SESSION["success"])) {
+        if ($_SESSION["success"] == true) {
             echo "
             <script>
                 alert('Violation added successfully!');
             </script>
-        ";
-        $_SESSION["success"] = false;
-        } else {
+            ";
+            $_SESSION["success"] = false;  // Reset the flag after displaying the alert
         }
     }
     
@@ -361,6 +360,8 @@ font-family: 'pop';
         box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
         color: #34408D;
         font-style: bold;
+        height: auto;
+        overflow: auto;
     }
 
  
@@ -546,6 +547,7 @@ font-family: 'pop';
                 </div>
             </div>
             <form method="post" action="../../config/add.php">
+                
                 <label for="StudentName">Violator Name:</label>
                     <?php
                         $temp = array(); 

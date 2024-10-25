@@ -488,37 +488,23 @@ height: 92vh;
                             <table class="report-table">
                                 <thead>
                                     <tr>
-                                        <th>Report ID</th>
-                                        <th>Date Submitted</th>
-                                        <th>Report Type</th>
-                                        <th>Status</th>
+                                        <th>Violation ID</th>
+                                        <th>Severity</th>
+                                        <th>Violation Type</th>
+                                        <th>Violation Date</th>
+                                        <th>Violation Detail</th>
+                                        <th>Violator</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <!-- Example report rows -->
                                     <tr>
                                         <td>001</td>
-                                        <td>2024-10-01</td>
-                                        <td>Violation</td>
-                                        <td>Pending</td>
-                                    </tr>
-                                    <tr>
-                                        <td>002</td>
-                                        <td>2024-10-03</td>
-                                        <td>Appeal</td>
-                                        <td>Reviewed</td>
-                                    </tr>
-                                    <tr>
-                                        <td>003</td>
-                                        <td>2024-10-05</td>
-                                        <td>Complaint</td>
-                                        <td>Resolved</td>
-                                    </tr>
-                                    <tr>
-                                        <td>004</td>
-                                        <td>2024-10-07</td>
-                                        <td>Violation</td>
-                                        <td>Pending</td>
+                                        <td>kung gano ka severe</td>
+                                        <td>Violation type</td>
+                                        <td>DAte</td>
+                                        <td>detail</td>
+                                        <td>violator</td>
                                     </tr>
                                 </tbody>
                             </table>

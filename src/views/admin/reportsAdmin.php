@@ -459,14 +459,12 @@ height: 92vh;
     display: flex;
     justify-content: center;
     height: 80%;
-    overflow-y: scroll;
 }
 .table {
     display: flex;
     width: 80%;
     height: 90%;
     border-radius: 10px;
-    overflow: hidden;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -664,17 +662,11 @@ height: 92vh;
             </div>
 
             <div class="rep">
-                <div class="input-box1">
-                    <select name="role" placeholder="Select a role">             
-                        <option value=""disabled selected>Select Filter</option >   
-                      <option value="admin">Pending</option >
-                      <option value="user">Solved</option>
-                    </select>
-                  </div>
 
-                  <div class="glass">
-                    <input type="text" placeholder="Search">
-                </div>
+
+            <div class="glass">
+    <input type="text" placeholder="Search" id="searchInput" onkeyup="filterTable()">
+</div>
             </div>
             </div>
 
@@ -777,7 +769,7 @@ height: 92vh;
                 <div class="main-content">
                     <h2>Report Details</h2>
                     <div class="details">
-                        <img src="student-photo.jpg" alt="Student Photo" class="details-photo">
+                        <img src="bell.png" alt="Student Photo" class="details-photo">
                         <div class="details-info">
                             <p id="stud-name"><strong>Student Name:</strong> Rovic Batacandolo</p>
                             <p id="stud-id"><strong>Student ID:</strong> 2022-171700</p>
@@ -846,6 +838,35 @@ height: 92vh;
     $jsonified = json_encode($violationReports);
 ?>
 <script> var reports = <?php echo $jsonified; ?> </script>
-<script src="../../../public/assets/js/reportsAdmin.js"></script>
+<script src="../../../public/assets/js/reportsAdmin.js">
+</script>
+
+<script>
+
+function filterTable() {
+    // Get the value of the search input and convert it to uppercase for case-insensitive search
+    let input = document.getElementById('searchInput').value.toUpperCase();
+    
+    // Get all the report items in the list
+    let reportItems = document.getElementsByClassName('report-item');
+    
+    // Loop through all report items to see if they match the search query
+    for (let i = 0; i < reportItems.length; i++) {
+        // Get the text content of the complainant, violation, and complaint fields
+        let complainant = reportItems[i].getElementsByClassName('mch-left')[0].innerText;
+        let status = reportItems[i].getElementsByClassName('violation')[0].innerText;
+        
+        // Check if the search query matches any of these fields
+        if (complainant.toUpperCase().indexOf(input) > -1 || status.toUpperCase().indexOf(input) > -1) {
+            // If it matches, display the report item
+            reportItems[i].style.display = "";
+        } else {
+            // If not, hide the report item
+            reportItems[i].style.display = "none";
+        }
+    }
+}
+</script>
+
 
 </html>

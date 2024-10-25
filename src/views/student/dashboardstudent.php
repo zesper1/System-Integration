@@ -495,37 +495,25 @@ a.dashB img.dashPIC {
 
     <!-- Filed Reports Table -->
     <div class="table-section">
-        <h2>Filed Reports</h2>
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Report ID</th>
-                        <th>Report Date</th>
-                        <th>Student Name</th>
-                        <th>Description</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>2</td>
-                        <td>2024-10-05</td>
-                        <td>Jane Smith</td>
-                        <td>Plagiarism in assignment</td>
-                        <td>Resolved</td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>2024-09-29</td>
-                        <td>Sam Brown</td>
-                        <td>Late submission</td>
-                        <td>Pending</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+    <h2>Filed Reports</h2>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Report ID</th>
+                    <th>Report Date</th>
+                    <th>Student Name</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
     </div>
+</div>
+
+
 </div>
 
 

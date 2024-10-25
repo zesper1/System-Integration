@@ -296,10 +296,11 @@ height: 92vh;
             padding: 10px 20px;
             background-color: #34408D;
             color: white;
-            font-size: 18px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            margin-left: 85%;
+            width: 15%;
         }
 
         .report-form button:hover {
@@ -406,7 +407,7 @@ a.dashB img.dashPIC {
                 <label for="description">Enter your appeal:</label>
                 <textarea id="description" name="description" required></textarea>
 
-                <button type="submit">Submit Appeal</button>
+                <button type="submit">SUBMIT</button>
             </form>
 
         </div>

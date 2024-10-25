@@ -2,12 +2,42 @@
 <?php
     include "../../connection/db_conn.php";
     session_start();
+
+    function fetchViolationtypes($conn){
+        $fetch_vTypes = $conn->prepare("SELECT * FROM violationtype");
+        $fetch_vTypes->execute();
+        $fetch_vRes = $fetch_vTypes->get_result();
+        if($fetch_vRes){
+            if($fetch_vRes-> num_rows > 0){
+                while($row = $fetch_vRes->fetch_assoc()){
+                    echo "
+                    <option value = $row[violationType_ID]>$row[violationTypeName]</option>
+                    ";
+                }
+            }
+        }
+    }
+
+    function fetchComplaintTypes($conn){
+        $fetch_vTypes = $conn->prepare("SELECT * FROM complains_category");
+        $fetch_vTypes->execute();
+        $fetch_vRes = $fetch_vTypes->get_result();
+        if($fetch_vRes){
+            if($fetch_vRes-> num_rows > 0){
+                while($row = $fetch_vRes->fetch_assoc()){
+                    echo "
+                    <option value = $row[ccID]>$row[ccName]</option>
+                    ";
+                }
+            }
+        }
+    }
 ?>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>writeReportStudent</title>
+    <title>dashboardFaculty</title>
 </head>
 
 <style>
@@ -205,7 +235,7 @@ height: 92vh;
     .content1{
         display: flex;
         width: 100%;
-        height: 15%;
+        height: 10%;
     }
 
     .col{
@@ -259,11 +289,13 @@ height: 92vh;
         /* Form Styling */
         .report-form {
             width: 80%;
+            height: 120%;
+            max-height: 500px;
             margin: 20px auto;
             background-color: white;
             padding: 20px;
-            border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: auto;
         }
 
         .report-form label {
@@ -284,27 +316,57 @@ height: 92vh;
 
         .report-form textarea {
             height: 100px;
+            resize: none;
         }
 
-        .report-form button {
+         button {
+            width: 15%;
+            height: 40px;
             padding: 10px 20px;
             background-color: #34408D;
             color: white;
-            font-size: 18px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            margin-left: 85%;
         }
 
-        .report-form button:hover {
+         button:hover {
             background-color: #2b357a;
         }
+    .select, .violator{
+        display: none;
+    }
+    .active{
+        display: block;
+    }
+    .result-box{
+        background-color: lightslategray;
+    }
+    .result-box ul {
+        border-top:1px solid #999;
+        padding: 15px 10px;
+    }
+    .result-box ul li{
+        list-style: none;
+        border-radius: 3px;
+        padding: 15px 10px;
+        cursor: pointer;
+    }
+    .result-box ul li:hover{
+        background-color: #E6C213;
+    }
 
-        .session-name{
-            color: #E6C213;
-        }
+    a.dashB {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
 
-   
+a.dashB img.dashPIC {
+    margin-right: 10px;
+}
 </style>
 
 <body>
@@ -336,18 +398,17 @@ height: 92vh;
             <div class="overview">OVERVIEW</div>
             
             <div class="dashboard">
-        
-                <line onclick="navigateTo('dashboardfaculty.php')" class="dashB">
-                    <img src="../../../public/assets/images/report.png" class="dashPIC">
-                    <label class="txtR"> WRITE A REPORT</label>
-                </line>
 
-                <line onclick="navigateTo('reportfaculty.php')" class="dashB">
-                    <img src="../../../public/assets/images/bar.png" class="dashPIC">
-                    <label class="txtR"> REPORT INFO</label>
-                </line>
-                
-    </div>
+<line onclick="navigateTo('dashboardfaculty.php')" class="dashB">
+        <img src="../../../public/assets/images/report.png" class="dashPIC">
+        <label class="txtR"> WRITE A REPORT</label>
+    </line>
+
+    <line onclick="navigateTo('reportfaculty.php')" class="dashB">
+        <img src="../../../public/assets/images/bar.png" class="dashPIC">
+        <label class="txtR"> REPORT INFO</label>
+    </line>
+</div>
 
         <div class="LO">
                 <a id="logout-link">
@@ -365,35 +426,92 @@ height: 92vh;
                 <div class="col">
                     <div class="text">
                         <label class="hello"> FILE A REPORT 
-                        <span class="session-name">
-        <?php 
-        // Display the session variable 'name'
-        echo $_SESSION["name"]; 
-        ?>
-    </span>
                         </label>
                     </div>
                 </div>
             </div>
 
             <!-- Report Form -->
-            <form class="report-form" action="submitReport.php" method="POST">
+            <form class="report-form" id="reportForm" action="../../config/add.php" method="POST" enctype= "multipart/form-data">
                 <label for="title">Report Title:</label>
                 <input type="text" id="title" name="title" placeholder="Enter the report title" required>
 
                 <label for="type">Report Type:</label>
-                <select id="type" name="type" required>
-                    <option value="violation">Violation</option>
-                    <option value="complaint">Complaint</option>
+                <select id="reportType" name="type" required>
+                    <option value="Default" default>Choose a report type.</option>
+                    <option value="Violation">Violation</option>
+                    <option value="Complaint">Complaint</option>
                 </select>
+                
+                <label for="cType" id="cTypeLabel" style="display: none;">Complaint Type:</label>
+                    <select id="cType" name="cType" class="select">
+                        <option value="Default" default>Choose a complaint type.</option>
+                        <?php fetchComplaintTypes($conn); ?>
+                </select>
+                <div id="nameCourseFields" class="select">
+                    <label for="vType">Violation:</label>
+                    <select id="vType" name="vType" class="select">
+                        <option value="Default" default>Choose a violation type.</option>
+                        <?php fetchViolationtypes($conn); ?>
+                    </select>
+                    <label for="courseSelect">Course:</label>
+                    <select type="text" id="inputcourse" class="violator" name="courseSelect" placeholder="Enter course">
+                        <option value="Default" default>Course</option>
+                        <option value="v1">BSIT</option>
+                        <option value="v2">BSCS</option>
+                        <option value="v3">BSCE</option>
+                    </select>    
+                    <label for="vName">Name:</label>
+                    <input type="text" id="inputname" class="violator" name="violator" placeholder="Enter student name" autocomplete = "off">
+                    <div class="result-box">
+                        <?php
+                        $studentArray = []; 
+                        $stmt = $conn->prepare("SELECT * FROM user WHERE role_id = 3");
+                        $stmt->execute();
+                        $result = $stmt->get_result();
+                        if($result){
+                            if($result->num_rows >0){
+                                while($row = $result->fetch_assoc()){
+                                    $fetchName = $conn->prepare("SELECT * FROM userdetails WHERE userID=?");
+                                    $fetchName->bind_param("i", $row["user_ID"]);
+                                    $fetchName->execute();
+                                    $fnRes = $fetchName->get_result();
+                                    if($fnRes){
+                                        if($fnRes->num_rows > 0){
+                                            $row1 = $fnRes->fetch_assoc();
+                                            $studentName = $row1['last_name'] . ", " . $row1['first_name'];
+                                            
+                                        }
+                                    }
+                                    $studentArray[] = ["id" => $row["user_ID"], "name" => $studentName];
+                                }
+                            }
+                        }
 
+                        
+                        $dataFromPHP = [
+                            ["id" => 1, "name" => "John Doe"],
+                            ["id" => 2, "name" => "Jane Smith"],
+                            ["id" => 3, "name" => "Bob Johnson"]
+                        ];
+                        $jsonData = json_encode($studentArray);
+                        ?>
+                        <!-- <ul>
+                            <li>HTML</li>
+                            <li>JAVA</li>
+                            <li>CSS</li> 
+                        </ul> -->
+                    </div>
+                </div>
+                
+                
                 <label for="description">Description:</label>
                 <textarea id="description" name="description" placeholder="Describe the issue..." required></textarea>
-
+                
                 <label for="image">Attach Image (optional):</label>
-                <input type="file" id="image" name="image" accept="image/*">
+                <input type="file" id="image" name="my_image">
 
-                <button type="submit">Submit Report</button>
+                <button type="submit" name="submitReport" value="Submit Report"> SUBMIT </button>
             </form>
 
         </div>
@@ -404,9 +522,7 @@ height: 92vh;
         </div>   
     </div>
     </div>
-</body>
-
-<script>
+    <script>
     function navigateTo(pagename){
         window.location.href = pagename;
     }
@@ -420,6 +536,88 @@ height: 92vh;
             window.location.href = "../../config/logout.php";
         }
     });
-</script>
+    // Get the select element
+    const selectElement = document.getElementById("reportType");
+    const inputName = document.getElementById("inputname");
+    const inputCourse = document.getElementById("inputcourse");
+    const reportForm = document.getElementById("reportForm");
+    const violationSelect = document.getElementById("vType");
 
+    const complaintSelect = document.getElementById("cType");
+    const complaintLabel = document.getElementById("cTypeLabel");
+
+    const nameCourseFields = document.getElementById("nameCourseFields");
+    // Add event listener for 'change' event
+    selectElement.addEventListener("change", function() {
+    // Get the selected option value
+    const selectedValue = selectElement.value;
+    if(selectedValue == "Violation"){
+        inputName.classList.add('active');
+        inputCourse.classList.add('active');
+        violationSelect.classList.add('active');
+        nameCourseFields.classList.add("active");
+        complaintLabel.classList.remove("active");
+        complaintSelect.style.display = "none";
+        reportForm.style.overflowY = 'auto';
+    } else if(selectedValue == "Complaint") {
+        inputName.classList.remove('active');
+        inputCourse.classList.remove('active');
+        violationSelect.classList.remove('active');
+        nameCourseFields.classList.remove("active");
+        complaintLabel.classList.add("active");
+        complaintSelect.style.display = "block";
+        reportForm.style.overflowY = 'scroll';
+    }
+    // Perform action based on the selected value
+    console.log("You selected:", selectedValue);
+    });
+
+</script>
+<script>
+    var searchData = <?php echo $jsonData; ?>;
+    const resultsBox = document.querySelector(".result-box");
+    const inputBox = document.getElementById("inputname");
+
+    inputBox.onkeyup = function() {
+        let keyword = inputBox.value;
+
+        // Ensure that the keyword is a string and is not empty
+        if (typeof keyword === "string" && keyword.trim() !== "") {
+            keyword = keyword.toLowerCase();  // Convert the keyword to lowercase
+
+            // Filter the students array based on the 'name' property
+            const filteredStudents = searchData.filter(function(student) {
+                return student.name.toLowerCase().includes(keyword);
+            });
+
+            // Display the filtered students
+            console.log(filteredStudents);
+            display(filteredStudents);
+            resultsBox.style.display = "block";
+        } else {
+            resultsBox.innerHTML = "";
+            resultsBox.style.display = "none";
+        }
+        
+    };
+    function display(result) {
+    if (result.length > 0) {
+        // If there are matching students, display them
+        const content = result.map((student) => {
+            return "<li onclick=selectInput(this)>" + "(ID: " +student.id + ") "+student.name  + "</li>";
+        }).join(''); // Join without commas
+
+        resultsBox.innerHTML = "<ul>" + content + "</ul>";
+    } else {
+        // If no students are found, display a "No students found" message
+        resultsBox.innerHTML = "<p>No students found</p>";
+    }
+ }
+
+    function selectInput(list){
+        inputBox.value = list.innerHTML;
+        resultsBox.innerHTML = '';
+    }
+</script>
+</body>
 </html>
