@@ -499,7 +499,7 @@ a.dashB img.dashPIC {
                 <tr>
                     <th>Report ID</th>
                     <th>Report Date</th>
-                    <th>Name</th>
+                    <th>Report Type</th>
                     <th>Details</th>
                     <th>Status</th>
                 </tr>
@@ -510,11 +510,11 @@ a.dashB img.dashPIC {
     $fetchReports = $conn->prepare("
     SELECT 
         report.report_ID, 
+        report.reportType,
         reportstatus.status_DATE, 
         reportstatus.status_DETAILS, 
         reportstatus.status, 
-        user.role_ID,
-        CONCAT(userdetails.last_name, ', ', userdetails.first_name) AS violator_name
+        user.role_ID
     FROM report
         LEFT JOIN user ON report.reportOwnerID = user.user_ID
         LEFT JOIN userdetails ON report.reportOwnerID = userdetails.userID
@@ -543,7 +543,7 @@ a.dashB img.dashPIC {
             <tr>
                 <td>{$row['report_ID']}</td>
                 <td>{$row['status_DATE']}</td>
-                <td>{$row['violator_name']}</td>
+                <td>{$row['reportType']}</td>
                 <td>{$row['status_DETAILS']}</td>
                 <td>{$row['status']}</td>
             </tr>";
