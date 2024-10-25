@@ -415,11 +415,23 @@ a.dashB img.dashPIC {
     $userID = $_SESSION["id"]; 
 
 
-    $violationQuery = "SELECT v.violation_ID, vt.violationTypeName, s.severity_LEVEL, v.violation_Date 
-                    FROM violation v 
-                    JOIN violationtype vt ON v.violationType_ID = vt.violationType_ID 
-                    JOIN severity s ON v.severity_ID = s.severity_ID 
-                    WHERE v.violationDetail_ID = ?";
+    $violationQuery = "
+    SELECT
+        v.violation_ID, 
+        vt.violationTypeName, 
+        s.severity_LEVEL, 
+        v.violation_Date,
+        CONCAT(userdetails.first_name,' ', userdetails.last_name) AS name
+    FROM 
+        violation v 
+    JOIN 
+        violationtype vt ON v.violationType_ID = vt.violationType_ID 
+    JOIN 
+        severity s ON v.severity_ID = s.severity_ID 
+    JOIN
+        userdetails ON v.violator_ID = userdetails.userID
+    WHERE 
+        v.violator_ID = ?";
     $stmt = $conn->prepare($violationQuery);
     $stmt->bind_param("i", $userID); 
     $stmt->execute();

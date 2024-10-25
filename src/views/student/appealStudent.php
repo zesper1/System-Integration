@@ -9,6 +9,25 @@
     if(isset($_GET['violationID'])){
        $vioID = $_GET['violationID'];
     }
+    function fetchReport($conn, $id){
+        $query = "
+            SELECT
+                r.reportName,
+                rs.status_DETAILS
+            FROM 
+                report r
+            JOIN
+                reportstatus ON reportstatus.
+        ";
+    }
+    $query = "SELECT * FROM violation WHERE violator_ID = ?";
+    $stmt = $conn->prepare($query);
+    $userID = $_SESSION["id"];
+
+    $stmt->bind_param("i", $_SESSION["id"]);
+    $stmt->execute();
+    $stmtRes = $stmt->get_result();
+    $violations = $stmtRes->fetch_all(MYSQLI_ASSOC);
 ?>
 <html lang="en">
 <head>
@@ -394,16 +413,28 @@ a.dashB img.dashPIC {
             <form class="report-form" action="submitReport.php" method="POST">
                 <label for="title">Select Violation:</label>
                 <select id="title" name="title" required>
-                    <option value="v1">Violation 1</option>
-                    <option value="v2">Violation 2</option>
+                    <?php if (!empty($violations)) : ?>
+                        <?php foreach ($violations as $v) : ?>
+                            <option 
+                            value="<?php echo htmlspecialchars($v["violation_ID"])?>">
+                            Violation <?php echo htmlspecialchars($v["violation_ID"])?>
+                            - <?php ?>
+                            </option>
+                        <?php endforeach;?>
+                    <?php else : ?>
+                        <option value="">No violations found</option>
+                    <?php endif; ?>
                 </select>
-
-                <label for="type">Report Type:</label>
-                <select id="type" name="type" required>
-                    <option value="violation">Violation</option>
-                    <option value="complaint">Complaint</option>
-                </select>
-
+            <?php
+            if(isset( $_GET["toBeAppealedID"])){
+                $id =  $_GET["toBeAppealedID"];
+                echo "
+                <script>
+                    document.getElementById('title').value = $id;
+                </script>
+                ";
+            }
+            ?>
                 <label for="description">Enter your appeal:</label>
                 <textarea id="description" name="description" required></textarea>
 
