@@ -4,6 +4,7 @@ superAdmin functions
 examples:
 -sections (no table yet)
 -departments (no table yet)
+-school (no table yet)
 -violationTypes
 -complaintTypes
 
