@@ -513,7 +513,7 @@ a.dashB img.dashPIC {
         reportstatus.status_DATE, 
         reportstatus.status_DETAILS, 
         reportstatus.status, 
-        user.role_ID
+        user.role_ID,
     FROM report
         LEFT JOIN user ON report.reportOwnerID = user.user_ID
         LEFT JOIN userdetails ON report.reportOwnerID = userdetails.userID

@@ -6,8 +6,14 @@ session_start();
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Get admin email and password
     $email = $_POST['Email'];
-    $password = $_POST['Password'];
     $role_id = 3; // Fixed role_id
+
+    //email verification security
+    // if (isset($_POST['Email'])) {
+    //     $email = $_POST['Email'];
+    
+      
+    // }
 
     // Hash the password for security
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
@@ -387,14 +393,8 @@ $conn->close();
 </style>
 
 <body>
-    <div class="container">
-
-
-
-
-         
+    <div class="container">       
         <!-- --------------<p>mainbar</p>-------------------- -->
-
         <div class="content">
 
             <div class="formcon">
@@ -416,7 +416,11 @@ $conn->close();
                         </div>
                         <div>
                             <label for="adminEmail">Email:</label>
-                            <input type="email" id="Email" name="Email" required>
+                            <input type="email" id="Email" name="Email"  
+                            pattern="[a-zA-Z0-9._%+-]+@gmail\.com" 
+                            title="Please enter a valid Gmail address"
+                            placeholder="example@gmail.com"
+                            required>
                         </div>
                         <div>
                             <label for="adminPassword">Password:</label>
