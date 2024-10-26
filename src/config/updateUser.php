@@ -19,20 +19,18 @@ if (isset($_POST["updateUser"])) {
     // Bind parameters to the SQL statement
     $stmt->bind_param("isssi", $id, $fName, $lName, $email, $role);
 
-    // Execute the statement
+    // Execute the statement and set success or error message
     if ($stmt->execute()) {
-        // Success message
-        echo "Success: User and profile updated.";
+        $_SESSION['update_success'] = "User updated successfully!";
     } else {
-        // Error message
-        echo "Error executing stored procedure: " . $stmt->error;
+        $_SESSION['update_error'] = "Failed to update user!";
     }
 
-    // Close the statement
-    $stmt->close();
+    // Redirect to the view page
+    header("Location: ../views/admin/viewUsersAdmin.php");
+    exit();
 }
 
-// Close the connection if needed
+// Close the connection
 $conn->close();
-
 ?>

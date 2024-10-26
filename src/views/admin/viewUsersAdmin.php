@@ -70,6 +70,17 @@
         $result->free();
         $stmt->close(); 
     }
+
+if (isset($_SESSION['update_success'])) {
+    echo "<script>alert('" . $_SESSION['update_success'] . "');</script>";
+    unset($_SESSION['update_success']);
+}
+
+if (isset($_SESSION['update_error'])) {
+    echo "<script>alert('" . $_SESSION['update_error'] . "');</script>";
+    unset($_SESSION['update_error']);
+}
+
 ?>
 <html lang="en">
 <head>
