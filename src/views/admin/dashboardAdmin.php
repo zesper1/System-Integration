@@ -77,7 +77,7 @@
     .logo{
         display: flex;
         justify-content: end;
-    width: 84%;
+    width: 95%;
     display: flex;
     color: white;
     }
@@ -171,7 +171,6 @@ margin-right: 5px;
     justify-content: center;
     align-items: center;
     color: #AFB1C2;
-
 }
 
 
@@ -251,26 +250,6 @@ margin-right: 5px;
     color: #35408E;
 }
 
-.LO{
-    display: flex;
-    height: 10%;
-    align-content: end;
-    margin-top: 10%;
-    width: 100%;
-}
-
-.LO .dashPIC{
-    width: 30px;
-    height: 30px;
-    margin-left: 40px;
-    cursor: pointer;
-}
-
-.LO .txtR{
-    font-size: 20px;
-    color: #595959;
-    margin-left: 30px;
-}
 
 /* mainbar */
 
@@ -284,13 +263,13 @@ margin-right: 5px;
 
 
     .text{
-        color: white;
-        display: flex;
+    color: white;
+    display: flex;
     align-items: center;
     justify-content: start;
     height: 100%;
     width: 100%;
-    font-size: 30px;
+    font-size: 20px;
     margin-left: 60px;
     margin-top: 10px;
     }

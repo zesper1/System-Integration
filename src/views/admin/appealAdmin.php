@@ -59,16 +59,17 @@
 
     .inf1{
         display: flex;
-        width: 50%;
+        width: 100%;
         align-items: center;
     }
 
     .logo{
-    width: 100%;
+        display: flex;
+        justify-content: end;
+    width: 95%;
     display: flex;
     color: white;
-    margin-left: 10px;
-}
+    }
 
 .pic{
 width: 40px;
@@ -107,27 +108,64 @@ margin-right: 5px;
 
     /* sidebar */
 
-.sidebar{
-background-color: white;
-width: 25%;
-height: 92vh;
+    .sidebar {
+    background-color: white;
+    width: 250px; /* Set the width of the sidebar */
+    height: 100vh;
+    position: fixed;
+    left: -250px; /* Hide it initially */
+    top: 0;
+    transition: left 0.3s ease; /* Smooth sliding effect */
+    z-index: 1000;
+}
+
+.sidebar.open {
+    left: 0; /* Slide the sidebar into view */
+}
+
+.toggle-btn {
+    position: fixed;
+    left: 10px;
+    top: 10px;
+    background-color: #34408D;
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 1100;
+    font-family: 'pop';
+}
+
+.toggle-btn.hidden {
+    display: none;
+}
+
+
+.side {
+    margin-left: 0; /* Adjust main content position */
+    transition: margin-left 0.3s ease;
+}
+
+.side.shifted {
+    margin-left: 250px; /* Shift main content to the right when sidebar is open */
 }
 
 .overview{
-    width: 100%;
+    width: 55%;
     height: 10%;
     font-size: 15px;
     display: flex;
-    align-items: start;
-    justify-content:left;
-    align-items: end;
+    justify-content: center;
+    align-items: center;
     color: #AFB1C2;
-    margin-left: 40px;
+
 }
+
 
 .dashboard{
     width: 100%;
-    height: 80%;  
+    height: 60%;  
     display: flex;
     flex-direction: column;
     align-content: center;
@@ -138,22 +176,20 @@ height: 92vh;
     height: 15%;
     display: flex;
     align-items: center;
-    justify-content: left;
-    margin-top: 10px;
-
 }
 
 .dashboard .dashPIC{
-    width: 30px;
-    height: 30px;
+    width: 25px;
+    height: 25px;
     margin-left: 40px;
     cursor: pointer;
 }
 
 .dashboard .txtR{
-    font-size: 20px;
+    font-size: 17px;
     color: #595959;
     margin-left: 30px;
+    cursor: pointer;
 }
 
 .session-name{
@@ -203,28 +239,6 @@ height: 92vh;
     color: #35408E;
 }
 
-
-.LO{
-    display: flex;
-    height: 10%;
-    align-content: end;
-    margin-top: 10%;
-    width: 100%;
-}
-
-.LO .dashPIC{
-    width: 30px;
-    height: 30px;
-    margin-left: 40px;
-    cursor: pointer;
-}
-
-.LO .txtR{
-    font-size: 20px;
-    color: #595959;
-    margin-left: 30px;
-}
-
 /* sidebar */
 
 /* mainbar */
@@ -236,72 +250,14 @@ height: 92vh;
         flex-direction: column;
     }
 
-    .content1{
-        display: flex;
-        width: 100%;
-        height: 15%;
-    }
-
-    .col{
-        width:100%;
-        height: 55px;
-        display: flex;
-        justify-content: start;
-        color: #35408E;
-        font-family: 'pop';
-    }
-
-    .text{
-        color: #35408E;
-        display: flex;
-    align-items: center;
-    justify-content: start;
-    height: 100%;
-    width: 50%;
-    font-size: 30px;
-    margin-left: 60px;
-    margin-top: 10px;
-    }
-
     .rep{
-        width: 50%;
+        width: 90%;
         display: flex;
+        justify-content: end;
+        margin-bottom: 1%;
     }
 
-    .input-box1{
-    width: 130px;
-    border-radius: 10px;
-    color: #34408D;
-    margin-top: 10px;
-} 
-
-.input-box1 select {
-    display: flex;
-    align-items: center;
-  width: 100%;
-  height: 35px;
-  cursor: pointer;
-  font-size: 15px;
-  font-family: 'pop';
-  color: black;
-  background-color: white;
-}
-
-.input-box1 select::after {
-  content: '\25BC'; 
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 12px;
-  color: #999;
-}
-
-.input-box1 select option {
-  text-align: center; 
-}
-
-.glass {
+    .glass {
   width: 250px; 
   background-color: white;
   display: flex; 
@@ -325,6 +281,39 @@ height: 92vh;
 .glass input::placeholder {
     color: black;
 }
+
+    .content1{
+        display: flex;
+        width: 100%;
+        height: 15%;
+    }
+
+    .col{
+        width: 50%;
+        margin-left: 2%;
+        display: flex;
+        justify-content: center;
+        color: #35408E;
+        font-family: 'pop';
+    }
+
+    .text{
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    height: 100%;
+    width: 100%;
+    font-size: 20px;
+    margin-left: 60px;
+    margin-top: 10px;
+    }
+
+    .session-name{
+    color: #E6C213;
+}
+
+
 
 .con1{
         display: flex;
@@ -406,12 +395,12 @@ height: 92vh;
   .tablecon{
     display: flex;
     justify-content: center;
-    height: 80%;
+    height: 550px;
 }
   .wrapper{
     display: flex;
     width: 80%;
-    height: 90%;
+    height: fit-content;
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
@@ -557,18 +546,23 @@ height: 92vh;
 
         <!-- --------------<p>topbar</p>-------------------- -->
         <div class="student">
+        <div class="col">
+                <div class="text">
+                <label class="hello"> HELLO, 
+                <span class="session-name">
+                <?php 
+        // Display the session variable 'name'
+                echo $_SESSION["name"]; 
+                ?>
+                </span>
+                </label>
+                </div>
+            </div>
             <div class="inf1">
             <div class="logo">
                 <img src="../../../public/assets/images/NU_shield.svg.png" class="pic">
             <label class="NU">NATIONAL UNIVERSITY</label> 
             </div> 
-        </div>
-            <div class="inf">
-          
-            <div class="info2">
-                <img src="../../../public/assets/images/bell.png" class="toplogo">
-                <img src="../../../public/assets/images/settings.png" class="toplogo">
-            </div>
         </div>
         </div>
         <!-- --------------<p>topbar</p>-------------------- -->
@@ -576,8 +570,11 @@ height: 92vh;
         <div class="con2">
 
         <!-- --------------<p>sidebar</p>-------------------- -->
+        <button class="toggle-btn" onclick="toggleSidebar()">☰ Menu</button>
+        <div class="side">
         <div class="sidebar">
-            <div class="overview">OVERVIEW</div>           
+            <div class="overview">OVERVIEW</div>  
+
             <div class="dashboard">
 
         <line onclick="navigateTo('dashboardAdmin.php')" class="dashB">
@@ -614,14 +611,16 @@ height: 92vh;
                 <a href="../admin/addAdmin.php">Admin</a>
                 <a href="../admin/addFaculty.php">Faculty</a>
             </div>
-    </line>
-    </div>
+        </line>
 
-        <div class="LO">
-                <a id="logout-link">
+        <line class="dashB">
+        <a id="logout-link" >
                     <img src="../../../public/assets/images/logout.png" class="dashPIC" alt="Logout">
                 </a>
                 <label class="txtR"> LOGOUT</label>
+        </line>
+    </div>
+
         </div>
         </div>
         <!-- --------------<p>sidebar</p>-------------------- -->
@@ -630,21 +629,11 @@ height: 92vh;
 
         <div class="content">
 
-            <div class="content1">
-            <div class="col">
-                <div class="text">
-                <label class="hello"> HELLO, 
-    <span class="session-name">
-        <?php 
-        // Display the session variable 'name'
-        echo $_SESSION["name"]; 
-        ?>
-    </span>
-</label>
-
-                </div>
-            </div>
-            </div>
+        <div class="rep">
+        <div class="glass">
+        <input type="text" placeholder="Search" id="searchInput" onkeyup="filterTable()">
+        </div>
+        </div>
 
             <div class="tablecon">
             <div class="wrapper">
@@ -838,4 +827,16 @@ height: 92vh;
     }
 </script>
 
+<script>
+function toggleSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    const container = document.querySelector('.container');
+    const toggleButton = document.querySelector('.toggle-btn');
+
+    sidebar.classList.toggle('open');
+    container.classList.toggle('shifted');
+    toggleButton.classList.toggle('hidden'); // Toggle the hidden class
+}
+
+</script>
 </html>

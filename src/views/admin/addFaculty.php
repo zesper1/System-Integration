@@ -1,55 +1,57 @@
 <!DOCTYPE html>
 <?php
-    include "../../connection/db_conn.php";
-    session_start();
+include "../../connection/db_conn.php";
+session_start();
 
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        // Get faculty email
-        $email = $_POST['Email'];
-        $password = $_POST['Password'];
-        $role_id = 2; // Fixed role_id
-    
-        // Hash the password for security
-        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-    
-        // Prepare SQL statement for inserting faculty
-        $stmt = $conn->prepare("INSERT INTO user (email, password, role_id) VALUES (?, ?, ?)");
-        $stmt->bind_param("ssi", $email, $hashed_password, $role_id);
-    
-        // Execute the statement for faculty
-        if ($stmt->execute()) {
-    
-            // Get user details from the POST request
-            $employeeID = $conn->real_escape_string($_POST['EmployeeID']);
-            $lastName = $conn->real_escape_string($_POST['lastName']);
-            $firstName = $conn->real_escape_string($_POST['firstName']);
-            $middleName = $conn->real_escape_string($_POST['middleName']);
-            $department = $conn->real_escape_string($_POST['school']);
-    
-            // Prepare SQL statement for inserting user details
-            $stmtDetails = $conn->prepare("INSERT INTO faculty (fac_id, last_name, first_name, middle_name, dept) VALUES (?, ?, ?, ?, ?)");
-            $stmtDetails->bind_param("sssss", $employeeID, $lastName, $firstName, $middleName, $department); // Bind the user ID as fac_id
-    
-            // Execute the statement for user details
-            if ($stmtDetails->execute()) {
-                echo "<script>alert('Faculty added successfully!');</script>";
-            } else {
-                echo "<script>alert('Error adding user details: " . $stmtDetails->error . "');</script>";
-            }
-    
-            // Close the details statement
-            $stmtDetails->close();
+// Check if the form is submitted
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Get admin email and password
+    $email = $_POST['adminEmail'];
+    $password = $_POST['adminPassword'];
+    $role_id = 1; // Fixed role_id
+
+    // Hash the password for security
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+    // Prepare SQL statement for inserting admin
+    $stmt = $conn->prepare("INSERT INTO user (email, password, role_id) VALUES (?, ?, ?)");
+    $stmt->bind_param("ssi", $email, $hashed_password, $role_id);
+
+    // Execute the statement for admin
+    if ($stmt->execute()) {
+        // Successfully added admin, now insert user details
+        $user_ID = $conn->insert_id;
+        // Get user details from the POST request
+        $lastName = $conn->real_escape_string($_POST['lastName']);
+        $firstName = $conn->real_escape_string($_POST['firstName']);
+        $middleName = $conn->real_escape_string($_POST['middleName']);
+
+        // Prepare SQL statement for inserting user details
+        $stmtDetails = $conn->prepare("INSERT INTO userdetails (userID, last_name, first_name, middle_name) VALUES (?, ?, ?, ?)");
+        $stmtDetails->bind_param("isss", $user_ID, $lastName, $firstName, $middleName);
+
+        // Execute the statement for user details
+        if ($stmtDetails->execute()) {
+            echo "<script>alert('Admin and user details added successfully!');</script>";
         } else {
-            echo "<script>alert('Error adding admin: " . $stmt->error . "');</script>";
+            echo "<script>alert('Error adding user details: " . $stmtDetails->error . "');</script>";
         }
-    
-        // Close the admin statement
-        $stmt->close();
+
+        // Close the details statement
+        $stmtDetails->close();
+    } else {
+        echo "<script>alert('Error adding admin: " . $stmt->error . "');</script>";
     }
-    
-    // Close the database connection
-    $conn->close();
+
+    // Close the admin statement
+    $stmt->close();
+}
+
+// Close the database connection
+$conn->close();
 ?>
+
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -106,16 +108,19 @@
 
     .inf1{
         display: flex;
-        width: 50%;
+        width: 100%;
         align-items: center;
     }
 
+
     .logo{
-    width: 100%;
+        display: flex;
+        justify-content: end;
+    width: 95%;
     display: flex;
     color: white;
-    margin-left: 10px;
-}
+    }
+
 
 .pic{
 width: 40px;
@@ -154,28 +159,65 @@ margin-right: 5px;
 
     /* sidebar */
 
-.sidebar{
-background-color: white;
-width: 25%;
-height: 92vh;
-font-family: 'pop';
+    .sidebar {
+    background-color: white;
+    width: 250px; /* Set the width of the sidebar */
+    height: 100vh;
+    position: fixed;
+    left: -250px; /* Hide it initially */
+    top: 0;
+    transition: left 0.3s ease; /* Smooth sliding effect */
+    z-index: 1000;
+    font-family: 'pop';
+}
+
+.sidebar.open {
+    left: 0; /* Slide the sidebar into view */
+}
+
+.toggle-btn {
+    position: fixed;
+    left: 10px;
+    top: 10px;
+    background-color: #34408D;
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 1100;
+    font-family: 'pop';
+}
+
+.toggle-btn.hidden {
+    display: none;
+}
+
+
+.side {
+    margin-left: 0; /* Adjust main content position */
+    transition: margin-left 0.3s ease;
+}
+
+.side.shifted {
+    margin-left: 250px; /* Shift main content to the right when sidebar is open */
 }
 
 .overview{
-    width: 100%;
+    width: 55%;
     height: 10%;
     font-size: 15px;
     display: flex;
-    align-items: start;
-    justify-content:left;
-    align-items: end;
+    justify-content: center;
+    align-items: center;
     color: #AFB1C2;
-    margin-left: 40px;
+
 }
+
 
 .dashboard{
     width: 100%;
-    height: 80%;  
+    height: 60%;  
     display: flex;
     flex-direction: column;
     align-content: center;
@@ -186,22 +228,24 @@ font-family: 'pop';
     height: 15%;
     display: flex;
     align-items: center;
-    justify-content: left;
-    margin-top: 10px;
-
 }
 
 .dashboard .dashPIC{
-    width: 30px;
-    height: 30px;
+    width: 25px;
+    height: 25px;
     margin-left: 40px;
     cursor: pointer;
 }
 
 .dashboard .txtR{
-    font-size: 20px;
+    font-size: 17px;
     color: #595959;
     margin-left: 30px;
+    cursor: pointer;
+}
+
+.session-name{
+    color: #E6C213;
 }
 
 .dashboard .txtA{
@@ -219,8 +263,8 @@ font-family: 'pop';
     color: gold;
 }
 
-/* Dropdown styling */
-.dropdown-content {
+ /* Dropdown styling */
+ .dropdown-content {
     display: none;
     position: absolute;
     background-color: white;
@@ -247,31 +291,6 @@ font-family: 'pop';
     color: #35408E;
 }
 
-.LO{
-    display: flex;
-    height: 10%;
-    align-content: end;
-    margin-top: 10%;
-    width: 100%;
-}
-
-.LO .dashPIC{
-    width: 30px;
-    height: 30px;
-    margin-left: 40px;
-    cursor: pointer;
-}
-
-.LO .txtR{
-    font-size: 20px;
-    color: #595959;
-    margin-left: 30px;
-}
-
-.session-name{
-    color: #E6C213;
-}
-
 /* sidebar */
 
 /* mainbar */
@@ -290,22 +309,22 @@ font-family: 'pop';
     }
 
     .col{
-        width:100%;
-        height: 55px;
+        width: 50%;
+        margin-left: 2%;
         display: flex;
-        justify-content: start;
+        justify-content: center;
         color: #35408E;
         font-family: 'pop';
     }
 
     .text{
-        color: #35408E;
-        display: flex;
+    color: white;
+    display: flex;
     align-items: center;
     justify-content: start;
     height: 100%;
-    width: 50%;
-    font-size: 30px;
+    width: 100%;
+    font-size: 20px;
     margin-left: 60px;
     margin-top: 10px;
     }
@@ -448,18 +467,32 @@ font-family: 'pop';
     margin-top: 1%;
 }
 
+.add{
+    width: 49%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+}
+
+.add-fac{
+    font-size: 20px;
+    font-family: 'pop';
+    color: #35408E;
+    margin-top: 4%;
+}
 .formcon{
           display: flex;
     justify-content: center;
-    height: 80%;
+    height: 100%;
         }
         .form {
             background-color: white;
             width: 60%;
             height: fit-content;
             padding: 30px;
-            border-radius: 10px;
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            margin-top: 2%;
         }
 
         h2 {
@@ -518,38 +551,6 @@ font-family: 'pop';
         .submit-btn:hover {
             background-color: #2b3675;
         }
-        /* Dropdown styling */
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: white;
-    min-width: 100%; /* Match the width of the text fields */
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-    z-index: 1;
-    margin-top: 5px; /* Space between the dropdown and the text field */
-    border-radius: 5px;
-    overflow: hidden; /* To prevent any overflow */
-    color: #35408E;
-}
-
-.dropdown-content a {
-    color: #35408E;
-    padding: 10px; /* Space for better click area */
-    text-decoration: none;
-    display: block;
-    font-size: 18px;
-}
-
-.dropdown-content a:hover {
-    background-color: #E9EAF6; /* Highlight on hover */
-    color: #35408E;
-}
-
-/* Ensure the dropdown aligns with input fields */
-.input-box1 {
-    position: relative; /* Required for the absolute positioning of the dropdown */
-    width: 100%; /* Match input field width */
-}
 
 </style>
 
@@ -558,55 +559,63 @@ font-family: 'pop';
 
         <!-- --------------<p>topbar</p>-------------------- -->
         <div class="student">
+        <div class="col">
+                <div class="text">
+                <label class="hello"> HELLO, 
+                <span class="session-name">
+                <?php 
+        // Display the session variable 'name'
+                echo $_SESSION["name"]; 
+                ?>
+                </span>
+                </label>
+                </div>
+            </div>
             <div class="inf1">
             <div class="logo">
                 <img src="../../../public/assets/images/NU_shield.svg.png" class="pic">
             <label class="NU">NATIONAL UNIVERSITY</label> 
             </div> 
         </div>
-            <div class="inf">
-          
-            <div class="info2">
-                <img src="../../../public/assets/images/bell.png" class="toplogo">
-                <img src="../../../public/assets/images/settings.png" class="toplogo">
-            </div>
-        </div>
         </div>
         <!-- --------------<p>topbar</p>-------------------- -->
 
         <div class="con2">
 
-       <!-- --------------<p>sidebar</p>-------------------- -->
-       <div class="sidebar">
-        <div class="overview">OVERVIEW</div>           
-        <div class="dashboard">
+         <!-- --------------<p>sidebar</p>-------------------- -->
+         <button class="toggle-btn" onclick="toggleSidebar()">☰ Menu</button>
+        <div class="side">
+        <div class="sidebar">
+            <div class="overview">OVERVIEW</div>  
 
-    <line onclick="navigateTo('dashboardAdmin.php')" class="dashB">
-        <img src="../../../public/assets/images/dashboard.png" class="dashPIC">
-        <label class="txtR"> DASHBOARD</label>
-    </line>
-    
-    <line onclick="navigateTo('reportsAdmin.php')" class="dashB">
-        <img src="../../../public/assets/images/report.png" class="dashPIC">
-        <label class="txtR"> REPORTS</label>
-    </line>
-    
-    <line onclick="navigateTo('appealAdmin.php')" class="dashB">
-        <a href="appealAdmin.php"><img src="../../../public/assets/images/paper.png" class="dashPIC"></a>
-        <label class="txtR"> REPLY TO APPEAL</label>
-    </line>
+            <div class="dashboard">
 
-    <line onclick="navigateTo('appealAdmin.php')" class="dashB">
+        <line onclick="navigateTo('dashboardAdmin.php')" class="dashB">
+            <img src="../../../public/assets/images/dashboard.png" class="dashPIC">
+            <label class="txtR"> DASHBOARD</label>
+        </line>
+        
+        <line onclick="navigateTo('reportsAdmin.php')" class="dashB">
+            <img src="../../../public/assets/images/report.png" class="dashPIC">
+            <label class="txtR"> REPORTS</label>
+        </line>
+        
+        <line onclick="navigateTo('appealAdmin.php')" class="dashB">
+            <a href="appealAdmin.php"><img src="../../../public/assets/images/paper.png" class="dashPIC"></a>
+            <label class="txtR"> REPLY TO APPEAL</label>
+        </line>
+
+        <line onclick="navigateTo('adminViolation.php')" class="dashB">
             <a href="adminViolation.php"><img src="../../../public/assets/images/warning.png" class="dashPIC"></a>
             <label class="txtR"> VIOLATION</label>
         </line>
-    
-    <line onclick="navigateTo('viewUsersAdmin.php')" class="dashB">
+        
+        <line onclick="navigateTo('viewUsersAdmin.php')" class="dashB">
             <a href="viewUsersAdmin.php"><img src="../../../public/assets/images/users.png" class="dashPIC"></a>
             <label class="txtR"> VIEW USER</label>
         </line>
 
-    <line class="dashB" style="position: relative;">
+        <line class="dashB" style="position: relative;">
         <img src="../../../public/assets/images/add-user-3-xxl.png" class="dashPIC">
         <label class="txtR" onclick="toggleDropdown()"> ADD USER ▼</label>
         
@@ -615,41 +624,29 @@ font-family: 'pop';
                 <a href="../admin/addAdmin.php">Admin</a>
                 <a href="../admin/addFaculty.php">Faculty</a>
             </div>
-    </line>
+        </line>
 
-</div>
+        <line class="dashB">
+        <a id="logout-link" >
+                    <img src="../../../public/assets/images/logout.png" class="dashPIC" alt="Logout">
+                </a>
+                <label class="txtR"> LOGOUT</label>
+        </line>
+    </div>
 
-    <div class="LO">
-            <a id="logout-link">
-                <img src="../../../public/assets/images/logout.png" class="dashPIC" alt="Logout">
-            </a>
-            <label class="txtR"> LOGOUT</label>
-    </div>
-    </div>
-    <!-- --------------<p>sidebar</p>-------------------- -->
+        </div>
+        </div>
+        <!-- --------------<p>sidebar</p>-------------------- -->
          
         <!-- --------------<p>mainbar</p>-------------------- -->
 
         <div class="content">
 
-            <div class="content1">
-            <div class="col">
-                <div class="text">
-                    <label class="hello"> HELLO,
-                    <span class="session-name">
-        <?php 
-        // Display the session variable 'name'
-        echo $_SESSION["name"]; 
-        ?>
-    </span>
-                    </label>
-                </div>
-            </div> 
-            </div>
-
-            <div class="formcon">
+        <div class="add">
+            <label class="add-fac">ADD FACULTY</label>
+        </div>
+        <div class="formcon">
             <div class="form">
-                <h2>Add Faculty</h2>
                 <form action="../../config/add.php" method="post">
                     <div class="form-table">
                         <div>
@@ -700,28 +697,6 @@ font-family: 'pop';
         </div>   
     </div>
     </div>
-    <?php
-    if(isset($_SESSION['exists']) && $_SESSION['exists'] == true){
-        echo "
-            <script>
-                alert('User already exists!');
-            </script>
-        ";
-        $_SESSION['exists'] = false;
-    } else {
-         if(isset($_SESSION["success"])){
-            if ($_SESSION["success"] == true){
-                echo "
-                <script>
-                    alert('User registered successfully!');
-                </script>
-            ";
-            $_SESSION["success"] = false;
-            } else {
-            }
-         }
-    }
-?>   
 </body>
 
 <script>
@@ -761,4 +736,16 @@ font-family: 'pop';
     }
 </script>
 
+<script>
+function toggleSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    const container = document.querySelector('.container');
+    const toggleButton = document.querySelector('.toggle-btn');
+
+    sidebar.classList.toggle('open');
+    container.classList.toggle('shifted');
+    toggleButton.classList.toggle('hidden'); // Toggle the hidden class
+}
+
+</script>
 </html>
