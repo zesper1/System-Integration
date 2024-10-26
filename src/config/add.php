@@ -152,25 +152,33 @@ if (isset($_POST["add_faculty"])) {
         echo "Transaction failed: " . $e->getMessage();
     }
 }
-if (isset($_POST["addViolation"])){
-    $vID = $_POST["StudentName"];
 
-    if (preg_match('/\d+/', $vID, $matches)) {
-        $id = $matches[0]; // Get the first match
-    }
-
-    $vType = $_POST["ViolationType"];
-    $vSeverity = $_POST["ViolationSeverity"];
-    $repDetID = $_POST["repDetID"];
-    $stmt = $conn->prepare("INSERT INTO 
-            violation(severity_ID, violationType_ID, violationDetail_ID, violator_ID) 
-            VALUES (?,?,?,?)");
-    $stmt->bind_param("iiii", $vSeverity, $vType, $repDetID, $id);
-    if($stmt->execute()){
-        $_SESSION["success"] = true;
+    if (isset($_POST["addViolation"])) {
+        $vID = $_POST["StudentName"];
+        
+        if (preg_match('/\d+/', $vID, $matches)) {
+            $id = $matches[0]; // Get the first match
+        }
+        
+        $vType = $_POST["ViolationType"];
+        $vSeverity = $_POST["ViolationSeverity"];
+        $repDetID = $_POST["repDetID"];
+        $stmt = $conn->prepare("INSERT INTO 
+                violation(severity_ID, violationType_ID, violationDetail_ID, violator_ID) 
+                VALUES (?,?,?,?)");
+        $stmt->bind_param("iiii", $vSeverity, $vType, $repDetID, $id);
+        
+        if ($stmt->execute()) {
+            $_SESSION["success"] = true;
+        } else {
+            $_SESSION["success"] = false;
+        }
         header("Location: ../views/admin/adminViolation.php");
+        exit(); // Ensure the script terminates after redirection
     }
-}
+
+
+
 ///////////////////////
 // STUDENT PROMPTS ////
 ///////////////////////

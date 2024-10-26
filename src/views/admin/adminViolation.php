@@ -85,16 +85,27 @@
             }
         }
     }
-    if (isset($_SESSION["success"])) {
-        if ($_SESSION["success"] == true) {
-            echo "
-            <script>
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['addViolation'])) {
+    $_SESSION["success"] = true;
+}
+
+if (isset($_SESSION["success"])) {
+    echo "
+    <script>
+        window.onload = function() {
+            if (" . ($_SESSION["success"] ? 'true' : 'false') . ") {
                 alert('Violation added successfully!');
-            </script>
-            ";
-            $_SESSION["success"] = false;  // Reset the flag after displaying the alert
-        }
-    }
+            } else {
+                alert('Failed to add violation. Please try again.');
+            }
+            // Clear the session variable after showing the alert
+            window.onload = null; // Remove this function to prevent repeated alerts
+        };
+    </script>
+    ";
+    unset($_SESSION["success"]);
+}
     
 ?>
 <html lang="en">
@@ -562,25 +573,25 @@ font-family: 'pop';
 
                         $jsonified = json_encode($searchQuery);
                     ?>
-                <input type="text" name="StudentName" id="StudentName" placeholder="Search by student name">
+                <input type="text" name="StudentName" id="StudentName" placeholder="Search by student name" required>
                 <br>
                 <div class="result-box" id="resultsBox1"></div>
                 <label for="ViolationType">Violation Type:</label>
-                <select name="ViolationType" id="ViolationType">
+                <select name="ViolationType" id="ViolationType" required>
                     <?php
                         fetchViolations($conn);
                     ?>
                 </select>
                 <br>
                 <label for="ViolationSeverity">Violation Severity:</label>
-                <select name="ViolationSeverity" id="ViolationSeverity">
+                <select name="ViolationSeverity" id="ViolationSeverity" required>
                     <?php
                         fetchSeverity($conn);
                     ?>
                 </select>
                 <br>
                 <label for="SupportingDetail">Supporing Evidence:</label>
-                <input type="text" name="SupportingDetail" id="SupportingDetail" placeholder="Search by report name">
+                <input type="text" name="SupportingDetail" id="SupportingDetail" placeholder="Search by report name" required>
                 <div class="result-box" id="resultsBox2"></div>
                 <div id="report-info" style="display: none;">
                     <input type="hidden" name="repDetID" id="repDetID" readonly>
@@ -606,6 +617,7 @@ font-family: 'pop';
         window.location.href = pagename;
     }
 </script>
+
 <script>   
     document.getElementById('logout-link').addEventListener('click', function(event) {                  
         event.preventDefault();                           
@@ -636,9 +648,11 @@ font-family: 'pop';
         }
     }
 </script>
+
 <script>
    var searchData = <?php echo $jsonified; ?>;  // Assuming both searchData use the same data
 </script>
+
 <script src="../../../public/assets/js/adminViolation.js" defer></script>
 
 </html>
