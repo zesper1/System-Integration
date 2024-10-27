@@ -3,7 +3,7 @@
 include "../src/connection/db_conn.php";
 session_start();
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_GET['email'])) {
+if (isset($_GET['email'])) {
     // Get admin email and password
     $email = $_POST['Email'];
     $password = $_POST['Password'];

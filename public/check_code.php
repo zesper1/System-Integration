@@ -11,6 +11,10 @@ if (isset($_POST['email']) && isset($_POST['code'])) {
     $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
+        // Optional: Remove the code after verification
+        $stmt = $conn->prepare("DELETE FROM email_verifications WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
         // Code is correct, email is verified
         echo "
         <script>
@@ -18,11 +22,7 @@ if (isset($_POST['email']) && isset($_POST['code'])) {
         window.location.href = 'createAccount.php?email=$email';
         </script>
         ";
-        
-        // Optional: Remove the code after verification
-        $stmt = $conn->prepare("DELETE FROM email_verifications WHERE email = ?");
-        $stmt->bind_param("s", $email);
-        $stmt->execute();
+        header("Location: createAccount.php?email=$email");
     } else {
         echo "Invalid verification code.";
     }
