@@ -101,99 +101,234 @@ if ($conn) {
             padding: 5px 10px;
         }
 
-        .container {
-            display: flex;
-            flex-direction: column;
-            width: 30%;
-            align-items: center;
-            margin-top: 5%;
-        }    
+        .con1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    height: 70%;
+}
+.con {
+    width: 70%;
+    max-width: 800px;
+    background-color: #f5f5f5; /* Light background for contrast */
+    padding: 20px;
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Soft shadow for depth */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            table-layout: fixed; /* Ensures consistent column width */
-        }
+.select {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px; /* Space below the header */
+}
 
-        
+.container {
+    width: 100%;
+    background-color: #fff; /* White background for clarity */
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+}
 
-        th, td {
-            border: 1px solid #ccc;
-            padding: 10px;
-            text-align: left; /* Align text to the left */
-            overflow: hidden; /* Prevent overflow for long text */
-            white-space: nowrap; /* Prevent text wrapping */
-            text-overflow: ellipsis; /* Show ellipsis for overflow text */
-        }
-        th {
-            background-color: #f4f4f4;
-            font-weight: bold; /* Make headers bold */
-        }
-        td {
-            background-color: #fff; /* Light background for records */
-        }
-        .action-buttons {
-            display: flex;
-            gap: 10px; /* Space between buttons */
-        }
-        .action-buttons button {
-            padding: 5px 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .edit-button {
-            background-color: #4CAF50; /* Green */
-            color: white;
-        }
-        .delete-button {
-            background-color: #f44336; /* Red */
-            color: white;
-        }
-        .add-button {
-            margin-top: 20px;
-            padding: 10px 15px;
-            background-color: #2196F3; /* Blue */
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+/* Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    table-layout: fixed;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+th {
+    background-color: #e0e0e0; /* Light header background */
+    font-weight: bold;
+}
+
+td {
+    background-color: #fafafa;
+}
+
+/* Action Buttons Styling */
+.action-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.action-buttons button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.edit-button {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.delete-button {
+    background-color: #f44336;
+    color: white;
+}
+
+.add-button {
+    margin-top: 20px;
+    padding: 10px 15px;
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+        /* Dropdown Styles */
+#table-select {
+    width: 200px; /* Set a consistent width */
+    padding: 8px; /* Minimal padding */
+    font-size: 16px; /* Readable font size */
+    border: 1px solid #ccc; /* Light border */
+    border-radius: 4px; /* Slightly rounded corners */
+    background-color: #f9f9f9; /* Light background */
+    color: #34408D; /* Dark text color */
+    outline: none; /* Remove outline on focus */
+    cursor: pointer; /* Pointer cursor */
+}
+
+#table-select:hover {
+    background-color: #e6e6e6; /* Subtle hover effect */
+}
+
+#table-select:focus {
+    border-color: #34408D; /* Dark border on focus */
+}       
 
         /* Modal styles */
         .modal {
-            display: none; /* Hidden by default */
-            position: fixed; /* Stay in place */
-            z-index: 1; /* Sit on top */
-            left: 0;
-            top: 0;
-            width: 100%; /* Full width */
-            height: 100%; /* Full height */
-            overflow: auto; /* Enable scroll if needed */
-            background-color: rgb(0,0,0); /* Fallback color */
-            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-        }
-        .modal-content {
-            background-color: #fefefe;
-            margin: 15% auto; /* 15% from the top and centered */
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%; /* Could be more or less, depending on screen size */
-        }
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.6); /* Darker overlay */
+    animation: fadeIn 0.3s ease-in-out; /* Fade-in effect */
+}
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 30px;
+    border-radius: 10px; /* Rounded corners */
+    width: 60%;
+    max-width: 600px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3); /* Deep shadow */
+    animation: slideDown 0.4s ease-in-out; /* Slide-down animation */
+}
+.close {
+    color: #888;
+    font-size: 24px;
+    font-weight: bold;
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    cursor: pointer;
+    transition: color 0.3s;
+}
 
+.close:hover,
+.close:focus {
+    color: #333; /* Darker color on hover */
+}
+
+.modal-content h3 {
+    margin-top: 0;
+    color: #34408D; /* Match the color theme */
+}
+
+.modal-content form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.modal-content button[type="submit"] {
+    padding: 10px 15px;
+    background-color: #34408D;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.modal-content button[type="submit"]:hover {
+    background-color: #2a3671; /* Darker shade on hover */
+}
+
+/* Text Field Styling */
+.modal-content input[type="text"],
+.modal-content input[type="email"],
+.modal-content input[type="number"],
+.modal-content select,
+.modal-content textarea {
+    width: 100%;
+    padding: 10px 12px;
+    margin-top: 10px;
+    font-size: 16px;
+    color: #333;
+    background-color: #f9f9f9; /* Light background */
+    border: 1px solid #ccc; /* Soft border */
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s, background-color 0.3s;
+}
+
+.modal-content input[type="text"]:focus,
+.modal-content input[type="email"]:focus,
+.modal-content input[type="number"]:focus,
+.modal-content select:focus,
+.modal-content textarea:focus {
+    border-color: #34408D; /* Match the theme color */
+    background-color: #fff;
+}
+
+/* Textarea adjustments */
+.modal-content textarea {
+    resize: vertical; /* Allow vertical resizing */
+    min-height: 100px; /* Minimum height for readability */
+}
+
+/* Label Styling */
+.modal-content label {
+    font-size: 14px;
+    color: #34408D;
+    margin-bottom: 5px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideDown {
+    from { transform: translateY(-20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
 
     </style>
 </head>
@@ -219,8 +354,10 @@ if ($conn) {
             <li><a href="addSAdmin.php">Add Admin</a></li>
         </ul>
     </nav>
+    <div class="con1">
+    <div class="con">
+        <div class="select"><h2>Select a Table</h2></div>
     <div class="container">
-        <h2>Select a Table</h2>
         <select id="table-select" onchange="viewColumns()">
             <option value="">Select a table</option>
             <option value="school">School</option>
@@ -238,6 +375,8 @@ if ($conn) {
                 </thead>
                 <tbody id="records-display"></tbody> <!-- To display the records -->
             </table>
+        </div>
+        </div>
         </div>
 
         <!-- Add Record Modal -->
