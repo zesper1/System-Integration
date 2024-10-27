@@ -22,7 +22,6 @@ if (isset($_POST['email']) && isset($_POST['code'])) {
         window.location.href = 'createAccount.php?email=$email';
         </script>
         ";
-        header("Location: createAccount.php?email=$email");
     } else {
         echo "Invalid verification code.";
     }
