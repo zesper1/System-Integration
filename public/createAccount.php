@@ -3,7 +3,7 @@
 include "../src/connection/db_conn.php";
 session_start();
 
-if (isset($_GET['email'])) {
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST["Email"])) {
     // Get admin email and password
     $email = $_POST['Email'];
     $password = $_POST['Password'];
@@ -62,7 +62,6 @@ if (isset($_GET['email'])) {
     // Close the admin statement
     $stmt->close();
 } else {
-    header("Location: emailVerification.php");
 }
 
 // Close the database connection
