@@ -1,9 +1,10 @@
 <!DOCTYPE html>
+
 <?php
 include "../src/connection/db_conn.php";
 session_start();
 
-if (isset($_GET['email'])) {
+if (isset($_POST['Email'])) { // Check if form is submitted with POST data
     // Get admin email and password
     $email = $_POST['Email'];
     $password = $_POST['Password'];
@@ -13,7 +14,7 @@ if (isset($_GET['email'])) {
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
     // Prepare SQL statement for inserting admin (user) information
-    $stmt = $conn->prepare("INSERT INTO user (email, password, role_id) VALUES (?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO user (email, password, role_ID) VALUES (?, ?, ?)");
     $stmt->bind_param("ssi", $email, $hashed_password, $role_id);
 
     // Execute the statement for admin (user)
@@ -22,7 +23,7 @@ if (isset($_GET['email'])) {
         $userID = $conn->insert_id;
 
         // Get additional user details from the POST request
-        $studentID = $conn->real_escape_string($_POST['studentID']);  // Optional if studentID is manual
+        $studentID = $conn->real_escape_string($_POST['studentID']);
         $lastName = $conn->real_escape_string($_POST['lastName']);
         $firstName = $conn->real_escape_string($_POST['firstName']);
         $middleName = $conn->real_escape_string($_POST['middleName']);
@@ -42,7 +43,12 @@ if (isset($_GET['email'])) {
 
             // Execute the statement for student details
             if ($stmtStudent->execute()) {
-                echo "<script>alert('Student added successfully!');</script>";
+                // Redirect to index.php upon successful insertion
+                echo "<script>
+                    alert('Student added successfully!');
+                    window.location.href = 'index.php';
+                </script>";
+                exit();
             } else {
                 echo "<script>alert('Error adding student details: " . $stmtStudent->error . "');</script>";
             }
@@ -62,12 +68,14 @@ if (isset($_GET['email'])) {
     // Close the admin statement
     $stmt->close();
 } else {
-    header("Location: emailVerification.php");
+    echo "<script>alert('Welcome to Student Conduct and Violation System');</script>";
 }
 
 // Close the database connection
 $conn->close();
 ?>
+
+
 
 <html lang="en">
 <head>
@@ -396,7 +404,7 @@ $conn->close();
             <div class="formcon">
             <div class="form">
                 <h2>Create an Account</h2>
-                <form action="createAccount.php" method="post">
+                <form action="../public/createAccount.php" method="post">
                     <div class="form-table">
                         <div>
                             <label for="lastName">Last Name:</label>
@@ -438,12 +446,12 @@ $conn->close();
                             <label for="yearLevel">Year Level:</label>
                             <select id="yearLevel" name="yearLevel" required>
                                 <option value="">Select year level</option>
-                                <option value="SECA">G11</option>
-                                <option value="SBMA">G12</option>
-                                <option value="SASE">1st Year</option>
-                                <option value="SHS">2nd Year</option>
-                                <option value="SHS">3rd Year</option>
-                                <option value="SHS">4th Year</option>
+                                <option value="G11">G11</option>
+                                <option value="G12">G12</option>
+                                <option value="Freshman">1st Year</option>
+                                <option value="Sophomore">2nd Year</option>
+                                <option value="Juniors">3rd Year</option>
+                                <option value="Senior">4th Year</option>
                             </select>
                         </div>
                         <div>
