@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt->execute();
 
         // Read the HTML template
-        $message = file_get_contents('sample_email.html');
+        $message = file_get_contents('email_content.html');
 
         // Replace the placeholder with the actual verification code
         $message = str_replace('{{code}}', $verificationCode, $message);
@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $mail->SMTPSecure = 'ssl';
             $mail->Port = 465;
 
-            $mail->setFrom('sdaonud@gmail.com', 'Your Name');
+            $mail->setFrom('sdaonud@gmail.com', 'SDAO');
             $mail->addAddress($email);
             $mail->isHTML(true);
             $mail->Subject = $subject;
