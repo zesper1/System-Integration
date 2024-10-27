@@ -265,7 +265,6 @@ margin-right: 5px;
   padding: 0 15px;
   margin-top: 10px;
   height: 35px;
-  margin-left: 10px;
 }
 
 .glass input {
@@ -401,8 +400,6 @@ margin-right: 5px;
     display: flex;
     width: 80%;
     height: fit-content;
-    border-radius: 10px;
-    overflow: hidden;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     background-color: #fff;
 }

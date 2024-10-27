@@ -84,16 +84,17 @@
 
     .inf1{
         display: flex;
-        width: 50%;
+        width: 100%;
         align-items: center;
     }
 
     .logo{
-    width: 100%;
+        display: flex;
+        justify-content: end;
+    width: 95%;
     display: flex;
     color: white;
-    margin-left: 10px;
-}
+    }
 
 .pic{
 width: 40px;
@@ -107,19 +108,7 @@ margin-right: 5px;
     align-items: center;
 }
 
-    .inf{
-        display: flex;
-        width: 50%;
-        align-items: center;
-    }
 
-    .info2{
-        width: 100%;
-        display: flex ;
-        justify-content: end;
-        align-items: center;
-        margin-right: 10px;
-    }
 
     .toplogo{
         width: 30px;
@@ -132,27 +121,63 @@ margin-right: 5px;
 
     /* sidebar */
 
-.sidebar{
-background-color: white;
-width: 25%;
-height: 92vh;
+    .sidebar {
+    background-color: white;
+    width: 250px; /* Set the width of the sidebar */
+    height: 100vh;
+    position: fixed;
+    left: -250px; /* Hide it initially */
+    top: 0;
+    transition: left 0.3s ease; /* Smooth sliding effect */
+    z-index: 1000;
+}
+
+.sidebar.open {
+    left: 0; /* Slide the sidebar into view */
+}
+
+.toggle-btn {
+    position: fixed;
+    left: 10px;
+    top: 10px;
+    background-color: #34408D;
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 1100;
+    font-family: 'pop';
+}
+
+.toggle-btn.hidden {
+    display: none;
+}
+
+
+.side {
+    margin-left: 0; /* Adjust main content position */
+    transition: margin-left 0.3s ease;
+}
+
+.side.shifted {
+    margin-left: 250px; /* Shift main content to the right when sidebar is open */
 }
 
 .overview{
-    width: 100%;
+    width: 55%;
     height: 10%;
     font-size: 15px;
     display: flex;
-    align-items: start;
-    justify-content:left;
-    align-items: end;
+    justify-content: center;
+    align-items: center;
     color: #AFB1C2;
-    margin-left: 40px;
 }
+
 
 .dashboard{
     width: 100%;
-    height: 80%;  
+    height: 60%;  
     display: flex;
     flex-direction: column;
     align-content: center;
@@ -163,22 +188,24 @@ height: 92vh;
     height: 15%;
     display: flex;
     align-items: center;
-    justify-content: left;
-    margin-top: 10px;
-
 }
 
 .dashboard .dashPIC{
-    width: 30px;
-    height: 30px;
+    width: 25px;
+    height: 25px;
     margin-left: 40px;
     cursor: pointer;
 }
 
 .dashboard .txtR{
-    font-size: 20px;
+    font-size: 17px;
     color: #595959;
-    margin-left: 10px;
+    margin-left: 30px;
+    cursor: pointer;
+}
+
+.session-name{
+    color: #E6C213;
 }
 
 .dashboard .txtA{
@@ -196,24 +223,32 @@ height: 92vh;
     color: gold;
 }
 
-.LO{
-    display: flex;
-    height: 10%;
-    align-content: end;
-    width: 100%;
+ /* Dropdown styling */
+ .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    margin-top: 5px;
+    margin-left: 70px;
+    padding: 5px 0;
+    border-radius: 5px;
 }
 
-.LO .dashPIC{
-    width: 30px;
-    height: 30px;
-    margin-left: 40px;
-    cursor: pointer;
-}
-
-.LO .txtR{
-    font-size: 20px;
+.dropdown-content a {
     color: #595959;
-    margin-left: 30px;
+    padding: 10px;
+    text-decoration: none;
+    display: block;
+    font-size: 18px;
+    margin: 5px 0;
+}
+
+.dropdown-content a:hover {
+    background-color: #E9EAF6;
+    color: #35408E;
 }
 
 /* sidebar */
@@ -233,23 +268,25 @@ height: 92vh;
         height: 15%;
     }
 
+
     .col{
-        width:100%;
-        height: 55px;
+        width: 50%;
+        margin-left: 2%;
         display: flex;
-        justify-content: start;
+        justify-content: center;
         color: #35408E;
         font-family: 'pop';
     }
 
+    
     .text{
-        color: #35408E;
-        display: flex;
+    color: white;
+    display: flex;
     align-items: center;
     justify-content: start;
     height: 100%;
-    width: 50%;
-    font-size: 30px;
+    width: 100%;
+    font-size: 20px;
     margin-left: 60px;
     margin-top: 10px;
     }
@@ -269,26 +306,39 @@ height: 92vh;
             font-family: 'pop';
         }
 
+    
         .text{
-            color: #35408E;
-            display: flex;
-            align-items: center;
-            justify-content: start;
-            height: 100%;
-            width: 50%;
-            font-size: 30px;
-            margin-left: 60px;
-            margin-top: 10px;
-        }
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    height: 100%;
+    width: 100%;
+    font-size: 20px;
+    margin-left: 60px;
+    margin-top: 10px;
+    }
 
         /* Form Styling */
+
+        .label{
+    font-size: 20px;
+    width: 15%;
+    font-family: 'pop';
+    color: #35408E;
+    height: 25px;
+    display: flex;
+    align-items: end;
+    align-content: end;
+    justify-content: end;
+}
         .report-form {
             width: 80%;
             margin: 20px auto;
             background-color: white;
             padding: 20px;
-            border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            height: 350px;
         }
 
         .report-form label {
@@ -344,52 +394,61 @@ a.dashB img.dashPIC {
 
         <!-- --------------<p>topbar</p>-------------------- -->
         <div class="student">
-            <div class="inf1">
-            <div class="logo">
-                <img src="../../../public/assets/images/NU_shield.svg.png" class="pic">
-            <label class="NU">NATIONAL UNIVERSITY</label> 
-            </div> 
+<div class="col">
+        <div class="text">
+        <label class="hello"> HELLO, 
+        <span class="session-name">
+        <?php 
+// Display the session variable 'name'
+        echo $_SESSION["name"]; 
+        ?>
+        </span>
+        </label>
         </div>
-            <div class="inf">
-          
-            <div class="info2">
-                <img src="../../../public/assets/images/bell.png" class="toplogo">
-                <img src="../../../public/assets/images/settings.png" class="toplogo">
-            </div>
-        </div>
-        </div>
+    </div>
+
+    <div class="inf1">
+    <div class="logo">
+        <img src="../../../public/assets/images/NU_shield.svg.png" class="pic">
+    <label class="NU">NATIONAL UNIVERSITY</label> 
+    </div> 
+</div>
+</div>
         <!-- --------------<p>topbar</p>-------------------- -->
 
         <div class="con2">
 
         <!-- --------------<p>sidebar</p>-------------------- -->
+        <button class="toggle-btn" onclick="toggleSidebar()">☰ Menu</button>
+        <div class="side">
         <div class="sidebar">
+            <div class="overview">OVERVIEW</div>  
 
-            <div class="overview">OVERVIEW</div>
-            
             <div class="dashboard">
 
-            <a href="dashboardstudent.php" class="dashB">
+            <line onclick="navigateTo('dashboardstudent.php')" class="dashB">
             <img src="../../../public/assets/images/dashboard.png" class="dashPIC">
-            <label class="txtR"> VIEW VIOLATIONS</label>
-        </a>
-
-        <a href="reportstudent.php" class="dashB">
+            <label class="txtR"> DASHBOARD</label>
+        </line>
+        
+        <line onclick="navigateTo('reportStudent.php')" class="dashB">
             <img src="../../../public/assets/images/report.png" class="dashPIC">
-            <label class="txtR"> WRITE A REPORT</label>
-        </a>
+            <label class="txtR"> REPORTS</label>
+        </line>
+        
+        <line onclick="navigateTo('appealStudent.php')" class="dashB">
+            <a href="appealStudent.php"><img src="../../../public/assets/images/paper.png" class="dashPIC"></a>
+            <label class="txtR"> APPEAL</label>
+        </line>
 
-        <a href="appealStudent.php" class="dashB">
-            <img src="../../../public/assets/images/gavel-xl.png" class="dashPIC">
-            <label class="txtR"> WRITE AN APPEAL</label>
-        </a>
-    </div>
-
-        <div class="LO">
-                <a id="logout-link">
+        <line class="dashB">
+        <a id="logout-link" >
                     <img src="../../../public/assets/images/logout.png" class="dashPIC" alt="Logout">
                 </a>
                 <label class="txtR"> LOGOUT</label>
+        </line>
+    </div>
+
         </div>
         </div>
         <!-- --------------<p>sidebar</p>-------------------- -->
@@ -397,17 +456,8 @@ a.dashB img.dashPIC {
         <!-- --------------<p>mainbar</p>-------------------- -->
 
         <div class="content">
-            <div class="content1">
-                <div class="col">
-                    <div class="text">
-                        <label class="hello"> APPEAL TO A VIOLATION
-                            <?php
-                                // echo $_SESSION["name"];
-                            ?>
-                        </label>
-                    </div>
-                </div>
-            </div>
+
+        <div class="label">APPEAL</div>
 
             <!-- Report Form -->
             <form class="report-form" action="submitReport.php" method="POST">
@@ -458,6 +508,18 @@ a.dashB img.dashPIC {
 </script>
 
 <script>
+   // Function to navigate between pages
+   function navigateTo(pagename) {
+        window.location.href = pagename;
+    }
+    document.getElementById('logout-link').addEventListener('click', function(event) {                  
+    event.preventDefault(); // Prevent immediate navigation
+    var confirmation = confirm('Are you sure you want to log out?'); // Show confirmation dialog                     
+    if (confirmation) {
+        window.location.href = "../../config/logout.php"; // Redirect if confirmed
+    }
+});
+
     const violationID = "v" + <?php echo $vioID ?>;
     console.log(violationID);
     const violationTitle = document.getElementById('title');
@@ -478,4 +540,16 @@ a.dashB img.dashPIC {
     });
 </script>
 
+<script>
+function toggleSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    const container = document.querySelector('.container');
+    const toggleButton = document.querySelector('.toggle-btn');
+
+    sidebar.classList.toggle('open');
+    container.classList.toggle('shifted');
+    toggleButton.classList.toggle('hidden'); // Toggle the hidden class
+}
+
+</script>
 </html>
