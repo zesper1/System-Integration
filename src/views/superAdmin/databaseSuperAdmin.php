@@ -26,63 +26,73 @@ if ($conn) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Dashboard</title>
     <style>
         /* Reset some default styles */
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            height: 100vh; /* Full viewport height */
+            height: 100vh; 
+            overflow: hidden;
         }
 
         /* Horizontal Navbar Styles */
         .navbar {
-            background-color: #333; /* Dark background color */
-            width: 100%; /* Full width */
+            background-color: #34408D; 
+            width: 100%; 
             color: white;
             display: flex;
             justify-content: space-between; /* Space between items */
             align-items: center; /* Center items vertically */
-            position: relative; /* Position relative to contain the sidebar */
-            z-index: 1; /* Ensure the navbar is on top of the sidebar */
+            border-bottom: 5px solid #E6C213;
         }
 
-        /* Vertical Sidebar Styles */
-        .sidebar {
-            width: 200px; /* Set width of the sidebar */
-            background-color: #444; /* Darker background for the sidebar */
-            padding: 40px 10px; /* Spacing around the nav items */
-            height: 100%; /* Full height of the viewport */
+        .nav-title{
+            width: 50%;
+            height: 100%;
             display: flex;
-            flex-direction: column; /* Arrange items vertically */
-            position: fixed; /* Keep the sidebar fixed */
-            top: 0; /* Align at the top */
-            left: 0; /* Align to the left */
-            z-index: 0; /* Sidebar below the navbar */
-            overflow-y: auto; /* Scroll if sidebar content overflows */
-        }
-        .nav-links {
-            list-style-type: none; /* Remove bullet points from list */
-            padding: 0; /* Remove default padding */
+            align-content: center;
+            margin-left: 2%;
         }
 
-        .nav-links li {
-            margin: 10px 0; /* Spacing between links */
+        .nav-right{
+            width: 50%;
+            display: flex;
+            justify-content: end;
+            margin-right: 2%;
+        }
+        /* Vertical Sidebar Styles */
+
+        .main{
+            display: flex;
+            height: 100%;
+        }
+        .sidebar {
+            width: 200px; 
+            height: 100%;
+            background-color: #34408D; 
+            padding: 40px 10px; 
+            height: 100%; 
+            display: flex;
+            flex-direction: column;
+        }
+
+        .nav-links {
+            list-style-type: none; 
+            padding: 0;
         }
 
         .nav-links a {
-            color: white; /* Text color */
-            text-decoration: none; /* Remove underline from links */
-            padding: 10px; /* Spacing around text */
-            display: block; /* Make links block-level elements */
-            transition: background-color 0.3s; /* Smooth background transition */
+            color: white; 
+            text-decoration: none; 
+            padding: 10px; 
+            display: block; 
+            transition: background-color 0.3s; 
         }
 
         .nav-links a:hover {
-            background-color: #575757; /* Background color on hover */
-            border-radius: 4px; /* Rounded corners on hover */
+            background-color: #575757; 
         }
-        
         .horizontal{
             display: flex;
             padding: 0;
@@ -92,33 +102,33 @@ if ($conn) {
         }
 
         .content {
-            flex-grow: 1; /* Allow content to take remaining space */
-            padding: 20px; /* Spacing for content */
-            margin-left: 220px; /* Space for the sidebar */
-            overflow: auto; /* Scroll if content overflows */
+            flex-grow: 1;
+            padding: 20px;
         }
         .card-container {
             display: flex;
-            justify-content: space-around; /* Space cards evenly */
-            flex-wrap: wrap; /* Allow cards to wrap */
-            gap: 20px; /* Spacing between cards */
-            height: auto; /* Allow height to adjust based on content */
+            justify-content: space-around; 
+            flex-wrap: wrap;
+            height: auto; 
 }
 
 .card {
     background-color: gainsboro;
-    width: 30%; /* Adjust width for responsiveness */
-    min-width: 200px; /* Minimum width for smaller screens */
-    height: auto; /* Allow height to adjust based on content */
+    width: 20%; 
+    height: auto; 
     padding: 20px;
-    text-align: center; /* Center text in cards */
-    border-radius: 8px; /* Rounded corners for cards */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+    text-align: center; 
+    border-radius: 8px; 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
 }
 
 .card-count {
     font-size: 40px;
-    font-weight: bold; /* Make count text bold */
+    font-weight: bold; 
+}
+
+.page-name{
+    margin-left: 5%;
 }
 
     </style>
@@ -127,7 +137,7 @@ if ($conn) {
     <nav class="navbar">
         <div class="nav-title">
             <ul class="nav-links horizontal">
-                <li><a href="#home">Home</a></li>
+                <li><a href="databaseSuperAdmin">Home</a></li>
                 <li><a href="#database">Database</a></li>
                 <li><a href="#user">User</a></li>
             </ul>
@@ -136,10 +146,13 @@ if ($conn) {
             Hello, <?php echo htmlspecialchars($_SESSION["name"]); ?>
         </div>
     </nav>
+
+    <div class="main">
     <nav class="sidebar">
         <ul class="nav-links vertical">
             <li><a href="manipulateSAdmin.php">Manipulate records</a></li>
             <li><a href="viewSAdmin.php">View records</a></li>
+            <li><a href="addSAdmin.php">Add Admin</a></li>
         </ul>
     </nav>
     <div class="content">
@@ -162,6 +175,7 @@ if ($conn) {
             </div>
         </div>
         </div>
+    </div>
     </div>
 </body>
 </html>

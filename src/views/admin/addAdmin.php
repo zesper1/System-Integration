@@ -302,11 +302,6 @@ margin-right: 5px;
         flex-direction: column;
     }
 
-    .content1{
-        display: flex;
-        width: 100%;
-        height: 15%;
-    }
 
     .col{
         width: 50%;
@@ -407,49 +402,8 @@ margin-right: 5px;
         flex-direction: column;
     }
     
-.pupil{
-    width: 60%;
-    height: 20%;
-    background-color: white;
-    border-radius: 10px;
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    color: #34408D;
-    font-family: 'pop';
-    outline: 1px solid black;
-    justify-content: center;
-    margin-bottom: 2%;
-}
 
-.baba{
-    display: flex;
-    margin-left: 10px ;
-}
 
-.studpic{
-    width: 40px;
-    height: 40px;
-}
-
-.det{
-    width: 100%;
-        height: 70%;
-        display: flex;
-        justify-content: start;
-        align-items: center;
-}
-
-.details{
-    width: 80%;
-    height: 100%;
-    background-color: white;
-    margin-top: 6%;
-    font-family: 'pop';
-    outline: 1px solid black;
-    color: #34408D;
-    padding: 3%;
-}
 
 
 .reportPIC .studpic{
