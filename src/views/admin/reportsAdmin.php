@@ -481,32 +481,36 @@ margin-right: 5px;
 
 /* table */
 
-.tablecon{
+.tablecon {
     display: flex;
     justify-content: center;
     height: 550px;
+    padding: 20px 0; /* Add padding for overall layout */
 }
+
 .table {
     display: flex;
     width: 80%;
-    height: 90%;
+    height: 100%; /* Changed to 100% for full alignment */
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden; /* Hide any overflow */
+    background-color: #f8f9fd; /* Light background for better readability */
 }
 
+/* Sidebar with reports list */
 .table1 {
     width: 30%;
     background-color: #fff;
-    overflow-y: auto; /* Make scrollable */
+    overflow-y: auto;
     border-right: 1px solid #ccc;
-    padding: 10px;
-    max-height: 100%; /* Ensure it doesn’t exceed parent height */
+    padding: 10px 15px; /* Add more padding */
 }
-
 
 .report-list {
     display: flex;
     flex-direction: column;
+    gap: 8px; /* Spacing between each report item */
     overflow-y: auto;
 }
 
@@ -514,24 +518,36 @@ margin-right: 5px;
     display: flex;
     align-items: center;
     padding: 10px;
-    border-bottom: 1px solid #eee;
+    border-radius: 8px;
     cursor: pointer;
+    transition: background 0.3s;
+    border: 1px solid #ddd;
+}
+
+.report-item:hover {
+    background-color: #f0f1f7;
 }
 
 .report-item.active {
-    background-color: #f0f0f0;
+    background-color: #eef2fc;
 }
 
 .student-photo {
-    width: 40px;
-    height: 40px;
+    width: 45px;
+    height: 45px;
     border-radius: 50%;
-    margin-right: 10px;
+    margin-right: 12px;
+    border: 2px solid #34408D;
+}
+
+.report-info {
+    flex-grow: 1;
 }
 
 .report-info p {
     font-weight: bold;
     color: #34408D;
+    margin: 0;
 }
 
 .violation {
@@ -539,41 +555,71 @@ margin-right: 5px;
     color: #888;
 }
 
-/* Main Content */
+/* Main content styling */
 .main-content {
     width: 70%;
-    padding: 20px;
+    padding: 25px;
     background-color: #fff;
-    display: none;
+    overflow-y: auto;
 }
 
-
-
-.main-content h2 {
-    color: #34408D;
-    margin-bottom: 20px;
+h2 {
+    font-size: 1.2rem;
+    margin: 0 0 12px;
+    color: #333;
 }
 
 .details {
     display: flex;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 12px;
 }
 
 .details-photo {
-    width: 80px;
-    height: 80px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
-    margin-right: 20px;
+    margin-right: 12px;
 }
 
 .details-info p {
-    color: #34408D;
-    margin-bottom: 5px;
+    margin: 0;
+    font-size: 0.9rem;
+    color: #555;
 }
 
-.violation-details {
-    color: #34408D;
+/* Violation Details Section */
+.violation-details h3 {
+    font-size: 1rem;
+    margin: 16px 0 8px;
+    color: #333;
+}
+
+.violation-details p {
+    font-size: 0.9rem;
+    color: #666;
+    margin: 0 0 10px;
+}
+
+.rep-attachment {
+    font-size: 0.9rem;
+    color: #007bff;
+    text-decoration: none;
+}
+
+.rep-attachment:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+    .details {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .details-photo {
+        margin: 0 0 8px;
+    }
 }
 
 .attachment {
@@ -582,13 +628,15 @@ margin-right: 5px;
     text-decoration: none;
     color: #34408D;
     background-color: #E6C213;
-    padding: 8px 12px;
+    padding: 10px 15px;
     border-radius: 5px;
+    transition: background 0.3s;
 }
 
 .attachment:hover {
     background-color: #d1b10d;
 }
+
 
 
 </style>
@@ -719,7 +767,7 @@ margin-right: 5px;
                 id='report-$item[reportID]' 
                 class='report-item active $reportClass' 
                 onclick='showDetails(\"$category\" ,$index)'>
-                    <img src='student-photo.jpg' alt='Student Photo' class='student-photo'>
+                    <img src='../../../public/assets/images/mf.jpg' class='student-photo'>
                     <div class='report-info'>
                         <div class='mc-header' style='display: flex;'>
                             <div class='mch-left'><p>$item[complainant]</p></div>
@@ -741,7 +789,7 @@ margin-right: 5px;
                 id='report-$item[reportID]' 
                 class='report-item active $reportClass' 
                 onclick='showDetails(\"$category\" ,$index)'>
-                    <img src='student-photo.jpg' alt='Student Photo' class='student-photo'>
+                    <img src='../../../public/assets/images/mf.jpg' class='student-photo'>
                     <div class='report-info'>
                         <div class='mc-header' style='display: flex;'>
                             <div class='mch-left'><p>$item[complainant]</p></div>
@@ -791,7 +839,7 @@ margin-right: 5px;
                 <div class="main-content">
                     <h2>Report Details</h2>
                     <div class="details">
-                        <img src="bell.png" alt="Student Photo" class="details-photo">
+                        <img src='../../../public/assets/images/mf.jpg' alt="Student Photo" class="details-photo">
                         <div class="details-info">
                             <p id="stud-name"><strong>Student Name:</strong> Rovic Batacandolo</p>
                             <p id="stud-id"><strong>Student ID:</strong> 2022-171700</p>
