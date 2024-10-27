@@ -253,14 +253,14 @@
                 <form action="../src/config/loginlogic.php" method="post" class="form">
                     <h1>Login</h1>
 
-                    <div class="input-box1">
+                    <!-- <div class="input-box1">
                         <select name="role" placeholder="Select a role" required>             
                             <option value="" disabled selected>Login as</option>   
-                            <option value="admin">Admin</option>
-                            <option value="student">Student</option>
-                            <option value="faculty">Faculty</option>
+                            <option value="1">Admin</option>
+                            <option value="2">Student</option>
+                            <option value="3">Faculty</option>
                         </select>
-                    </div>
+                    </div> -->
                 
                     <div class="input-box">
                         <label class="email">Email</label>

@@ -3,7 +3,6 @@
 include "../src/connection/db_conn.php";
 session_start();
 
-
 ?>
 <html lang="en">
 <head>

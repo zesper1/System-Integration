@@ -20,6 +20,7 @@ if (isset($_POST['login'])) {
         if ($result->num_rows > 0) {
             // Fetch and process the results
             $row = $result->fetch_assoc();
+            
             session_start();
             $_SESSION["role"] = $row["role_ID"];
             $_SESSION["id"] = $row["user_ID"];
@@ -50,6 +51,9 @@ if (isset($_POST['login'])) {
                     break;
                 case 3:
                     header("Location: ../../src/views/student/dashboardstudent.php");
+                    break;
+                case 4:
+                    header("Location: ../../src/views/superAdmin/databaseSuperAdmin.php");
                     break;
             }
         } else {

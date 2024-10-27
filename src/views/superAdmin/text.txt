@@ -10,3 +10,5 @@ examples:
 
 *add a co-superAdmin
 *add a sdao admin 
+
+../../config/superAdminConfig/fetch_columns.php?table=${tableName}

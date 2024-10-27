@@ -1,0 +1,77 @@
+<!-- email_template.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sample Email</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            background-color: #1a1a1a;
+            padding: 20px;
+            text-align: center;
+            color: #ffffff;
+        }
+        .header img {
+            width: 100px;
+        }
+        .content {
+            color: #333333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        .button {
+            display: inline-block;
+            background-color: #008cff;
+            color: #ffffff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .footer {
+            text-align: center;
+            font-size: 12px;
+            color: #999999;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="https://example.com/logo.png" alt="Company Logo">
+            <h1>Welcome to Our Game!</h1>
+        </div>
+        <div class="content">
+            <h2>Hello, Summoner!</h2>
+            <p>Your verification code is: <strong>{{code}}</strong></p>
+            <p>Don't miss out on <a href="https://example.com/event" target="_blank">the new event</a> happening this week!</p>
+            <p>
+                <a href="https://example.com/join" class="button" target="_blank">Join Now</a>
+            </p>
+            <img src="https://example.com/banner.jpg" alt="Event Banner" style="width:100%; margin-top:20px;">
+            <p>Thank you for being a part of our community.</p>
+        </div>
+        <div class="footer">
+            <p>&copy; 2024 Your Game Company. All rights reserved.</p>
+            <p><a href="https://example.com/unsubscribe" target="_blank">Unsubscribe</a></p>
+        </div>
+    </div>
+</body>
+</html>
