@@ -12,9 +12,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $data = json_decode(file_get_contents("php://input"), true); // Retrieve the DELETE request body
     $table = $data["table"];
     $id = $data["id"];
-
+    $attribute = $data["attribute"];
     // Prepare the delete statement
-    $stmt = $conn->prepare("DELETE FROM `$table` WHERE id = ?");
+    $stmt = $conn->prepare("DELETE FROM `$table` WHERE `$attribute` = ?");
     $stmt->bind_param("i", $id); // Assuming the ID is an integer
 
     try {

@@ -66,14 +66,14 @@ function viewColumns() {
                         editButton.innerText = "Edit";
                         editButton.className = "edit-button";
                         editButton.onclick = function() {
-                            editRecord(record); // Call edit function with the record
+                            editRecord(record, data.columns[0]); // Call edit function with the record
                         };
 
                         const deleteButton = document.createElement("button");
                         deleteButton.innerText = "Delete";
                         deleteButton.className = "delete-button";
                         deleteButton.onclick = function() {
-                            deleteRecord(record); // Call delete function with the record
+                            deleteRecord(record, data.columns[0]); // Call delete function with the record
                         };
 
                         actionTd.appendChild(editButton);
@@ -158,6 +158,7 @@ function addRecord(event) {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
+            console.log(data.message);
             alert("Record added successfully!");
             viewColumns(); // Refresh the records view
             closeModal(); // Hide the modal
@@ -171,11 +172,13 @@ function addRecord(event) {
 function editRecord(record, attribute) {
     const tableName = document.getElementById("table-select").value;
     const recordId = record[0]; // Assuming the first column is the ID
+    console.log(attribute);
     // Redirect to edit form or load the edit modal with record data
     window.location.href = `edit_record.php?table=${tableName}&id=${recordId}&attribute=${attribute}`;
 }
 
-function deleteRecord(record) {
+function deleteRecord(record, attribute) {
+    var atr = attribute;
     const confirmation = confirm("Are you sure you want to delete this record?");
     if (confirmation) {
         const tableName = document.getElementById("table-select").value;
@@ -185,7 +188,7 @@ function deleteRecord(record) {
         
         fetch(`../../config/superAdminConfig/delete_record.php`, {
             method: 'POST',
-            body: JSON.stringify({ table: tableName, id: recordId }),
+            body: JSON.stringify({ table: tableName, id: recordId, attribute: atr}),
             headers: {
                 'Content-Type': 'application/json'
             }

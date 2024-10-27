@@ -9,6 +9,7 @@ if (!isset($_SESSION["id"])) {
 $table = $_GET['table'];
 $id = $_GET['id'];
 $attribute = $_GET['attribute'];
+echo $attribute;
 // Fetch the record to edit
 $stmt = $conn->prepare("SELECT * FROM `$table` WHERE `$attribute` = ?");
 $stmt->bind_param("i", $id); // Assuming the ID is an integer
@@ -35,6 +36,7 @@ $columns = array_keys($record);
     <form action="../../config/superAdminConfig/update_record.php" method="POST">
         <input type="hidden" name="table" value="<?php echo htmlspecialchars($table); ?>">
         <input type="hidden" name="id" value="<?php echo htmlspecialchars($id); ?>">
+        <input type="hidden" name="attribute" value="<?php echo htmlspecialchars($attribute);?>">
         <?php foreach ($columns as $column): ?>
             <label for="<?php echo htmlspecialchars($column); ?>"><?php echo htmlspecialchars(ucfirst($column)); ?></label>
             <input type="text" id="<?php echo htmlspecialchars($column); ?>" name="<?php echo htmlspecialchars($column); ?>" 
