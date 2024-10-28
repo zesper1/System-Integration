@@ -223,7 +223,7 @@ function fetchDept($conn){
 </div>
 <div class="formcon">
     <div class="form">
-        <form action="../../config/add.php" method="post">
+        <form action="../../config/superAdminConfig/add_admin.php" method="post">
             <div class="form-table">
                 <div>
                     <label for="lastName">Last Name:</label>
