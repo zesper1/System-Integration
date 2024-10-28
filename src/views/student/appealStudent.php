@@ -462,7 +462,9 @@ a.dashB img.dashPIC {
             <!-- Report Form -->
             <form class="report-form" action="submitReport.php" method="POST">
                 <label for="title">Select Violation:</label>
-                <select id="title" name="title" required>
+                <select id="title" name="title" required onchange="() => {
+                // display report details based sa violation id
+                }">
                     <?php if (!empty($violations)) : ?>
                         <?php foreach ($violations as $v) : ?>
                             <option 

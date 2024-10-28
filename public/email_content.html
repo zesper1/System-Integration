@@ -9,7 +9,8 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
+            background-color: #f4f4f4; 
+            
         }
         .container {
             max-width: 600px;
@@ -29,14 +30,14 @@
             width: 80px;
         }
         .content {
-            color: #333333;
+            color: black;
             line-height: 1.6;
             padding: 20px;
         }
         .button {
             display: inline-block;
-            background-color: #ffffff;
-            color: #32418C;
+            background-color: #E6C213;
+            color: #000000;
             padding: 10px 20px;
             text-decoration: none;
             border-radius: 4px;
@@ -50,6 +51,17 @@
             color: #999999;
             margin-top: 20px;
         }
+        .digit-container, #digit-container{
+            padding: 10px;
+            text-align: center;               /* Center items horizontally */
+            font-weight: bold;
+            color: white;
+            background-color: hsl(0, 0%, 66%);
+            align-self: center;
+        }
+        .digit-container span{
+            font-size: 40px;
+        }
     </style>
 </head>
 <body>
@@ -61,7 +73,9 @@
         <div class="content">
             <h2>Hello, Nationalian!</h2>
             <p>Welcome to the NU Dasmariñas Student Conduct and Violation Monitoring System.</p>
-            <p>Your verification code is: <strong>{{code}}</strong></p>
+            <div class="dcont">
+                <p class="digit-container">Your verification code is: <br><span>{{code}}</span></p>
+            </div>
             <p>Please use this code to verify your email and access the system.</p>
             <p>If you have any questions or need assistance, feel free to reach out to us.</p>
             <p>
