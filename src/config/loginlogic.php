@@ -4,7 +4,6 @@ if (isset($_POST['login'])) {
     // Retrieve form data
     $username = $_POST["email"];
     $password = $_POST["password"];
-    $roles = $_POST["role"];
     // Prepare the SQL statement
     if ($stmt = $conn->prepare("SELECT * FROM user WHERE email = ?")) {
         // Bind parameters

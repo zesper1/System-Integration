@@ -5,21 +5,19 @@ session_start();
 if (!isset($_SESSION["id"])) {
     header("Location: ../../../public/index.php");
 }
-if ($conn) {
-    // Prepare and execute the query
-    $result = $conn->query("SHOW TABLES");
-
-    // Check if the query was successful
-    if ($result) {
-        // Count the number of tables
-        $tableCount = $result->num_rows;
-
-        // Output the count
-    } else {
-        $tableCount = 0;
-    }
-} else {
-    $tableCount = 0;
+function fetchRoles($conn){
+    $query = "SELECT * FROM roles;";
+    $stmt = $conn->prepare($query);
+    $stmt->execute();
+    $res = $stmt->get_result();
+    return $res->fetch_all(MYSQLI_ASSOC);
+}
+function fetchDept($conn){
+    $query = "SELECT * FROM school;";
+    $stmt = $conn->prepare($query);
+    $stmt->execute();
+    $res = $stmt->get_result();
+    return $res->fetch_all(MYSQLI_ASSOC);
 }
 ?>
 <html lang="en">
@@ -225,7 +223,7 @@ if ($conn) {
 </div>
 <div class="formcon">
     <div class="form">
-        <form action="addAdmin.php" method="post">
+        <form action="../../config/add.php" method="post">
             <div class="form-table">
                 <div>
                     <label for="lastName">Last Name:</label>
@@ -248,15 +246,31 @@ if ($conn) {
                     <input type="password" id="adminPassword" name="adminPassword" required>
                 </div>
                  <div>
+                 <?php $roles = fetchRoles($conn); ?>
                     <label for="role">Role:</label>
-                    <input type="text" id="role" name="role" placeholder="Admin/Co Admin" required>
+                    <select name="role" id="role">
+                        <option value="" default>Select a role.</option>
+                        <?php foreach($roles as $r): ?>
+                            <?php $option = trim($r["rolename"]); // Trim any extra spaces ?>
+                            <?php if($option == "Admin" || $option == "Super Admin"): ?>
+                                <option value="<?php echo $r['role_ID']; ?>"><?php echo $option; ?></option>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    </select>
                 </div>
                 <div class="full-width">
+                <?php $dept = fetchDept($conn); ?>
                     <label for="department">Department:</label>
-                    <input type="text" id="department" name="department" required>
+                    <select name="department" id="">
+                        <option value="" default>Select a school.</option>
+                        <?php foreach($dept as $d): ?>
+                            <?php $option = trim($d["SchoolName"]); // Trim any extra spaces ?>
+                            <option value="<?php echo $d['id']; ?>"><?php echo $option; ?></option>
+                        <?php endforeach; ?>
+                    </select>
                 </div> 
             </div>
-            <button type="submit" class="submit-btn">Add</button>
+            <button type="submit" class="submit-btn" name="add_admin">Add</button>
         </form>
     </div>
     </div>
