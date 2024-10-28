@@ -163,7 +163,7 @@ function addRecord(event) {
             viewColumns(); // Refresh the records view
             closeModal(); // Hide the modal
         } else {
-            alert("Error adding record: " + data.error);
+            alert("School does not exist, please set the school first.");
         }
     })
     .catch(error => console.error('Error:', error));

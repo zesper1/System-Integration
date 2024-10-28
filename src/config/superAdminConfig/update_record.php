@@ -2,7 +2,6 @@
 include '../../connection/db_conn.php';
 session_start();
 
-header('Content-Type: application/json'); // Set header for JSON response
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $table = $_POST['table'];
@@ -40,7 +39,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Execute the update
     if ($stmt->execute()) {
-        header("Location: ../../views/superAdmin/manipulateSAdmin.php?update success");
+        echo "
+        <script>
+        alert('Update record success!');
+        window.location.href = '../../views/superAdmin/manipulateSAdmin.php';
+        </script>
+        ";
     } else {
         echo json_encode(['success' => false, 'error' => $stmt->error]);
     }

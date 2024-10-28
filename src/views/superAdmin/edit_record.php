@@ -9,7 +9,6 @@ if (!isset($_SESSION["id"])) {
 $table = $_GET['table'];
 $id = $_GET['id'];
 $attribute = $_GET['attribute'];
-echo $attribute;
 // Fetch the record to edit
 $stmt = $conn->prepare("SELECT * FROM `$table` WHERE `$attribute` = ?");
 $stmt->bind_param("i", $id); // Assuming the ID is an integer

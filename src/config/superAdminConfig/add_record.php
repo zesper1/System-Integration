@@ -34,11 +34,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $types = str_repeat('s', count($values)); // 's' for string; adjust if needed for other types
     $stmt->bind_param($types, ...$values); // Bind all values at once using spread operator
 
-    // Execute the statement and return JSON response
-    if ($stmt->execute()) {
-        echo json_encode(['success' => true, 'message' => 'Record added successfully']);
-    } else {
-        echo json_encode(['success' => false, 'error' => $stmt->error]);
+    try{
+        if ($stmt->execute()) {
+            echo json_encode(['success' => true, 'message' => 'Record added successfully']);
+        } else {
+            echo json_encode(['success' => false, 'error' => $stmt->error]);
+        }
+    } catch (mysqli_sql_exception $e){
+        if ($e->getCode() === 23000) { // MySQL error code for foreign key constraint violation
+            echo json_encode(['success' => false, 'error' => 'Cannot delete record: Foreign key constraint violation.']);
+        } else {
+            // Handle other SQL exceptions
+            echo json_encode(['success' => false, 'error' => 'Database error: ' . $e->getMessage()]);
+        }
     }
 } else {
     echo json_encode(['success' => false, 'error' => 'Invalid request method.']);
