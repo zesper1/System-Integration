@@ -45,16 +45,9 @@ function fetchDept($conn){
             border-bottom: 5px solid #E6C213;
         }
 
-        .nav-title{
-            width: 50%;
-            height: 100%;
-            display: flex;
-            align-content: center;
-            margin-left: 2%;
-        }
-
         .nav-right{
-            width: 50%;
+            width: 100%;
+            height: 50px;
             display: flex;
             justify-content: end;
             margin-right: 2%;
@@ -120,6 +113,40 @@ function fetchDept($conn){
         font-family: 'pop';
         color: #35408E;
         }
+
+        .form-table select {
+    width: 95%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    font-size: 14px;
+    color: #34408D;
+    appearance: none; /* Remove default arrow for more control */
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+/* Custom arrow for dropdowns */
+.form-table select::-ms-expand {
+    display: none; /* Hide default arrow in IE */
+}
+
+.form-table select:focus {
+    border-color: #34408D;
+}
+
+.form-table select option {
+    color: #333;
+}
+
+/* Style the dropdown on hover */
+.form-table select:hover {
+    border-color: #2b3675;
+    background-color: #f1f1f1;
+}
+
 
         .formcon{
         display: flex;
@@ -196,13 +223,6 @@ function fetchDept($conn){
 </head>
 <body>
     <nav class="navbar">
-        <div class="nav-title">
-            <ul class="nav-links horizontal">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#database">Database</a></li>
-                <li><a href="#user">User</a></li>
-            </ul>
-        </div>
         <div class="nav-right">
             Hello, <?php echo htmlspecialchars($_SESSION["name"]); ?>
         </div>
@@ -212,8 +232,9 @@ function fetchDept($conn){
     <nav class="sidebar">
         <ul class="nav-links vertical">
             <li><a href="manipulateSAdmin.php">Manipulate records</a></li>
-            <li><a href="viewSAdmin.php">View records</a></li>
             <li><a href="addSAdmin.php">Add Admin</a></li>
+            <li><a href="databaseSuperAdmin.php">Database</a></li>
+            <a href="../../config/logout.php">Logout</a>
         </ul>
     </nav>
     <div class="content">
@@ -260,9 +281,13 @@ function fetchDept($conn){
                 </div>
                 <div class="full-width">
                 <?php $dept = fetchDept($conn); ?>
-                    <label for="department">Department:</label>
+                    <label for="department">School:</label>
                     <select name="department" id="">
                         <option value="" default>Select a school.</option>
+                        <option value="v1" default>SECA</option>
+                        <option value="v2" default>SASE</option>
+                        <option value="v3" default>SBMA</option>
+                        <option value="v4" default>SHS</option>
                         <?php foreach($dept as $d): ?>
                             <?php $option = trim($d["SchoolName"]); // Trim any extra spaces ?>
                             <option value="<?php echo $d['id']; ?>"><?php echo $option; ?></option>

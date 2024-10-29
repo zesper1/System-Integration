@@ -702,15 +702,9 @@ h2 {
             <label class="txtR"> VIEW USER</label>
         </line>
 
-        <line class="dashB" style="position: relative;">
-        <img src="../../../public/assets/images/add-user-3-xxl.png" class="dashPIC">
-        <label class="txtR" onclick="toggleDropdown()"> ADD USER ▼</label>
-        
-        <!-- Dropdown Menu -->
-        <div id="dropdown" class="dropdown-content">
-                <a href="../admin/addAdmin.php">Admin</a>
-                <a href="../admin/addFaculty.php">Faculty</a>
-            </div>
+        <line onclick="navigateTo('addFaculty.php')" class="dashB">
+            <a href="addFaculty.php"><img src="../../../public/assets/images/add-user-3-xxl.png" class="dashPIC"></a>
+            <label class="txtR"> ADD FACULTY</label>
         </line>
 
         <line class="dashB">

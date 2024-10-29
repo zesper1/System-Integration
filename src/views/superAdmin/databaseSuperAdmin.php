@@ -40,6 +40,7 @@ if ($conn) {
         .navbar {
             background-color: #34408D; 
             width: 100%; 
+            height: 50px;
             color: white;
             display: flex;
             justify-content: space-between; /* Space between items */
@@ -47,16 +48,8 @@ if ($conn) {
             border-bottom: 5px solid #E6C213;
         }
 
-        .nav-title{
-            width: 50%;
-            height: 100%;
-            display: flex;
-            align-content: center;
-            margin-left: 2%;
-        }
-
         .nav-right{
-            width: 50%;
+            width: 100%;
             display: flex;
             justify-content: end;
             margin-right: 2%;
@@ -135,13 +128,6 @@ if ($conn) {
 </head>
 <body>
     <nav class="navbar">
-        <div class="nav-title">
-            <ul class="nav-links horizontal">
-                <li><a href="databaseSuperAdmin">Home</a></li>
-                <li><a href="#database">Database</a></li>
-                <li><a href="#user">User</a></li>
-            </ul>
-        </div>
         <div class="nav-right">
             Hello, <?php echo htmlspecialchars($_SESSION["name"]); ?>
         </div>
@@ -151,8 +137,9 @@ if ($conn) {
     <nav class="sidebar">
         <ul class="nav-links vertical">
             <li><a href="manipulateSAdmin.php">Manipulate records</a></li>
-            <li><a href="viewSAdmin.php">View records</a></li>
             <li><a href="addSAdmin.php">Add Admin</a></li>
+            <li><a href="databaseSuperAdmin.php">Database</a></li>
+            <a href="../../config/logout.php">Logout</a>
         </ul>
     </nav>
     <div class="content">

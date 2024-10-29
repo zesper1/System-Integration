@@ -32,9 +32,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         // Execute the statement for user details
         if ($stmtDetails->execute()) {
-            echo "<script>alert('Admin and user details added successfully!');</script>";
+            echo "<script>alert('Faculty added successfully!');</script>";
         } else {
-            echo "<script>alert('Error adding user details: " . $stmtDetails->error . "');</script>";
+            echo "<script>alert('Error adding faculty details: " . $stmtDetails->error . "');</script>";
         }
 
         // Close the details statement
@@ -50,7 +50,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 // Close the database connection
 $conn->close();
 ?>
-
 
 <html lang="en">
 <head>
@@ -615,15 +614,9 @@ margin-right: 5px;
             <label class="txtR"> VIEW USER</label>
         </line>
 
-        <line class="dashB" style="position: relative;">
-        <img src="../../../public/assets/images/add-user-3-xxl.png" class="dashPIC">
-        <label class="txtR" onclick="toggleDropdown()"> ADD USER ▼</label>
-        
-        <!-- Dropdown Menu -->
-        <div id="dropdown" class="dropdown-content">
-                <a href="../admin/addAdmin.php">Admin</a>
-                <a href="../admin/addFaculty.php">Faculty</a>
-            </div>
+        <line onclick="navigateTo('addFaculty.php')" class="dashB">
+            <a href="addFaculty.php"><img src="../../../public/assets/images/add-user-3-xxl.png" class="dashPIC"></a>
+            <label class="txtR"> ADD FACULTY</label>
         </line>
 
         <line class="dashB">
@@ -748,4 +741,12 @@ function toggleSidebar() {
 }
 
 </script>
+
+<script>
+        // Check if there's a message to display
+        var message = "<?php echo $message; ?>";
+        if (message) {
+            alert(message);
+        }
+    </script>
 </html>

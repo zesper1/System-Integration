@@ -47,20 +47,28 @@ if ($conn) {
             border-bottom: 5px solid #E6C213;
         }
 
-        .nav-title{
-            width: 50%;
-            height: 100%;
-            display: flex;
-            align-content: center;
-            margin-left: 2%;
-        }
-
         .nav-right{
-            width: 50%;
+            width: 100%;
+            height: 50px;
             display: flex;
             justify-content: end;
             margin-right: 2%;
         }
+
+        .nav-right a {
+    color: white;
+    padding: 10px;
+    background-color: #f44336; /* Red background for logout */
+    border-radius: 5px;
+    text-decoration: none;
+    margin-left: 15px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.nav-right a:hover {
+    background-color: #d32f2f; /* Darker red on hover */
+}
         /* Vertical Sidebar Styles */
 
         .main{
@@ -333,14 +341,8 @@ td {
     </style>
 </head>
 <body>
+
     <nav class="navbar">
-        <div class="nav-title">
-            <ul class="nav-links horizontal">
-                <li><a href="databaseSuperAdmin">Home</a></li>
-                <li><a href="#database">Database</a></li>
-                <li><a href="#user">User</a></li>
-            </ul>
-        </div>
         <div class="nav-right">
             Hello, <?php echo htmlspecialchars($_SESSION["name"]); ?>
         </div>
@@ -350,8 +352,9 @@ td {
     <nav class="sidebar">
         <ul class="nav-links vertical">
             <li><a href="manipulateSAdmin.php">Manipulate records</a></li>
-            <li><a href="viewSAdmin.php">View records</a></li>
             <li><a href="addSAdmin.php">Add Admin</a></li>
+            <li><a href="databaseSuperAdmin.php">Database</a></li>
+            <a href="../../config/logout.php">Logout</a>
         </ul>
     </nav>
     <div class="con1">
