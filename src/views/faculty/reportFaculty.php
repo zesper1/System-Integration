@@ -253,7 +253,7 @@ margin-right: 5px;
 .table-container {
     width: 80%;
     display: flex;
-    height: 550px; /* Set a fixed height */
+    height: fit-content; /* Set a fixed height */
     overflow: auto;
 }
 
@@ -568,6 +568,17 @@ a.dashB img.dashPIC {
         </div>   
     </div>
     </div>
+    <script>
+    // Check if the report was successfully submitted
+    <?php if (isset($_SESSION["report_success"]) && $_SESSION["report_success"]): ?>
+        // Show success alert
+        alert("Your report has been successfully submitted!");
+
+        // Unset the session variable to prevent the alert from showing again on page reload
+        <?php unset($_SESSION["report_success"]); ?>
+    <?php endif; ?>
+</script>
+
 </body>
 
 <script>

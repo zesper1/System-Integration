@@ -411,7 +411,7 @@ margin-right: 5px;
 }
 
         table {
-            width: 100%;
+            width: fit-content;
             height: auto;
             border-collapse: collapse;
             overflow: scroll;

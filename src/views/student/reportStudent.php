@@ -504,7 +504,9 @@ a.dashB img.dashPIC {
     $reportsResult = $stmt->get_result();
     $reports = $reportsResult->fetch_all(MYSQLI_ASSOC);
 ?>
+
 <body>
+
     <div class="container">
     <div class="modal hidden" id="view-modal">
             <div class="modal-content">
@@ -671,6 +673,16 @@ a.dashB img.dashPIC {
         </div>   
     </div>
     </div>
+    <script>
+    // Check if the report was successfully submitted
+    <?php if (isset($_SESSION["report_success"]) && $_SESSION["report_success"]): ?>
+        // Show success alert
+        alert("Your report has been successfully submitted!");
+
+        // Unset the session variable to prevent the alert from showing again on page reload
+        <?php unset($_SESSION["report_success"]); ?>
+    <?php endif; ?>
+</script>
 </body>
 
 <script>

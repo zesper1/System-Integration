@@ -835,14 +835,14 @@ h2 {
                     <div class="details">
                         <img src='../../../public/assets/images/mf.jpg' alt="Student Photo" class="details-photo">
                         <div class="details-info">
-                            <p id="stud-name"><strong>Student Name:</strong> Rovic Batacandolo</p>
-                            <p id="stud-id"><strong>Student ID:</strong> 2022-171700</p>
-                            <p id="stud-vio"><strong>Violation:</strong> Public Display of Affection</p>
+                            <p id="stud-name"><strong>Student Name:</strong> </p>
+                            <p id="stud-id"><strong>Student ID:</strong> </p>
+                            <p id="stud-vio"><strong>Violation:</strong> </p>
                         </div>
                     </div>
                     <div class="violation-details">
                         <h3>Violation Details and Other Attachments</h3>
-                        <p id="rep-desc">Rovic Batacandolo was caught with his significant other kissing near the fire exit around 3:09 pm, dated August 30, 2024. The report was submitted by an admin and the ID of the reported student was confiscated.</p>
+                        <p id="rep-desc"></p>
                         <a href="#" class="rep-attachment" id="rep-attch">View Attachment</a>
                     </div>
                 </div>

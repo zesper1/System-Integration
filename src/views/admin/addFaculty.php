@@ -3,6 +3,8 @@
 include "../../connection/db_conn.php";
 session_start();
 
+$message = ""; // Initialize message as empty
+
 // Check if the form is submitted
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Get admin email and password
@@ -32,15 +34,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         // Execute the statement for user details
         if ($stmtDetails->execute()) {
-            echo "<script>alert('Faculty added successfully!');</script>";
+            $message = "Faculty added successfully!";
         } else {
-            echo "<script>alert('Error adding faculty details: " . $stmtDetails->error . "');</script>";
+            $message = "Error adding faculty details: " . $stmtDetails->error;
         }
 
         // Close the details statement
         $stmtDetails->close();
     } else {
-        echo "<script>alert('Error adding admin: " . $stmt->error . "');</script>";
+        $message = "Error adding admin: " . $stmt->error;
     }
 
     // Close the admin statement
@@ -50,6 +52,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 // Close the database connection
 $conn->close();
 ?>
+
+<?php
+
+if (isset($_SESSION["message"])) {
+    echo "<script>alert('" . $_SESSION["message"] . "');</script>";
+    unset($_SESSION["message"]); // Clear the message after displaying it
+}
+?>
+
 
 <html lang="en">
 <head>
@@ -689,7 +700,13 @@ margin-right: 5px;
            
         </div>   
     </div>
-    </div>
+    <script>
+        // Display the PHP-generated message as an alert if it exists
+        var message = "<?php echo $message; ?>";
+        if ($message) {
+            alert($message);
+        }
+    </script>
 </body>
 
 <script>

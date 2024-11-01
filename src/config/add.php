@@ -76,6 +76,7 @@ if (isset($_POST["add_student"])) {
         $checker->close();
     }
 }
+
 if (isset($_POST["add_faculty"])) {
     // User details
     $lname = $_POST["lname"];
@@ -122,7 +123,7 @@ if (isset($_POST["add_faculty"])) {
                                     $stmt3->bind_param("is", $emp_id, $dept);
                                     
                                     if ($stmt3->execute()) {
-                                        $_SESSION["success"] = true; // Faculty added successfully
+                                        $_SESSION["message"] = "Faculty account added successfully."; // Set success message
                                         $conn->commit(); // Commit transaction
                                         header("Location: ../views/admin/addFaculty.php");
                                         exit();
@@ -149,9 +150,12 @@ if (isset($_POST["add_faculty"])) {
     } catch (Exception $e) {
         // Rollback transaction if something went wrong
         $conn->rollback();
-        echo "Transaction failed: " . $e->getMessage();
+        $_SESSION["message"] = "Transaction failed: " . $e->getMessage();
+        header("Location: ../views/admin/addFaculty.php"); // Redirect even if it fails
+        exit();
     }
 }
+
 
     if (isset($_POST["addViolation"])) {
         $vID = $_POST["StudentName"];
@@ -182,63 +186,74 @@ if (isset($_POST["add_faculty"])) {
 ///////////////////////
 // STUDENT PROMPTS ////
 ///////////////////////
+
 if (isset($_POST['submitReport'])) {
     // REPORT DETAILS FUNCTION
     $rTitle = $_POST['title'];
     $rType = $_POST['type'];
     $rDesc = $_POST['description'];
 
-    if($rType == 'Violation'){
+    if ($rType == 'Violation') {
         $violatorID = $_POST['violator'];
         $violationID = $_POST['vType'];
-        echo $violationID;
+
         // Use regex to match the ID
         if (preg_match('/\d+/', $violatorID, $matches)) {
             $id = $matches[0]; // Get the first match
         }
+
         $stmt = $conn->prepare("INSERT INTO report (reportName, reportOwnerID, reportType) VALUES (?, ?, ?)");
         $stmt->bind_param("sis", $rTitle, $_SESSION['id'], $rType);
-        if($stmt->execute()){
+
+        if ($stmt->execute()) {
             $report_id = $stmt->insert_id;
             $stmt1 = $conn->prepare("INSERT INTO reportstatus (reportID, status_DETAILS) VALUES (?, ?)");
             $stmt1->bind_param("is", $report_id, $rDesc);
-            if($stmt1 -> execute()){
-                $vReportQuery = $conn->prepare("INSERT INTO violationreport (reportID, violationTypeID, accusedID) VALUES (?,?,?)");
+
+            if ($stmt1->execute()) {
+                $vReportQuery = $conn->prepare("INSERT INTO violationreport (reportID, violationTypeID, accusedID) VALUES (?, ?, ?)");
                 $vReportQuery->bind_param("iii", $report_id, $violationID, $id);
-                if($vReportQuery->execute()){
-                    if(isset($_FILES['my_image']) && $_FILES['my_image']['error'] === UPLOAD_ERR_NO_FILE){
-                        if($_SESSION['role'] == 2){
-                            header("Location: ../views/faculty/reportFaculty.php?success=Report added successfully");
+
+                if ($vReportQuery->execute()) {
+                    if (isset($_FILES['my_image']) && $_FILES['my_image']['error'] === UPLOAD_ERR_NO_FILE) {
+                        $_SESSION["report_success"] = true; // Set session variable
+
+                        if ($_SESSION['role'] == 2) {
+                            header("Location: ../views/faculty/reportFaculty.php");
+                        } else {
+                            header("Location: ../views/student/reportStudent.php");
                         }
-                        else {
-                            header("Location: ../views/student/reportStudent.php?success=Report added successfully");
-                        }
+                        exit();
                     } else {
                         include_once "upload.php";
                     }
                 }
             }
         }
-
     } else {
         $complaintID = $_POST['cType'];
         $stmt = $conn->prepare("INSERT INTO report (reportName, reportOwnerID, reportType) VALUES (?, ?, ?)");
         $stmt->bind_param("sis", $rTitle, $_SESSION['id'], $rType);
-        if($stmt->execute()){
+
+        if ($stmt->execute()) {
             $report_id = $stmt->insert_id;
             $stmt1 = $conn->prepare("INSERT INTO reportstatus (reportID, status_DETAILS) VALUES (?, ?)");
             $stmt1->bind_param("is", $report_id, $rDesc);
-            if($stmt1 -> execute()){
-                $cReportQuery = $conn->prepare("INSERT INTO complainsreport (reportID, cr_Category) VALUES (?,?)");
+
+            if ($stmt1->execute()) {
+                $cReportQuery = $conn->prepare("INSERT INTO complainsreport (reportID, cr_Category) VALUES (?, ?)");
                 $cReportQuery->bind_param("ii", $report_id, $complaintID);
-                if($cReportQuery->execute()){
-                    if(isset($_FILES['my_image']) && $_FILES['my_image']['error'] === UPLOAD_ERR_NO_FILE){
-                        if($_SESSION['role'] == 2){
-                            header("Location: ../views/faculty/reportFaculty.php?success=Report added successfully");
+
+                if ($cReportQuery->execute()) {
+                    if (isset($_FILES['my_image']) && $_FILES['my_image']['error'] === UPLOAD_ERR_NO_FILE) {
+                        $_SESSION["report_success"] = true; // Set session variable
+
+                        if ($_SESSION['role'] == 2) {
+                            header("Location: ../views/faculty/reportFaculty.php");
+                        } else {
+                            header("Location: ../views/student/reportStudent.php");
                         }
-                        else {
-                            header("Location: ../views/student/reportStudent.php?success=Report added successfully");
-                        }                    
+                        exit();
                     } else {
                         include_once "upload.php";
                     }
@@ -246,9 +261,5 @@ if (isset($_POST['submitReport'])) {
             }
         }
     }
-    //prepare statement
-    
 }
-
-
 ?>
