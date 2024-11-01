@@ -505,7 +505,7 @@ a.dashB img.dashPIC {
     $violations = $violationsResult->fetch_all(MYSQLI_ASSOC);
 
 
-    $reportQuery = "SELECT r.report_ID, CONCAT(ud.first_name, ' ', ud.last_name) AS student_name, r.reportName, rs.status 
+    $reportQuery = "SELECT r.report_ID, CONCAT(ud.first_name, ' ', ud.last_name) AS student_name, r.reportName, rs.status, rs.status_DATE
                     FROM report r 
                     JOIN userdetails ud ON r.reportOwnerID = ud.userID 
                     JOIN reportstatus rs ON r.report_ID = rs.reportID 
@@ -653,6 +653,7 @@ a.dashB img.dashPIC {
                                     <th>Student Name</th>
                                     <th>Description</th>
                                     <th>Status</th>
+                                    <th>Date Submitted</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -663,6 +664,8 @@ a.dashB img.dashPIC {
                                             <td><?php echo htmlspecialchars($report['student_name']); ?></td>
                                             <td><?php echo htmlspecialchars($report['reportName']); ?></td>
                                             <td><?php echo htmlspecialchars($report['status']); ?></td>
+                                            <td><?php echo htmlspecialchars($report['status_DATE']); ?></td>
+
                                         </tr>
                                     <?php endforeach; ?>
                                 <?php else : ?>
