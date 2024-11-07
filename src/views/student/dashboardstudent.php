@@ -482,22 +482,30 @@ a.dashB img.dashPIC {
 
 
     $violationQuery = "
-    SELECT
-        v.violation_ID, 
-        vt.violationTypeName, 
-        s.severity_LEVEL, 
-        v.violation_Date,
-        CONCAT(userdetails.first_name,' ', userdetails.last_name) AS name
-    FROM 
-        violation v 
-    JOIN 
-        violationtype vt ON v.violationType_ID = vt.violationType_ID 
-    JOIN 
-        severity s ON v.severity_ID = s.severity_ID 
-    JOIN
-        userdetails ON v.violator_ID = userdetails.userID
-    WHERE 
-        v.violator_ID = ?";
+        SELECT
+            v.violation_ID, 
+            vt.violationTypeName, 
+            s.severity_LEVEL, 
+            v.violation_Date,
+            CONCAT(userdetails.first_name, ' ', userdetails.last_name) AS name,
+            reportstatus.status_DETAILS AS reportDescription,  -- This is fine for the report description
+            attachment.fileName AS image
+        FROM 
+            violation v
+        JOIN 
+            violationtype vt ON v.violationType_ID = vt.violationType_ID
+        JOIN 
+            severity s ON v.severity_ID = s.severity_ID
+        JOIN
+            userdetails ON v.violator_ID = userdetails.userID
+        JOIN
+            report ON v.violationDetail_ID = report.report_ID
+        JOIN
+            reportstatus ON report.report_ID = reportstatus.reportID  -- Corrected join condition
+        JOIN
+            attachment ON report.report_ID = attachment.reportID
+        WHERE 
+            v.violator_ID = ?";
     $stmt = $conn->prepare($violationQuery);
     $stmt->bind_param("i", $userID); 
     $stmt->execute();
@@ -505,7 +513,7 @@ a.dashB img.dashPIC {
     $violations = $violationsResult->fetch_all(MYSQLI_ASSOC);
 
 
-    $reportQuery = "SELECT r.report_ID, CONCAT(ud.first_name, ' ', ud.last_name) AS student_name, r.reportName, rs.status, rs.status_DATE
+    $reportQuery = "SELECT r.report_ID, CONCAT(ud.first_name, ' ', ud.last_name) AS student_name, r.reportName, rs.status 
                     FROM report r 
                     JOIN userdetails ud ON r.reportOwnerID = ud.userID 
                     JOIN reportstatus rs ON r.report_ID = rs.reportID 
@@ -542,8 +550,8 @@ a.dashB img.dashPIC {
         <label class="hello"> HELLO, 
         <span class="session-name">
         <?php 
-// Display the session variable 'name'
-        echo $_SESSION["name"]; 
+            // Display the session variable 'name'
+                echo $_SESSION["name"]; 
         ?>
         </span>
         </label>
@@ -626,8 +634,15 @@ a.dashB img.dashPIC {
                             <td><?php echo htmlspecialchars($violation['violation_Date']); ?></td>
                             <td>
                                 <a class="tableBtn" href="appealStudent.php?violationID=<?php echo htmlspecialchars($violation['violation_ID']); ?>"> Appeal </a>
-                                <a class="tableBtn" onclick="openViewModal('<?php echo addslashes(htmlspecialchars($violation['violationTypeName'])); ?>', 'Report details here...', 'sample.png', '<?php echo htmlspecialchars($violation['violation_Date']); ?>')"> View </a>
+                                <a class="tableBtn" onclick="openViewModal(
+                                    '<?php echo addslashes(htmlspecialchars($violation['violationTypeName'])); ?>', 
+                                    '<?php echo addslashes(htmlspecialchars($violation['reportDescription'])); ?>', 
+                                    '<?php echo addslashes(htmlspecialchars($violation['image'])); ?>', 
+                                    '<?php echo htmlspecialchars($violation['violation_Date']); ?>')"> 
+                                    View 
+                                </a>
                             </td>
+
                         </tr>
                     <?php endforeach; ?>
                 <?php else : ?>
@@ -653,7 +668,6 @@ a.dashB img.dashPIC {
                                     <th>Student Name</th>
                                     <th>Description</th>
                                     <th>Status</th>
-                                    <th>Date Submitted</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -664,8 +678,6 @@ a.dashB img.dashPIC {
                                             <td><?php echo htmlspecialchars($report['student_name']); ?></td>
                                             <td><?php echo htmlspecialchars($report['reportName']); ?></td>
                                             <td><?php echo htmlspecialchars($report['status']); ?></td>
-                                            <td><?php echo htmlspecialchars($report['status_DATE']); ?></td>
-
                                         </tr>
                                     <?php endforeach; ?>
                                 <?php else : ?>

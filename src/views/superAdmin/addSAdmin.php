@@ -284,10 +284,6 @@ function fetchDept($conn){
                     <label for="department">School:</label>
                     <select name="department" id="">
                         <option value="" default>Select a school.</option>
-                        <option value="v1" default>SECA</option>
-                        <option value="v2" default>SASE</option>
-                        <option value="v3" default>SBMA</option>
-                        <option value="v4" default>SHS</option>
                         <?php foreach($dept as $d): ?>
                             <?php $option = trim($d["SchoolName"]); // Trim any extra spaces ?>
                             <option value="<?php echo $d['id']; ?>"><?php echo $option; ?></option>

@@ -2,111 +2,6 @@
 <?php
     include "../../connection/db_conn.php";
     session_start();
-
-    function fetchStudent($conn, array $array){
-        $id = 3;
-        $stmt = $conn->prepare("SELECT * FROM user WHERE role_ID = ?");
-        $stmt->bind_param("i", $id);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        if($result){
-            if($result->num_rows > 0){
-                while($row = $result->fetch_assoc()){
-                    $fetchName = $conn->prepare("SELECT * FROM userdetails WHERE userID=?");
-                    $fetchName->bind_param("i", $row["user_ID"]);
-                    $fetchName->execute();
-                    $fnRes = $fetchName->get_result();
-                    if($fnRes){
-                        if($fnRes->num_rows > 0){
-                           $row1 = $fnRes->fetch_assoc();
-                            $studentName = $row1['last_name'] . ", " . $row1['first_name'];        
-                        }
-                    }
-                    $array[] = ["id" => $row["user_ID"], "name" => $studentName];
-                }
-            }
-        }
-        return $array;
-    }
-    function fetchViolations($conn){
-        $stmt = $conn->prepare("SELECT * FROM violationtype");
-        $stmt->execute();
-        $result = $stmt->get_result();
-        if($result){
-            if($result->num_rows > 0){
-                while($row = $result->fetch_assoc()){
-                    echo "<option id = '$row[violationType_ID]' value = '$row[violationType_ID]'>$row[violationTypeName]</option>";
-                }
-            }
-        }
-    }
-    function fetchReport($conn, array $array){
-        $stmt = $conn->prepare("
-            SELECT 
-                report.report_ID AS report_id, 
-                report.reportName, 
-                report.reportType,
-                attachment.filename, 
-                reportstatus.status_DETAILS 
-            FROM 
-                report 
-            JOIN 
-                attachment ON report.report_ID = attachment.reportID 
-            JOIN 
-                reportstatus ON report.report_ID = reportstatus.reportID;
-        ");
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $array = []; // Initialize the array
-        if ($result) {
-            if ($result->num_rows > 0) {
-                while ($row = $result->fetch_assoc()) {
-                    $array[] = [
-                        "id" => $row["report_id"], // Use 'report_id' since you aliased it
-                        "name" => $row["reportName"],
-                        "reportType" => $row["reportType"],
-                        "filename" => $row["filename"],
-                        "description" => $row["status_DETAILS"]
-                    ];
-                }
-            }
-        }
-        return $array;
-    }
-    function fetchSeverity($conn){
-        $stmt = $conn->prepare("SELECT * FROM severity");
-        $stmt->execute();
-        $result = $stmt->get_result();
-        if($result){
-            if($result->num_rows > 0){
-                while($row = $result->fetch_assoc()){
-                    echo "<option id = '$row[severity_ID]' value = '$row[severity_LEVEL]'>$row[severity_LEVEL]</option>";
-                }
-            }
-        }
-    }
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['addViolation'])) {
-    $_SESSION["success"] = true;
-}
-
-if (isset($_SESSION["success"])) {
-    echo "
-    <script>
-        window.onload = function() {
-            if (" . ($_SESSION["success"] ? 'true' : 'false') . ") {
-                alert('Violation added successfully!');
-            } else {
-                alert('Failed to add violation. Please try again.');
-            }
-            // Clear the session variable after showing the alert
-            window.onload = null; // Remove this function to prevent repeated alerts
-        };
-    </script>
-    ";
-    unset($_SESSION["success"]);
-}
-    
 ?>
 <html lang="en">
 <head>
@@ -478,14 +373,124 @@ margin-right: 5px;
     }
 </style>
 
+<?php
+    //include "../../connection/db_conn.php";
+    //session_start();
 
+function fetchStudent($conn, array $array){
+        $id = 3;
+        $stmt = $conn->prepare("SELECT * FROM user WHERE role_ID = ?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if($result){
+            if($result->num_rows > 0){
+                while($row = $result->fetch_assoc()){
+                    $fetchName = $conn->prepare("SELECT * FROM userdetails WHERE userID=?");
+                    $fetchName->bind_param("i", $row["user_ID"]);
+                    $fetchName->execute();
+                    $fnRes = $fetchName->get_result();
+                    if($fnRes){
+                        if($fnRes->num_rows > 0){
+                           $row1 = $fnRes->fetch_assoc();
+                            $studentName = $row1['last_name'] . ", " . $row1['first_name'];        
+                        }
+                    }
+                    $array[] = ["id" => $row["user_ID"], "name" => $studentName];
+                }
+            }
+        }
+        return $array;
+    }
+    function fetchViolations($conn){
+        $stmt = $conn->prepare("SELECT * FROM violationtype");
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if($result){
+            if($result->num_rows > 0){
+                while($row = $result->fetch_assoc()){
+                    echo "<option id = '$row[violationType_ID]' value = '$row[violationType_ID]'>$row[violationTypeName]</option>";
+                }
+            }
+        }
+    }
+    function fetchReport($conn, array $array) {
+        $stmt = $conn->prepare("
+            SELECT 
+                report.report_ID AS report_id, 
+                report.reportName, 
+                report.reportType,
+                reportstatus.status_DETAILS,
+                userdetails.first_name AS reporter_first_name,
+                userdetails.last_name AS reporter_last_name,
+                attachment.fileName AS fileName
+            FROM 
+                report
+            JOIN 
+                reportstatus ON report.report_ID = reportstatus.reportID 
+            JOIN
+                attachment ON report.report_ID = attachment.reportID
+            JOIN 
+                user ON report.reportOwnerID = user.user_ID 
+            JOIN 
+    userdetails ON user.user_ID = userdetails.userID;
+        ");
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $array = []; // Initialize the array
+        if ($result) {
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    $array[] = [
+                        "id" => $row["report_id"],
+                        "name" => $row["reportName"],
+                        "reportType" => $row["reportType"],
+                        "description" => $row["status_DETAILS"],
+                        "reporterName" => $row["reporter_last_name"] . ", " . $row["reporter_first_name"], // Updated
+                        "filename" => $row["fileName"]
+                    ];
+                }
+            }
+        }
+        return $array;
+    }
     
+    
+    function fetchSeverity($conn){
+        $stmt = $conn->prepare("SELECT * FROM severity");
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if($result){
+            if($result->num_rows > 0){
+                while($row = $result->fetch_assoc()){
+                    echo "<option id = '$row[severity_ID]' value = '$row[severity_LEVEL]'>$row[severity_LEVEL]</option>";
+                }
+            }
+        }
+    }
 
-    
-    
-   
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['addViolation'])) {
+    $_SESSION["success"] = true;
+}
 
+if (isset($_SESSION["success"])) {
+    echo "
+    <script>
+        window.onload = function() {
+            if (" . ($_SESSION["success"] ? 'true' : 'false') . ") {
+                alert('Violation added successfully!');
+            } else {
+                alert('Failed to add violation. Please try again.');
+            }
+            // Clear the session variable after showing the alert
+            window.onload = null; // Remove this function to prevent repeated alerts
+        };
+    </script>
+    ";
+    unset($_SESSION["success"]);
+}
     
+?>
       
 </style>
 
@@ -500,8 +505,8 @@ margin-right: 5px;
                 <label class="hello"> HELLO, 
                 <span class="session-name">
                 <?php 
-        // Display the session variable 'name'
-                echo $_SESSION["name"]; 
+        // Display the session variable 'name' 
+                    echo $_SESSION["name"]; 
                 ?>
                 </span>
                 </label>
@@ -613,14 +618,15 @@ margin-right: 5px;
                     ?>
                 </select>
                 <br>
-                <label for="SupportingDetail">Supporing Evidence:</label>
+                <label for="SupportingDetail">Supporting Evidence:</label>
                 <input type="text" name="SupportingDetail" id="SupportingDetail" placeholder="Search by report name" required>
                 <div class="result-box" id="resultsBox2"></div>
                 <div id="report-info" style="display: none;">
                     <input type="hidden" name="repDetID" id="repDetID" readonly>
                     <h3>Report Details:</h3>
-                    <p id="rdc-desc"></p>        <!-- For description -->
-                    <p id="rdc-name"></p>        <!-- For report name -->
+                    <p id="rdc-desc"></p> <!-- For description -->
+                    <p id="rdc-name"></p> <!-- For report name -->
+                    <p id="rdc-reporter"></p> <!-- For reporter name -->
                     <a id="rdc-link" target="_blank">View Attachment</a> <!-- For report attachment -->
                 </div>
                 <input type="submit" name="addViolation" value="Submit">
@@ -634,7 +640,18 @@ margin-right: 5px;
     </div>
     </div>
 </body>
+<script>
 
+function displayReportDetails(report) {
+    document.getElementById("repDetID").value = report.id;
+    document.getElementById("rdc-desc").textContent = report.description;
+    document.getElementById("rdc-name").textContent = report.name;
+    document.getElementById("rdc-reporter").textContent = "Reported by: " + report.reporterName; // New line added
+    document.getElementById("rdc-link").href = report.filename ? report.filename : "#"; // Update link if filename exists
+    document.getElementById("report-info").style.display = "block";
+}
+
+</script>
 <script>
     function navigateTo(pagename){
         window.location.href = pagename;
@@ -688,6 +705,6 @@ function toggleSidebar() {
     container.classList.toggle('shifted');
     toggleButton.classList.toggle('hidden'); // Toggle the hidden class
 }
-
 </script>
+
 </html>

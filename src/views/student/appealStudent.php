@@ -9,26 +9,7 @@
     if(isset($_GET['violationID'])){
        $vioID = $_GET['violationID'];
     }
-    function fetchReport($conn, $id){
-        $query = "
-            SELECT
-                r.reportName,
-                rs.status_DETAILS
-            FROM 
-                report r
-            JOIN
-                reportstatus ON reportstatus.
-        ";
-    }
-    $query = "SELECT * FROM violation WHERE violator_ID = ?";
-    $stmt = $conn->prepare($query);
-    $userID = $_SESSION["id"];
-
-    $stmt->bind_param("i", $_SESSION["id"]);
-    $stmt->execute();
-    $stmtRes = $stmt->get_result();
-    $violations = $stmtRes->fetch_all(MYSQLI_ASSOC);
-?>
+    ?>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -332,13 +313,20 @@ margin-right: 5px;
     align-content: end;
     justify-content: end;
 }
+        /* Form Styling */
         .report-form {
             width: 80%;
             margin: 20px auto;
             background-color: white;
             padding: 20px;
+            border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            height: 350px;
+        }
+        
+        /*Report Form to yung Text Area for report details */
+        .report-form textarea#reportName, .report-form textarea#statusDetails, .report-form textarea#statusDate {
+            height: 40px;
+            overflow: hidden;
         }
 
         .report-form label {
@@ -365,16 +353,16 @@ margin-right: 5px;
             padding: 10px 20px;
             background-color: #34408D;
             color: white;
+            font-size: 18px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            margin-left: 85%;
-            width: 15%;
         }
 
         .report-form button:hover {
             background-color: #2b357a;
         }
+
 
         a.dashB {
     text-decoration: none;
@@ -388,7 +376,83 @@ a.dashB img.dashPIC {
 }
    
 </style>
+<?php
+// include "../../connection/db_conn.php";
+// session_start();
 
+$user_id = $_SESSION['id'];
+$violations = [];
+$reportDetails = null;
+
+// Check if the success parameter is set
+if (isset($_GET['success']) && $_GET['success'] == 1) {
+    echo '<script>alert("Successfully submitted your appeal. We will reach out to you via email. Thank you!");</script>';
+}
+
+// Check if a violationID is provided in the URL
+if (isset($_GET['violationID'])) {
+    $selectedViolationID = $_GET['violationID'];
+} else {
+    $selectedViolationID = null; // Default to null if not set
+}
+
+// Function to fetch violations of the user
+function fetchViolations($conn, $user_id) {
+    $query = "SELECT v.violation_ID, vt.violationTypeName 
+              FROM violation v 
+              JOIN violationtype vt ON v.violationType_ID = vt.violationType_ID 
+              WHERE v.violator_ID = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    $violations = [];
+    while ($row = $result->fetch_assoc()) {
+        $violations[] = $row;
+    }
+    
+    return $violations;
+}
+
+// Function to fetch report details if a violation is selected
+function fetchReportDetailsAssocatedToUserViolation($conn, $selectedViolationID) {
+    $reportQuery = "SELECT r.reportName, rs.status_DETAILS, rs.status_DATE 
+                    FROM violation v 
+                    JOIN Report r ON r.report_ID = v.violationDetail_ID 
+                    JOIN ReportStatus rs ON r.report_ID = rs.reportID
+                    WHERE v.violation_ID = ?";
+    
+    $reportStmt = $conn->prepare($reportQuery);
+    $reportStmt->bind_param("i", $selectedViolationID);
+    
+    $reportDetails = null;
+    if ($reportStmt->execute()) {
+        $reportResult = $reportStmt->get_result();
+        if ($reportResult->num_rows > 0) {
+            $reportDetails = $reportResult->fetch_assoc();
+        } else {
+            echo "No report found for this violation.";
+        }
+    } else {
+        echo "Error executing query: " . $reportStmt->error;
+    }
+    
+    return $reportDetails;
+}
+
+// Fetch violations
+$violations = fetchViolations($conn, $user_id);
+$hasViolations = count($violations) > 0;
+
+// Fetch report details if a violation is selected
+if ($hasViolations && isset($_POST['title'])) {
+    $selectedViolationID = $_POST['title'];
+    $reportDetails = fetchReportDetailsAssocatedToUserViolation($conn, $selectedViolationID);
+}elseif (isset($selectedViolationID)) {
+    $reportDetails = fetchReportDetailsAssocatedToUserViolation($conn, $selectedViolationID);
+}
+?>
 <body>
     <div class="container">
 
@@ -460,49 +524,91 @@ a.dashB img.dashPIC {
         <div class="label">APPEAL</div>
 
             <!-- Report Form -->
-            <form class="report-form" action="submitReport.php" method="POST">
-                <label for="title">Select Violation:</label>
-                <select id="title" name="title" required onchange="() => {
-                // display report details based sa violation id
-                }">
-                    <?php if (!empty($violations)) : ?>
-                        <?php foreach ($violations as $v) : ?>
-                            <option 
-                            value="<?php echo htmlspecialchars($v["violation_ID"])?>">
-                            Violation <?php echo htmlspecialchars($v["violation_ID"])?>
-                            - <?php ?>
-                            </option>
-                        <?php endforeach;?>
-                    <?php else : ?>
-                        <option value="">No violations found</option>
-                    <?php endif; ?>
-                </select>
-            <?php
-            if(isset( $_GET["toBeAppealedID"])){
-                $id =  $_GET["toBeAppealedID"];
-                echo "
-                <script>
-                    document.getElementById('title').value = $id;
-                </script>
-                ";
-            }
-            ?>
-                <label for="description">Enter your appeal:</label>
-                <textarea id="description" name="description" required></textarea>
+<form class="report-form" action="appealInsertion.php" method="POST">
+    <label for="title">Select Violation:</label>
+        <select id="title" name="title" required onchange="fetchReportDetails()">
+        <option value="" disabled selected>--Please select a violation.--</option>
+        <?php if ($hasViolations): ?>
+            <?php foreach ($violations as $violation): ?>
+                <option value="<?php echo $violation['violation_ID']; ?>" 
+                    <?php 
+                        echo (isset($selectedViolationID) && $selectedViolationID == $violation['violation_ID']) ? 'selected' : ''; 
+                    ?>
+                >
+                    <?php echo "Violation ID: ", htmlspecialchars($violation['violation_ID']); ?>
+                </option>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <option disabled>No violations to be appealed</option>
+        <?php endif; ?>
+    </select>
 
-                <button type="submit">SUBMIT</button>
-            </form>
+    <div id="report-info" style="display: none;">
+        <label>Report Details:</label>
+        <label id="reportName"></label>
+        <label id="statusDetails"></label>
+        <label id="statusDate"></label>
+    </div>
+
+
+    <label for="description">Enter your appeal:</label>
+    <textarea id="description" name="description" required></textarea>
+
+    <!-- Add a hidden input to send the selected violation ID -->
+    <input type="hidden" name="violation_id" value="<?php echo isset($selectedViolationID) ? htmlspecialchars($selectedViolationID) : ''; ?>">
+
+    <button type="submit">SUBMIT</button>
+</form>
 
         </div>
     </div>
-
-     <!-- --------------<p>mainbar</p>-------------------- -->
-           
-        </div>   
-    </div>
-    </div>
 </body>
+<script>
+function fetchReportDetails() {
+    const selectedViolationID = document.getElementById('title').value;
 
+    if (selectedViolationID) {
+        fetch(`fetchReportDetails.php?violation_id=${selectedViolationID}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById("reportName").textContent = data.reportName;
+                    document.getElementById("statusDetails").textContent = data.statusDetails;
+                    document.getElementById("statusDate").textContent = data.statusDate;
+                    document.getElementById("report-info").style.display = 'block';
+                } else {
+                    document.getElementById("report-info").style.display = 'none';
+                }
+            })
+            .catch(error => console.error('Error fetching report details:', error));
+    } else {
+        document.getElementById("report-info").style.display = 'none';
+    }
+}
+
+
+function submitReportSelection() {
+    document.querySelector('.report-form').submit();
+}
+</script>
+
+<script>
+// Function to display report details
+function displayReportDetails() {
+    const reportName = "<?php echo $reportDetails ? addslashes($reportDetails['reportName']) : ''; ?>";
+    const statusDetails = "<?php echo $reportDetails ? addslashes($reportDetails['status_DETAILS']) : ''; ?>";
+    const statusDate = "<?php echo $reportDetails ? addslashes($reportDetails['status_DATE']) : ''; ?>";
+
+    document.getElementById("reportName").textContent = reportName;
+    document.getElementById("statusDetails").textContent = statusDetails;
+    document.getElementById("statusDate").textContent = statusDate;
+
+    document.getElementById("report-info").style.display = reportName ? 'block' : 'none';
+}
+
+// Call the function to display report details on page load
+window.onload = displayReportDetails;
+</script>
 <script>
     function navigateTo(pagename){
         window.location.href = pagename;

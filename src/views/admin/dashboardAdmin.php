@@ -390,7 +390,49 @@ margin-right: 5px;
             color: white;
         }
 </style>
-
+<?php
+    //include "../../connection/db_conn.php";
+    //session_start();
+    function displayToTable() {
+        global $conn;
+    
+        $displayQuery = "
+            SELECT 
+                r.report_ID AS reportID,
+                r.reportType AS reportType,
+                rs.status_Date AS reportDate,
+                rs.status_Details AS violationDetail,
+                CONCAT(ud.first_name, ' ', ud.last_name) AS violator 
+            FROM 
+                report r
+            JOIN 
+                reportStatus rs ON r.report_ID = rs.reportID
+            JOIN 
+                violationreport vr ON r.report_ID = vr.reportID
+            JOIN 
+                userdetails ud ON vr.accusedID = ud.userID
+            ORDER BY 
+                rs.status_Date DESC LIMIT 25;";
+    
+        $result = $conn->query($displayQuery);
+    
+        if ($result->num_rows > 0) {
+            // Output data for each row
+            while ($row = $result->fetch_assoc()) {
+                echo "<tr>
+                        <td>" . htmlspecialchars($row['reportID']) . "</td>
+                        <td>" . htmlspecialchars($row['reportType']) . "</td>
+                        <td>" . htmlspecialchars($row['reportDate']) . "</td>
+                        <td>" . htmlspecialchars($row['violationDetail']) . "</td>
+                        <td>" . htmlspecialchars($row['violator']) . "</td>
+                      </tr>";
+            }
+        } else {
+            echo "<tr><td colspan='5'>No reports found.</td></tr>";
+        }
+    }
+    
+?>
 <body>
     <div class="container">
 
@@ -509,6 +551,7 @@ margin-right: 5px;
                                 <tbody>
                                     <!-- Example report rows -->
                                     <tr>
+                                        <?php displayToTable();?>
                                     </tr>
                                 </tbody>
                             </table>

@@ -537,7 +537,51 @@ margin-right: 5px;
         }
 
 </style>
+<?php
+//include "../../connection/db_conn.php";
+//session_start();
 
+function displayAllStudentAppealsToTable() {
+    global $conn;
+
+    $displayQuery = "
+        SELECT 
+            u.email AS email,
+            CONCAT(ud.first_name, ' ', ud.last_name) AS Student_Name, 
+            sa.date_submitted AS Appeal_Date, 
+            COALESCE(vt.violationTypeName, 
+            v.violationType_ID) AS Violation, 
+            a.appeal_reason AS Appeal_Details,
+            sa.appeal_id as appeal_id
+        FROM studentappeals sa
+        JOIN appeals a ON sa.appeal_id = a.id
+        JOIN student s ON a.student_id = s.stud_id
+        JOIN user u ON a.student_id = u.user_ID
+        JOIN userdetails ud ON s.stud_id = ud.userID
+        LEFT JOIN violation v ON v.violator_ID = s.stud_id
+        LEFT JOIN violationtype vt ON v.violationType_ID = vt.violationType_ID
+        WHERE sa.status = 'Pending'
+    ";
+
+    $result = $conn->query($displayQuery);
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            echo "<tr>
+                    <td>{$row['Student_Name']}</td>
+                    <td>{$row['Appeal_Date']}</td>
+                    <td>{$row['Violation']}</td>
+                    <td>{$row['Appeal_Details']}</td>
+                    <td>
+                        <button class='action-btn' onclick=\"openModal('{$row['Student_Name']}', '{$row['Violation']}', '{$row['Appeal_Date']}', '{$row['Appeal_Details']}', '{$row['email']}', '{$row['appeal_id']}')\">Reply</button>
+                    </td>
+                  </tr>";
+        }
+    } else {
+        echo "<tr><td colspan='5'>No appeals found</td></tr>";
+    }
+}
+
+?>
 <body>
     <div class="container">
 
@@ -548,8 +592,9 @@ margin-right: 5px;
                 <label class="hello"> HELLO, 
                 <span class="session-name">
                 <?php 
-        // Display the session variable 'name'
-                echo $_SESSION["name"]; 
+                    // Display the session variable 'name'
+                        $adminName = $_SESSION["name"];
+                        echo $_SESSION["name"]; 
                 ?>
                 </span>
                 </label>
@@ -641,15 +686,10 @@ margin-right: 5px;
                           </tr>
                       </thead>
                       <tbody>           
-                                  <tr>
-                                          <td>name</td>
-                                          <td>date</td>
-                                          <td>violation</td>
-                                          <td>details</td>
-                                          <td> 
-                                            <button class='action-btn' onclick="openModal('John Doe', 'Violation 1', '2024-10-20', 'Details of the appeal.')">Reply</button>
-                                        </td>
-                                        </tr>
+                                <tr>
+                                        <!--<td>name</td> <td>date</td> <td>violation</td> <td>details</td>-->
+                                        <?php displayAllStudentAppealsToTable(); ?>
+                                </tr>
                       </tbody>
                   </table>
                 </div>
@@ -657,7 +697,7 @@ margin-right: 5px;
             </div>
 
              <!-- Modal Structure -->
-             <div id="replyModal" class="modal" style="display: none;">
+<div id="replyModal" class="modal" style="display: none;">
     <div class="modal-content">
         <div class="modal-header">Reply to Appeal</div>
         <div class="modal-body">
@@ -665,19 +705,19 @@ margin-right: 5px;
             <p><strong>Violation:</strong> <span id="modalViolation"></span></p>
             <p><strong>Date:</strong> <span id="modalDate"></span></p>
             <p><strong>Appeal Details:</strong> <span id="modalAppealDetails"></span></p>
-            
+            <!-- Dropdown for Reject and Resolve options -->
+            <label for="statusSelect">Select Status:</label>
+            <select id="statusSelect">
+                <option value="">Change Appeal Status</option>
+                <option value="Reject">Reject</option>
+                <option value="Resolve">Resolve</option>
+            </select>
             <!-- Dropdown for responses -->
             <label for="responseSelect">Select Response:</label>
             <select id="responseSelect" onchange="updateTextarea()">
                 <option value="">Custom Response</option>
-                <option value="Thank you for your appeal regarding the minor offense.We have received your request and will review the details promptly. You will be notified of our decision within the next days. If you have any additional information to provide, please feel free to reply to this email.
-                                                            Best regards,
-                                                         (Admin's Name)
-                                                      Disciplinary Office">Response 1</option>
-                <option value="Thank you for submitting your appeal concerning the major offense. Given the seriousness of the situation, we recommend scheduling a face-to-face meeting to discuss your case further. Please reply to this email with your availability so we can arrange a suitable time.
-                                                            Best regards,
-                                                         (Admin's Name)
-                                                      Disciplinary Office">Response 2</option>
+                <option value="Thank you for your appeal regarding the minor offense.We have received your request and will review the details promptly. You will be notified of our decision within the next days. If you have any additional information to provide, please feel free to reply to this email. Best regards, <?php echo htmlspecialchars($adminName); ?> Disciplinary Office">Response 1</option>
+                <option value="Thank you for submitting your appeal concerning the major offense. Given the seriousness of the situation, we recommend scheduling a face-to-face meeting to discuss your case further. Please reply to this email with your availability so we can arrange a suitable time. Best regards, <?php echo htmlspecialchars($adminName); ?> Disciplinary Office">Response 2</option>
             </select>
             
             <textarea id="replyMessage" placeholder="Enter your reply here..."></textarea>
@@ -688,8 +728,6 @@ margin-right: 5px;
         </div>
     </div>
 </div>
-
-
             </div>
         </div>
     </div>
@@ -706,54 +744,82 @@ margin-right: 5px;
 
 <script>
     function updateTextarea() {
-        // Get the selected value from the dropdown
         const selectedResponse = document.getElementById('responseSelect').value;
-        // Get the textarea element
         const textarea = document.getElementById('replyMessage');
-        // Update the textarea with the selected response
         textarea.value = selectedResponse;
     }
-</script>
-
-<script>
-    // Open modal and populate it with appeal data
-    function openModal(studentName, violation, date, appealDetails) {
+    function openModal(studentName, violation, date, appealDetails, email, appealId) {
         document.getElementById('modalStudentName').textContent = studentName;
         document.getElementById('modalViolation').textContent = violation;
         document.getElementById('modalDate').textContent = date;
         document.getElementById('modalAppealDetails').textContent = appealDetails;
+        window.studentEmail = email;
+        window.appealId = appealId;
+        document.getElementById('statusSelect').value = ''; 
         document.getElementById('replyModal').style.display = 'block';
     }
+    function submitReply() {
+        let replyMessage = document.getElementById('replyMessage') ? document.getElementById('replyMessage').value : null;
+        let studentEmail = window.studentEmail;
+        let appealId = window.appealId;
+        const statusSelect = document.getElementById('statusSelect');
+        let action = statusSelect ? statusSelect.value : null;
+        
+        if (replyMessage) {
+            // Handle reply submission
+            if (replyMessage) {
+                const xhr = new XMLHttpRequest();
+                xhr.open("POST", "./sendReply.php", true);
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                xhr.onload = function () {
+                    if (xhr.status === 200) {
+                        alert(xhr.responseText);
+                        closeModal();
+                    } else {
+                        alert("Error sending email.");
+                    }
+                };
+                xhr.send("email=" + encodeURIComponent(studentEmail) + 
+                        "&replyMessage=" + encodeURIComponent(replyMessage) + 
+                        "&appeal_id=" + encodeURIComponent(appealId) +
+                        "&action=" + encodeURIComponent(action)); // Ensure 'action' is sent too
+            }
+        } else if (action) {
+            // Handle status change
+            const confirmationMessage = action === 'Reject' 
+                ? "Are you sure you want to reject this appeal?" 
+                : "Are you sure you want to resolve this appeal?";
+            
+            if (confirm(confirmationMessage)) {
+                const xhr = new XMLHttpRequest();
+                xhr.open("POST", "sendReply.php", true);
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
-    // Close modal
+                xhr.onload = function () {
+                    if (xhr.status === 200) {
+                        alert(xhr.responseText);
+                    } else {
+                        alert("Error updating appeal status.");
+                    }
+                };
+                xhr.send("action=" + encodeURIComponent(action) + "&appeal_id=" + encodeURIComponent(appealId));
+            }
+        } else {
+            alert("Please enter a reply or select an action.");
+        }
+    }
     function closeModal() {
         document.getElementById('replyModal').style.display = 'none';
     }
-
-    // Submit reply function (this should handle form submission logic, e.g., AJAX or form post)
-    function submitReply() {
-        let replyMessage = document.getElementById('replyMessage').value;
-        if (replyMessage) {
-            alert("Reply sent: " + replyMessage);
-            closeModal();
-            // You can add further logic to submit the reply to the backend.
-        } else {
-            alert("Please enter a reply.");
-        }
-    }
-
-    // Close the modal if the user clicks outside of it
     window.onclick = function(event) {
         let modal = document.getElementById('replyModal');
         if (event.target == modal) {
             modal.style.display = "none";
         }
     }
-
     function navigateTo(pagename) {
         window.location.href = pagename;
     }
-
     document.getElementById('logout-link').addEventListener('click', function(event) {                  
         event.preventDefault();                           
         var confirmation = confirm('Are you sure you want to log out?');                         
@@ -761,13 +827,10 @@ margin-right: 5px;
             window.location.href = "../../config/logout.php";
         }
     });
-
     function toggleDropdown() {
         var dropdown = document.getElementById("dropdown");
         dropdown.style.display = (dropdown.style.display === "block") ? "none" : "block";
     }
-
-    // Close the dropdown if the user clicks outside of it
     window.onclick = function(event) {
         if (!event.target.matches('.txtR')) {
             var dropdowns = document.getElementsByClassName("dropdown-content");
@@ -779,15 +842,9 @@ margin-right: 5px;
             }
         }
     }
-</script>
-
-<script>
     function navigateTo(pagename){
         window.location.href = pagename;
     }
-</script>
-
-<script>   
     document.getElementById('logout-link').addEventListener('click', function(event) {                  
         event.preventDefault();                           
         var confirmation = confirm('Are you sure you want to log out?');                         
@@ -795,16 +852,10 @@ margin-right: 5px;
             window.location.href = "../../config/logout.php";
         }
     });
-</script>
-
-<script>
-    
     function toggleDropdown() {
         var dropdown = document.getElementById("dropdown");
         dropdown.style.display = (dropdown.style.display === "block") ? "none" : "block";
     }
-
-    // Close the dropdown if the user clicks outside of it
     window.onclick = function(event) {
         if (!event.target.matches('.txtR')) {
             var dropdowns = document.getElementsByClassName("dropdown-content");
@@ -816,18 +867,37 @@ margin-right: 5px;
             }
         }
     }
-</script>
+    function toggleSidebar() {
+        const sidebar = document.querySelector('.sidebar');
+        const container = document.querySelector('.container');
+        const toggleButton = document.querySelector('.toggle-btn');
 
-<script>
-function toggleSidebar() {
-    const sidebar = document.querySelector('.sidebar');
-    const container = document.querySelector('.container');
-    const toggleButton = document.querySelector('.toggle-btn');
+        sidebar.classList.toggle('open');
+        container.classList.toggle('shifted');
+        toggleButton.classList.toggle('hidden'); // Toggle the hidden class
+    }
+    function filterTable() {
+    const input = document.getElementById('searchInput');
+    const filter = input.value.toLowerCase();
+    const table = document.querySelector('.appeal-table');
+    const rows = table.getElementsByTagName('tr');
 
-    sidebar.classList.toggle('open');
-    container.classList.toggle('shifted');
-    toggleButton.classList.toggle('hidden'); // Toggle the hidden class
+    for (let i = 1; i < rows.length; i++) { // Start from 1 to skip header row
+        const cells = rows[i].getElementsByTagName('td');
+        let rowVisible = false;
+
+        for (let j = 0; j < cells.length; j++) {
+            if (cells[j]) {
+                const cellValue = cells[j].textContent || cells[j].innerText;
+                if (cellValue.toLowerCase().indexOf(filter) > -1) {
+                    rowVisible = true;
+                    break; // No need to check further cells if one matches
+                }
+            }
+        }
+        
+        rows[i].style.display = rowVisible ? "" : "none"; // Show or hide the row
+    }
 }
-
 </script>
 </html>

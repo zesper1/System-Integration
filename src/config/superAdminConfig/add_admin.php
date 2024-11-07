@@ -12,10 +12,12 @@ if(isset($_POST["add_admin"])){
     $mName = $_POST["middleName"];
     $lName = $_POST["lastName"];
 
+    $hashed_password = password_hash($pass, PASSWORD_DEFAULT);
+
     // Insert into user table
     $insert = "INSERT INTO user (email, password, role_ID) VALUES (?, ?, ?);";
     $stmt = $conn->prepare($insert);
-    $stmt->bind_param("ssi", $email, $pass, $role);
+    $stmt->bind_param("ssi", $email, $hashed_password, $role);
 
     if ($stmt->execute()) {
         $userID = $conn->insert_id; // Get the newly inserted user ID

@@ -2,36 +2,6 @@
 <?php
     include "../../connection/db_conn.php";
     session_start();
-
-    function fetchViolationtypes($conn){
-        $fetch_vTypes = $conn->prepare("SELECT * FROM violationtype");
-        $fetch_vTypes->execute();
-        $fetch_vRes = $fetch_vTypes->get_result();
-        if($fetch_vRes){
-            if($fetch_vRes-> num_rows > 0){
-                while($row = $fetch_vRes->fetch_assoc()){
-                    echo "
-                    <option value = $row[violationType_ID]>$row[violationTypeName]</option>
-                    ";
-                }
-            }
-        }
-    }
-
-    function fetchComplaintTypes($conn){
-        $fetch_vTypes = $conn->prepare("SELECT * FROM complains_category");
-        $fetch_vTypes->execute();
-        $fetch_vRes = $fetch_vTypes->get_result();
-        if($fetch_vRes){
-            if($fetch_vRes-> num_rows > 0){
-                while($row = $fetch_vRes->fetch_assoc()){
-                    echo "
-                    <option value = $row[ccID]>$row[ccName]</option>
-                    ";
-                }
-            }
-        }
-    }
 ?>
 <html lang="en">
 <head>
@@ -503,10 +473,53 @@ a.dashB img.dashPIC {
     $stmt->execute();
     $reportsResult = $stmt->get_result();
     $reports = $reportsResult->fetch_all(MYSQLI_ASSOC);
+
+    function fetchViolationtypes($conn){
+        $fetch_vTypes = $conn->prepare("SELECT * FROM violationtype");
+        $fetch_vTypes->execute();
+        $fetch_vRes = $fetch_vTypes->get_result();
+        if($fetch_vRes){
+            if($fetch_vRes-> num_rows > 0){
+                while($row = $fetch_vRes->fetch_assoc()){
+                    echo "
+                    <option value = $row[violationType_ID]>$row[violationTypeName]</option>
+                    ";
+                }
+            }
+        }
+    }
+
+    function fetchComplaintTypes($conn){
+        $fetch_vTypes = $conn->prepare("SELECT * FROM complains_category");
+        $fetch_vTypes->execute();
+        $fetch_vRes = $fetch_vTypes->get_result();
+        if($fetch_vRes){
+            if($fetch_vRes-> num_rows > 0){
+                while($row = $fetch_vRes->fetch_assoc()){
+                    echo "
+                    <option value = $row[ccID]>$row[ccName]</option>
+                    ";
+                }
+            }
+        }
+    }
+
+    function fetchSchoolTypes($conn){
+        $fetch_vTypes = $conn->prepare("SELECT * FROM school");
+        $fetch_vTypes->execute();
+        $fetch_vRes = $fetch_vTypes->get_result();
+        if($fetch_vRes){
+            if($fetch_vRes-> num_rows > 0){
+                while($row = $fetch_vRes->fetch_assoc()){
+                    echo "
+                    <option value = $row[id]>$row[SchoolName]</option>
+                    ";
+                }
+            }
+        }
+    }
 ?>
-
 <body>
-
     <div class="container">
     <div class="modal hidden" id="view-modal">
             <div class="modal-content">
@@ -620,10 +633,7 @@ a.dashB img.dashPIC {
                     <label for="courseSelect">School:</label>
                     <select type="text" id="inputcourse" class="violator" name="courseSelect" placeholder="Enter course">
                         <option value="Default" default>School</option>
-                        <option value="v1">SECA</option>
-                        <option value="v2">SASE</option>
-                        <option value="v3">SBMA</option>
-                        <option value="v4">SHS</option>
+                        <?php fetchSchoolTypes($conn); ?>
                     </select>    
                     <label for="vName">Name:</label>
                     <input type="text" id="inputname" class="violator" name="violator" placeholder="Enter student name" autocomplete = "off">
@@ -673,16 +683,6 @@ a.dashB img.dashPIC {
         </div>   
     </div>
     </div>
-    <script>
-    // Check if the report was successfully submitted
-    <?php if (isset($_SESSION["report_success"]) && $_SESSION["report_success"]): ?>
-        // Show success alert
-        alert("Your report has been successfully submitted!");
-
-        // Unset the session variable to prevent the alert from showing again on page reload
-        <?php unset($_SESSION["report_success"]); ?>
-    <?php endif; ?>
-</script>
 </body>
 
 <script>

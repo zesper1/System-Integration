@@ -2,63 +2,6 @@
 <?php
 include "../../connection/db_conn.php";
 session_start();
-
-$message = ""; // Initialize message as empty
-
-// Check if the form is submitted
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Get admin email and password
-    $email = $_POST['adminEmail'];
-    $password = $_POST['adminPassword'];
-    $role_id = 1; // Fixed role_id
-
-    // Hash the password for security
-    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-
-    // Prepare SQL statement for inserting admin
-    $stmt = $conn->prepare("INSERT INTO user (email, password, role_id) VALUES (?, ?, ?)");
-    $stmt->bind_param("ssi", $email, $hashed_password, $role_id);
-
-    // Execute the statement for admin
-    if ($stmt->execute()) {
-        // Successfully added admin, now insert user details
-        $user_ID = $conn->insert_id;
-        // Get user details from the POST request
-        $lastName = $conn->real_escape_string($_POST['lastName']);
-        $firstName = $conn->real_escape_string($_POST['firstName']);
-        $middleName = $conn->real_escape_string($_POST['middleName']);
-
-        // Prepare SQL statement for inserting user details
-        $stmtDetails = $conn->prepare("INSERT INTO userdetails (userID, last_name, first_name, middle_name) VALUES (?, ?, ?, ?)");
-        $stmtDetails->bind_param("isss", $user_ID, $lastName, $firstName, $middleName);
-
-        // Execute the statement for user details
-        if ($stmtDetails->execute()) {
-            $message = "Faculty added successfully!";
-        } else {
-            $message = "Error adding faculty details: " . $stmtDetails->error;
-        }
-
-        // Close the details statement
-        $stmtDetails->close();
-    } else {
-        $message = "Error adding admin: " . $stmt->error;
-    }
-
-    // Close the admin statement
-    $stmt->close();
-}
-
-// Close the database connection
-$conn->close();
-?>
-
-<?php
-
-if (isset($_SESSION["message"])) {
-    echo "<script>alert('" . $_SESSION["message"] . "');</script>";
-    unset($_SESSION["message"]); // Clear the message after displaying it
-}
 ?>
 
 
@@ -563,7 +506,27 @@ margin-right: 5px;
         }
 
 </style>
+<?php
+if (isset($_SESSION["message"])) {
+    echo "<script>alert('" . $_SESSION["message"] . "');</script>";
+    unset($_SESSION["message"]); // Clear the message after displaying it
+}
 
+function fetchSchoolTypes($conn){
+    $fetch_vTypes = $conn->prepare("SELECT * FROM school");
+    $fetch_vTypes->execute();
+    $fetch_vRes = $fetch_vTypes->get_result();
+    if($fetch_vRes){
+        if($fetch_vRes-> num_rows > 0){
+            while($row = $fetch_vRes->fetch_assoc()){
+                echo "
+                <option value = $row[id]>$row[SchoolName]</option>
+                ";
+            }
+        }
+    }
+}
+?>
 <body>
     <div class="container">
 
@@ -680,11 +643,8 @@ margin-right: 5px;
                             <div class="input-box1">
                                 <label for="school">School:</label>
                                 <select id="school" name="school" required>
-                                    <option value="">Select school</option>
-                                    <option value="SECA">SECA</option>
-                                    <option value="SBMA">SBMA</option>
-                                    <option value="SASE">SASE</option>
-                                    <option value="SHS">SHS</option>
+                                    <option value="Default" default>School</option>
+                                    <?php fetchSchoolTypes($conn); ?>
                                 </select>
                             </div>
 
